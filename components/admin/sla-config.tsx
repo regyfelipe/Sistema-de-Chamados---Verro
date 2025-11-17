@@ -52,9 +52,8 @@ export function SLAConfig() {
         supabase.from("sectors").select("*"),
         supabase
           .from("users")
-          .select("id, name, role")
-          .eq("role", "admin")
-          .or("role.eq.super_admin"),
+          .select("*")
+          .in("role", ["admin", "super_admin"]),
         supabase.from("sector_sla_config").select("*"),
         supabase.from("business_hours").select("*"),
         supabase.from("holidays").select("*"),
