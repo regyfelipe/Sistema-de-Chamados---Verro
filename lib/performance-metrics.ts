@@ -57,12 +57,7 @@ async function getAvgFirstResponseTimeForPeriod(startDays: number, endDays: numb
     for (const ticket of tickets) {
       const { data: comments, error: commentsError } = await supabase
         .from("comments")
-        .select(`
-          id,
-          created_at,
-          user_id,
-          user:users(id, role)
-        `)
+        .select("*, user:users(*)")
         .eq("ticket_id", ticket.id)
         .order("created_at", { ascending: true })
         .limit(1)
@@ -123,12 +118,7 @@ export async function getAvgFirstResponseTime(days: number = 30): Promise<number
       // Buscar primeiro comentário não-interno (ou primeiro comentário de atendente)
       const { data: comments, error: commentsError } = await supabase
         .from("comments")
-        .select(`
-          id,
-          created_at,
-          user_id,
-          user:users(id, role)
-        `)
+        .select("*, user:users(*)")
         .eq("ticket_id", ticket.id)
         .order("created_at", { ascending: true })
         .limit(1)
@@ -496,18 +486,18 @@ export async function getPerformanceMetrics(): Promise<PerformanceMetrics> {
       trends: {
         firstResponseTime: {
           current: avgFirstResponse,
-          previous: prevAvgFirstResponse.previous,
-          change: calculateChange(avgFirstResponse, prevAvgFirstResponse.previous),
+          previous: prevAvgFirstResponse,
+          change: calculateChange(avgFirstResponse, prevAvgFirstResponse),
         },
         resolutionTime: {
           current: avgResolution,
-          previous: prevAvgResolution.previous,
-          change: calculateChange(avgResolution, prevAvgResolution.previous),
+          previous: prevAvgResolution,
+          change: calculateChange(avgResolution, prevAvgResolution),
         },
         fcrRate: {
           current: fcrRate,
-          previous: prevFcrRate.previous,
-          change: calculateChange(fcrRate, prevFcrRate.previous),
+          previous: prevFcrRate,
+          change: calculateChange(fcrRate, prevFcrRate),
         },
       },
     }

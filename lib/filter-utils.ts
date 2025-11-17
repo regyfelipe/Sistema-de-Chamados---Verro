@@ -1,7 +1,22 @@
 import { Ticket } from "@/types"
 import { TicketFilters } from "@/types/filters"
-import { checkSLAStatus } from "./sla"
 import { fuzzySearchTickets } from "./fuzzy-search"
+
+/**
+ * Verifica o status do SLA de forma síncrona (versão simplificada)
+ */
+function checkSLAStatusSync(ticket: Ticket): "ok" | "warning" | "overdue" {
+  if (!ticket.sla_due_date) return "ok"
+  
+  const now = new Date()
+  const dueDate = new Date(ticket.sla_due_date)
+  const diffMs = dueDate.getTime() - now.getTime()
+  const diffHours = diffMs / (1000 * 60 * 60)
+  
+  if (diffHours < 0) return "overdue"
+  if (diffHours < 2) return "warning"
+  return "ok"
+}
 
 /**
  * Aplica todos os filtros aos tickets
@@ -74,10 +89,10 @@ export function applyFilters(tickets: Ticket[], filters: TicketFilters): Ticket[
       }
     }
 
-    // Filtro por status de SLA
+    // Filtro por status de SLA (versão síncrona simplificada)
     if (filters.slaStatus !== "all" && ticket.sla_due_date) {
-      const slaStatus = checkSLAStatus(ticket)
-      if (slaStatus.status !== filters.slaStatus) {
+      const slaStatus = checkSLAStatusSync(ticket)
+      if (slaStatus !== filters.slaStatus) {
         return false
       }
     }

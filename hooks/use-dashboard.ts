@@ -48,7 +48,7 @@ export function useDashboardData() {
         getTicketsByPriority(userId, userRole, userSectorId),
         getTicketsOverTime(30, userId, userRole, userSectorId),
         getSLAMetrics(userId, userRole, userSectorId),
-        getTopAttendants(userId, userRole, userSectorId),
+        getTopAttendants(5, userId, userRole, userSectorId),
         getRatingStats(),
         getPerformanceMetrics(),
       ])

@@ -256,11 +256,11 @@ export async function calculateSLADueDate(ticket: Ticket): Promise<Date> {
   const priority = ticket.priority;
 
   // Obter horas de SLA por prioridade
-  const slaHours = await getSLAConfigByPriority(sectorId, priority);
+  const slaHours = sectorId ? await getSLAConfigByPriority(sectorId, priority) : 24;
 
   // Calcular considerando business hours e feriados
   const createdDate = new Date(ticket.created_at);
-  const dueDate = await calculateBusinessHours(createdDate, slaHours, sectorId);
+  const dueDate = await calculateBusinessHours(createdDate, slaHours, sectorId || undefined);
 
   return dueDate;
 }

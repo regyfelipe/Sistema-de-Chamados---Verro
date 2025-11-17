@@ -39,8 +39,8 @@ export function KanbanFilters({
 
   const fetchUsersAndSectors = async () => {
     const [{ data: usersData }, { data: sectorsData }] = await Promise.all([
-      supabase.from("users").select("id, name"),
-      supabase.from("sectors").select("id, name"),
+      supabase.from("users").select("*"),
+      supabase.from("sectors").select("*"),
     ])
     setUsers(usersData || [])
     setSectors(sectorsData || [])

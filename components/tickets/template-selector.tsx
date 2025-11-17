@@ -54,7 +54,7 @@ export function TemplateSelector({
   const loadTemplates = async () => {
     setLoading(true)
     try {
-      const data = await getTemplates(ticket.sector_id, session?.user?.id)
+      const data = await getTemplates(ticket.sector_id || undefined, session?.user?.id)
       setTemplates(data)
     } catch (error) {
       console.error("Erro ao carregar templates:", error)
@@ -216,7 +216,7 @@ export function TemplateSelector({
                   rows={6}
                 />
                 <p className="text-xs text-muted-foreground">
-                  Variáveis disponíveis: {`{{user_name}}`, `{{ticket_id}}`, `{{current_user_name}}`, `{{ticket_title}}`, `{{sector_name}}`, `{{current_date}}`, `{{current_time}}`}
+                  Variáveis disponíveis: {["{{user_name}}", "{{ticket_id}}", "{{current_user_name}}", "{{ticket_title}}", "{{sector_name}}", "{{current_date}}", "{{current_time}}"].join(", ")}
                 </p>
               </div>
               <div className="space-y-2">
@@ -311,7 +311,7 @@ export function TemplateSelector({
                 rows={6}
               />
               <p className="text-xs text-muted-foreground">
-                Variáveis disponíveis: {`{{user_name}}`, `{{ticket_id}}`, `{{current_user_name}}`, `{{ticket_title}}`, `{{sector_name}}`, `{{current_date}}`, `{{current_time}}`}
+                Variáveis disponíveis: {["{{user_name}}", "{{ticket_id}}", "{{current_user_name}}", "{{ticket_title}}", "{{sector_name}}", "{{current_date}}", "{{current_time}}"].join(", ")}
               </p>
             </div>
             <div className="space-y-2">

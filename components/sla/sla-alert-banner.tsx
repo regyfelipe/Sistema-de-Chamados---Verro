@@ -1,5 +1,6 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import { Ticket } from "@/types"
 import { checkSLAStatus, formatSLATime } from "@/lib/sla"
 import { AlertTriangle, Clock, XCircle } from "lucide-react"
@@ -12,9 +13,22 @@ interface SLAAlertBannerProps {
 }
 
 export function SLAAlertBanner({ ticket }: SLAAlertBannerProps) {
-  const slaStatus = checkSLAStatus(ticket)
+  const [slaStatus, setSlaStatus] = useState<{
+    status: "ok" | "warning" | "overdue"
+    hoursRemaining?: number
+    hoursOverdue?: number
+    percentage?: number
+  } | null>(null)
 
-  if (slaStatus.status === "ok") {
+  useEffect(() => {
+    async function loadSLAStatus() {
+      const status = await checkSLAStatus(ticket)
+      setSlaStatus(status)
+    }
+    loadSLAStatus()
+  }, [ticket])
+
+  if (!slaStatus || slaStatus.status === "ok") {
     return null
   }
 
