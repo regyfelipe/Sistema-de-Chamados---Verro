@@ -35,6 +35,14 @@ export function TicketsBySectorChart({ data }: TicketsBySectorChartProps) {
     )
   }
 
+  // Transformar dados para o formato esperado pelo Recharts
+  const chartData = data.map((item) => ({
+    name: item.sector_name,
+    value: item.count,
+    sector_name: item.sector_name,
+    count: item.count,
+  }))
+
   return (
     <Card>
       <CardHeader>
@@ -44,7 +52,7 @@ export function TicketsBySectorChart({ data }: TicketsBySectorChartProps) {
         <ResponsiveContainer width="100%" height={300}>
           <PieChart>
             <Pie
-              data={data}
+              data={chartData}
               cx="50%"
               cy="50%"
               labelLine={false}
@@ -55,7 +63,7 @@ export function TicketsBySectorChart({ data }: TicketsBySectorChartProps) {
               fill="#8884d8"
               dataKey="count"
             >
-              {data.map((entry, index) => (
+              {chartData.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
               ))}
             </Pie>
