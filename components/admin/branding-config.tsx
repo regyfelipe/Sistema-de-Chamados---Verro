@@ -15,7 +15,7 @@ import {
 import { useToast } from "@/components/ui/use-toast"
 import { Upload, Image as ImageIcon, Palette, Layout } from "lucide-react"
 import { getBrandingConfig, updateBrandingConfig, uploadLogo, uploadFavicon } from "@/lib/branding"
-import { BrandingConfig } from "@/types/branding"
+import type { BrandingConfig } from "@/types/branding"
 import { applyBrandingColors } from "@/lib/branding"
 import Image from "next/image"
 
