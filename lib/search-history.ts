@@ -12,6 +12,7 @@ export interface SearchHistoryItem {
  * Salva uma busca no histórico
  */
 export function saveSearchToHistory(query: string, resultCount?: number): void {
+  if (typeof window === "undefined") return
   if (!query || query.trim().length < 2) return
 
   try {
@@ -40,6 +41,8 @@ export function saveSearchToHistory(query: string, resultCount?: number): void {
  * Obtém o histórico de buscas
  */
 export function getSearchHistory(): SearchHistoryItem[] {
+  if (typeof window === "undefined") return []
+  
   try {
     const stored = localStorage.getItem(SEARCH_HISTORY_KEY)
     if (!stored) return []
@@ -59,6 +62,8 @@ export function getSearchHistory(): SearchHistoryItem[] {
  * Remove uma busca do histórico
  */
 export function removeSearchFromHistory(id: string): void {
+  if (typeof window === "undefined") return
+  
   try {
     const history = getSearchHistory()
     const filtered = history.filter((item) => item.id !== id)
@@ -72,6 +77,8 @@ export function removeSearchFromHistory(id: string): void {
  * Limpa todo o histórico
  */
 export function clearSearchHistory(): void {
+  if (typeof window === "undefined") return
+  
   try {
     localStorage.removeItem(SEARCH_HISTORY_KEY)
   } catch (error) {
@@ -83,6 +90,8 @@ export function clearSearchHistory(): void {
  * Obtém sugestões baseadas no histórico
  */
 export function getHistorySuggestions(query: string, limit: number = 5): string[] {
+  if (typeof window === "undefined") return []
+  
   if (!query || query.length < 1) {
     // Se não há query, retorna as buscas mais recentes
     return getSearchHistory()

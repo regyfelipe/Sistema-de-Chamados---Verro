@@ -1,3 +1,5 @@
+"use client"
+
 import { MainLayout } from "@/components/layout/main-layout"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { WifiOff } from "lucide-react"
