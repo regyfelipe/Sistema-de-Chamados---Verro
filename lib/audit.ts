@@ -9,6 +9,9 @@ import {
   AuditFilters,
 } from "@/types/audit"
 
+// Re-exportar tipos para facilitar importação
+export type { AuditFilters } from "@/types/audit"
+
 /**
  * Registra uma ação de auditoria
  */
