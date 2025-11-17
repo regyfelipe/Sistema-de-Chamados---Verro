@@ -250,7 +250,7 @@ export function GlobalSearch({
                   }}
                 >
                   <Search className="h-4 w-4 mr-2" />
-                  Buscar "{query}"
+                  Buscar &quot;{query}&quot;
                 </Button>
               </div>
             </>

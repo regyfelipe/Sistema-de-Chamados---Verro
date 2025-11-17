@@ -54,6 +54,7 @@ export function TicketDetailModal({
     if (open && ticketId) {
       fetchTicketDetails();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, ticketId]);
 
   const fetchTicketDetails = async () => {

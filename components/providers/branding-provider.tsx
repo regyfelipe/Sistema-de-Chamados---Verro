@@ -15,6 +15,7 @@ export function BrandingProvider({ children }: BrandingProviderProps) {
 
   useEffect(() => {
     loadBranding()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const loadBranding = async () => {

@@ -29,6 +29,7 @@ export function BrandingConfig() {
 
   useEffect(() => {
     loadConfig()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const loadConfig = async () => {

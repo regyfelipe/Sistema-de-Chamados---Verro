@@ -41,6 +41,7 @@ export function AutomationsManager() {
 
   useEffect(() => {
     loadRules();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loadRules = async () => {

@@ -93,12 +93,14 @@ export function PermissionsManager({
     if (selectedGroup) {
       loadGroupPermissions()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedGroup])
 
   useEffect(() => {
     if (selectedUser) {
       loadUserPermissions()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedUser])
 
   const loadData = async () => {

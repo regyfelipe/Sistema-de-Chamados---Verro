@@ -170,7 +170,7 @@ export function CommandPalette({ tickets: initialTickets }: CommandPaletteProps)
                       onSelect={() => runCommand(() => router.push(`/tickets?search=${encodeURIComponent(searchQuery)}`))}
                     >
                       <Search className="mr-2 h-4 w-4" />
-                      <span>Ver todos os resultados para "{searchQuery}"</span>
+                      <span>Ver todos os resultados para &quot;{searchQuery}&quot;</span>
                     </Command.Item>
                   )}
                 </Command.Group>

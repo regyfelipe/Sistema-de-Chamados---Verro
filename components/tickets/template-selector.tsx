@@ -92,6 +92,7 @@ export function TemplateSelector({
 
   useEffect(() => {
     loadTemplates()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ticket.sector_id])
 
   // Atalhos de teclado (apenas quando há templates)
