@@ -1,0 +1,126 @@
+{
+  "common": {
+    "appName": "Ticket System",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "update": "Update",
+    "search": "Search",
+    "filter": "Filter",
+    "export": "Export",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "yes": "Yes",
+    "no": "No",
+    "confirm": "Confirm"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "tickets": "Tickets",
+    "kanban": "Kanban",
+    "chat": "Chat",
+    "admin": "Administration",
+    "logout": "Logout"
+  },
+  "tickets": {
+    "title": "Tickets",
+    "create": "Create Ticket",
+    "creating": "Creating...",
+    "titleLabel": "Title",
+    "description": "Description",
+    "priority": "Priority",
+    "status": "Status",
+    "sector": "Sector",
+    "assignedTo": "Assigned to",
+    "createdBy": "Created by",
+    "createdAt": "Created at",
+    "updatedAt": "Updated at",
+    "noTickets": "No tickets found",
+    "priorities": {
+      "baixa": "Low",
+      "media": "Medium",
+      "alta": "High",
+      "critica": "Critical"
+    },
+    "statuses": {
+      "aberto": "Open",
+      "em_atendimento": "In Progress",
+      "aguardando": "Waiting",
+      "fechado": "Closed"
+    },
+    "comments": "Comments",
+    "addComment": "Add comment",
+    "internalComment": "Internal comment (attendants only)",
+    "send": "Send",
+    "history": "Complete History",
+    "attachments": "Attachments",
+    "uploadAttachment": "Upload attachment",
+    "chat": "Real-time Chat",
+    "chatTitle": "Ticket Chat",
+    "chatDescription": "Chat in real-time about this ticket"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "description": "Overview of the ticket system",
+    "stats": {
+      "open": "Open",
+      "inProgress": "In Progress",
+      "waiting": "Waiting",
+      "closed": "Closed"
+    },
+    "charts": {
+      "bySector": "Tickets by Sector",
+      "byPriority": "Tickets by Priority",
+      "overTime": "Tickets Over Time"
+    },
+    "recentTickets": "Recent Tickets",
+    "slaAlerts": "SLA Alerts"
+  },
+  "admin": {
+    "title": "Administration",
+    "tabs": {
+      "organization": "Organization",
+      "sectors": "Sectors",
+      "users": "Users",
+      "permissions": "Permissions",
+      "automations": "Automations",
+      "sla": "SLA",
+      "audit": "Audit"
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "unread": "Unread",
+    "markAllRead": "Mark all as read",
+    "noNotifications": "No notifications"
+  },
+  "chat": {
+    "general": "General Chat",
+    "sendMessage": "Type your message...",
+    "noMessages": "No messages yet. Be the first to send!",
+    "loading": "Loading messages...",
+    "edited": "edited"
+  },
+  "auth": {
+    "login": "Login",
+    "email": "Email",
+    "password": "Password",
+    "signIn": "Sign In",
+    "invalidCredentials": "Invalid email or password"
+  },
+  "date": {
+    "format": {
+      "short": "MM/dd/yyyy",
+      "long": "MMMM dd, yyyy",
+      "withTime": "MM/dd/yyyy 'at' HH:mm",
+      "time": "HH:mm"
+    }
+  }
+}

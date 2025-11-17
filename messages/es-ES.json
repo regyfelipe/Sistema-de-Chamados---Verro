@@ -1,0 +1,127 @@
+{
+  "common": {
+    "appName": "Sistema de Tickets",
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "create": "Crear",
+    "update": "Actualizar",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "export": "Exportar",
+    "close": "Cerrar",
+    "back": "Volver",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "yes": "Sí",
+    "no": "No",
+    "confirm": "Confirmar"
+  },
+  "nav": {
+    "dashboard": "Panel",
+    "tickets": "Tickets",
+    "kanban": "Kanban",
+    "chat": "Chat",
+    "admin": "Administración",
+    "logout": "Salir"
+  },
+  "tickets": {
+    "title": "Tickets",
+    "create": "Crear Ticket",
+    "creating": "Creando...",
+    "titleLabel": "Título",
+    "description": "Descripción",
+    "priority": "Prioridad",
+    "status": "Estado",
+    "sector": "Sector",
+    "assignedTo": "Asignado a",
+    "createdBy": "Creado por",
+    "createdAt": "Creado en",
+    "updatedAt": "Actualizado en",
+    "noTickets": "No se encontraron tickets",
+    "priorities": {
+      "baixa": "Baja",
+      "media": "Media",
+      "alta": "Alta",
+      "critica": "Crítica"
+    },
+    "statuses": {
+      "aberto": "Abierto",
+      "em_atendimento": "En Progreso",
+      "aguardando": "Esperando",
+      "fechado": "Cerrado"
+    },
+    "comments": "Comentarios",
+    "addComment": "Agregar comentario",
+    "internalComment": "Comentario interno (solo atendentes)",
+    "send": "Enviar",
+    "history": "Historial Completo",
+    "attachments": "Adjuntos",
+    "uploadAttachment": "Subir adjunto",
+    "chat": "Chat en Tiempo Real",
+    "chatTitle": "Chat del Ticket",
+    "chatDescription": "Chatea en tiempo real sobre este ticket"
+  },
+  "dashboard": {
+    "title": "Panel",
+    "description": "Vista general del sistema de tickets",
+    "stats": {
+      "open": "Abiertos",
+      "inProgress": "En Progreso",
+      "waiting": "Esperando",
+      "closed": "Cerrados"
+    },
+    "charts": {
+      "bySector": "Tickets por Sector",
+      "byPriority": "Tickets por Prioridad",
+      "overTime": "Tickets a lo Largo del Tiempo"
+    },
+    "recentTickets": "Tickets Recientes",
+    "slaAlerts": "Alertas de SLA"
+  },
+  "admin": {
+    "title": "Administración",
+    "tabs": {
+      "organization": "Organización",
+      "sectors": "Sectores",
+      "users": "Usuarios",
+      "permissions": "Permisos",
+      "automations": "Automatizaciones",
+      "sla": "SLA",
+      "audit": "Auditoría"
+    }
+  },
+  "notifications": {
+    "title": "Notificaciones",
+    "unread": "No leídas",
+    "markAllRead": "Marcar todas como leídas",
+    "noNotifications": "No hay notificaciones"
+  },
+  "chat": {
+    "general": "Chat General",
+    "sendMessage": "Escribe tu mensaje...",
+    "noMessages": "Aún no hay mensajes. ¡Sé el primero en enviar!",
+    "loading": "Cargando mensajes...",
+    "edited": "editado"
+  },
+  "auth": {
+    "login": "Iniciar Sesión",
+    "email": "Correo",
+    "password": "Contraseña",
+    "signIn": "Entrar",
+    "invalidCredentials": "Correo o contraseña incorrectos"
+  },
+  "date": {
+    "format": {
+      "short": "dd/MM/yyyy",
+      "long": "dd 'de' MMMM 'de' yyyy",
+      "withTime": "dd/MM/yyyy 'a las' HH:mm",
+      "time": "HH:mm"
+    }
+  }
+}
+

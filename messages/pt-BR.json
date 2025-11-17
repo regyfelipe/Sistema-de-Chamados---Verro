@@ -1,0 +1,128 @@
+{
+  "common": {
+    "appName": "Sistema de Chamados",
+    "loading": "Carregando...",
+    "error": "Erro",
+    "success": "Sucesso",
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "delete": "Deletar",
+    "edit": "Editar",
+    "create": "Criar",
+    "update": "Atualizar",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "export": "Exportar",
+    "close": "Fechar",
+    "back": "Voltar",
+    "next": "Próximo",
+    "previous": "Anterior",
+    "yes": "Sim",
+    "no": "Não",
+    "confirm": "Confirmar",
+    "none": "Nenhum"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "tickets": "Chamados",
+    "kanban": "Kanban",
+    "chat": "Chat",
+    "admin": "Administração",
+    "logout": "Sair"
+  },
+  "tickets": {
+    "title": "Chamados",
+    "create": "Criar Chamado",
+    "creating": "Criando...",
+    "titleLabel": "Título",
+    "description": "Descrição",
+    "priority": "Prioridade",
+    "status": "Status",
+    "sector": "Setor",
+    "assignedTo": "Atribuído a",
+    "createdBy": "Criado por",
+    "createdAt": "Criado em",
+    "updatedAt": "Atualizado em",
+    "noTickets": "Nenhum chamado encontrado",
+    "priorities": {
+      "baixa": "Baixa",
+      "media": "Média",
+      "alta": "Alta",
+      "critica": "Crítica"
+    },
+    "statuses": {
+      "aberto": "Aberto",
+      "em_atendimento": "Em Atendimento",
+      "aguardando": "Aguardando",
+      "fechado": "Fechado"
+    },
+    "comments": "Comentários",
+    "addComment": "Adicionar comentário",
+    "internalComment": "Comentário interno (apenas atendentes)",
+    "send": "Enviar",
+    "history": "Histórico Completo",
+    "attachments": "Anexos",
+    "uploadAttachment": "Enviar anexo",
+    "chat": "Chat em Tempo Real",
+    "chatTitle": "Chat do Chamado",
+    "chatDescription": "Converse em tempo real sobre este chamado"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "description": "Visão geral do sistema de chamados",
+    "stats": {
+      "open": "Abertos",
+      "inProgress": "Em Atendimento",
+      "waiting": "Aguardando",
+      "closed": "Fechados"
+    },
+    "charts": {
+      "bySector": "Chamados por Setor",
+      "byPriority": "Chamados por Prioridade",
+      "overTime": "Chamados ao Longo do Tempo"
+    },
+    "recentTickets": "Chamados Recentes",
+    "slaAlerts": "Alertas de SLA"
+  },
+  "admin": {
+    "title": "Administração",
+    "tabs": {
+      "organization": "Organização",
+      "sectors": "Setores",
+      "users": "Usuários",
+      "permissions": "Permissões",
+      "automations": "Automações",
+      "sla": "SLA",
+      "audit": "Auditoria"
+    }
+  },
+  "notifications": {
+    "title": "Notificações",
+    "unread": "Não lidas",
+    "markAllRead": "Marcar todas como lidas",
+    "noNotifications": "Nenhuma notificação"
+  },
+  "chat": {
+    "general": "Chat Geral",
+    "sendMessage": "Digite sua mensagem...",
+    "noMessages": "Nenhuma mensagem ainda. Seja o primeiro a enviar!",
+    "loading": "Carregando mensagens...",
+    "edited": "editado"
+  },
+  "auth": {
+    "login": "Login",
+    "email": "E-mail",
+    "password": "Senha",
+    "signIn": "Entrar",
+    "invalidCredentials": "Email ou senha incorretos"
+  },
+  "date": {
+    "format": {
+      "short": "dd/MM/yyyy",
+      "long": "dd 'de' MMMM 'de' yyyy",
+      "withTime": "dd/MM/yyyy 'às' HH:mm",
+      "time": "HH:mm"
+    }
+  }
+}
+

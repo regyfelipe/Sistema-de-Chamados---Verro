@@ -1,0 +1,127 @@
+{
+  "common": {
+    "appName": "نظام التذاكر",
+    "loading": "جاري التحميل...",
+    "error": "خطأ",
+    "success": "نجح",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "create": "إنشاء",
+    "update": "تحديث",
+    "search": "بحث",
+    "filter": "تصفية",
+    "export": "تصدير",
+    "close": "إغلاق",
+    "back": "رجوع",
+    "next": "التالي",
+    "previous": "السابق",
+    "yes": "نعم",
+    "no": "لا",
+    "confirm": "تأكيد"
+  },
+  "nav": {
+    "dashboard": "لوحة التحكم",
+    "tickets": "التذاكر",
+    "kanban": "كانبان",
+    "chat": "الدردشة",
+    "admin": "الإدارة",
+    "logout": "تسجيل الخروج"
+  },
+  "tickets": {
+    "title": "التذاكر",
+    "create": "إنشاء تذكرة",
+    "creating": "جاري الإنشاء...",
+    "titleLabel": "العنوان",
+    "description": "الوصف",
+    "priority": "الأولوية",
+    "status": "الحالة",
+    "sector": "القسم",
+    "assignedTo": "مخصص لـ",
+    "createdBy": "تم الإنشاء بواسطة",
+    "createdAt": "تم الإنشاء في",
+    "updatedAt": "تم التحديث في",
+    "noTickets": "لم يتم العثور على تذاكر",
+    "priorities": {
+      "baixa": "منخفضة",
+      "media": "متوسطة",
+      "alta": "عالية",
+      "critica": "حرجة"
+    },
+    "statuses": {
+      "aberto": "مفتوحة",
+      "em_atendimento": "قيد المعالجة",
+      "aguardando": "في الانتظار",
+      "fechado": "مغلقة"
+    },
+    "comments": "التعليقات",
+    "addComment": "إضافة تعليق",
+    "internalComment": "تعليق داخلي (للموظفين فقط)",
+    "send": "إرسال",
+    "history": "السجل الكامل",
+    "attachments": "المرفقات",
+    "uploadAttachment": "رفع مرفق",
+    "chat": "دردشة فورية",
+    "chatTitle": "دردشة التذكرة",
+    "chatDescription": "تحدث في الوقت الفعلي حول هذه التذكرة"
+  },
+  "dashboard": {
+    "title": "لوحة التحكم",
+    "description": "نظرة عامة على نظام التذاكر",
+    "stats": {
+      "open": "مفتوحة",
+      "inProgress": "قيد المعالجة",
+      "waiting": "في الانتظار",
+      "closed": "مغلقة"
+    },
+    "charts": {
+      "bySector": "التذاكر حسب القسم",
+      "byPriority": "التذاكر حسب الأولوية",
+      "overTime": "التذاكر بمرور الوقت"
+    },
+    "recentTickets": "التذاكر الأخيرة",
+    "slaAlerts": "تنبيهات SLA"
+  },
+  "admin": {
+    "title": "الإدارة",
+    "tabs": {
+      "organization": "المنظمة",
+      "sectors": "الأقسام",
+      "users": "المستخدمون",
+      "permissions": "الأذونات",
+      "automations": "الأتمتة",
+      "sla": "SLA",
+      "audit": "التدقيق"
+    }
+  },
+  "notifications": {
+    "title": "الإشعارات",
+    "unread": "غير مقروءة",
+    "markAllRead": "وضع علامة مقروءة على الكل",
+    "noNotifications": "لا توجد إشعارات"
+  },
+  "chat": {
+    "general": "الدردشة العامة",
+    "sendMessage": "اكتب رسالتك...",
+    "noMessages": "لا توجد رسائل بعد. كن أول من يرسل!",
+    "loading": "جاري تحميل الرسائل...",
+    "edited": "تم التعديل"
+  },
+  "auth": {
+    "login": "تسجيل الدخول",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "signIn": "دخول",
+    "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة"
+  },
+  "date": {
+    "format": {
+      "short": "dd/MM/yyyy",
+      "long": "dd MMMM yyyy",
+      "withTime": "dd/MM/yyyy 'في' HH:mm",
+      "time": "HH:mm"
+    }
+  }
+}
+
