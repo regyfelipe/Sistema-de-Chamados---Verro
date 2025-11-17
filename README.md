@@ -184,6 +184,12 @@ cp .env.example .env.local
 npm run dev
 ```
 
+## Usuario teste
+
+admin@example.com
+senha123
+
+
 ## ⚙️ Configuração
 
 ### 1. Variáveis de Ambiente
