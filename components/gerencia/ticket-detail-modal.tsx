@@ -197,9 +197,9 @@ export function TicketDetailModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
-        <DialogHeader>
-          <DialogTitle className="text-2xl">
+      <DialogContent className="w-[95vw] sm:w-full max-w-4xl max-h-[95vh] sm:max-h-[90vh] overflow-hidden flex flex-col p-4 sm:p-6 m-0 sm:m-4">
+        <DialogHeader className="pb-3 sm:pb-4">
+          <DialogTitle className="text-lg sm:text-2xl pr-6 sm:pr-0">
             {loading ? "Carregando..." : ticket?.title || "Detalhes do Chamado"}
           </DialogTitle>
         </DialogHeader>
@@ -212,78 +212,78 @@ export function TicketDetailModal({
             </div>
           </div>
         ) : ticket ? (
-          <ScrollArea className="flex-1 pr-4">
-            <div className="space-y-6">
+          <ScrollArea className="flex-1 pr-2 sm:pr-4">
+            <div className="space-y-4 sm:space-y-6">
               {/* Informações Principais */}
               <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <FileText className="h-5 w-5" />
+                <CardHeader className="p-4 sm:p-6">
+                  <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+                    <FileText className="h-4 w-4 sm:h-5 sm:w-5" />
                     Informações do Chamado
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid gap-4 md:grid-cols-2">
+                <CardContent className="space-y-4 p-4 sm:p-6 pt-0">
+                  <div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
                     <div>
-                      <p className="text-sm font-medium text-muted-foreground">
+                      <p className="text-xs sm:text-sm font-medium text-muted-foreground">
                         Status
                       </p>
-                      <Badge className={cn("mt-1", getStatusColor(ticket.status))}>
+                      <Badge className={cn("mt-1 text-xs", getStatusColor(ticket.status))}>
                         {getStatusLabel(ticket.status)}
                       </Badge>
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-muted-foreground">
+                      <p className="text-xs sm:text-sm font-medium text-muted-foreground">
                         Prioridade
                       </p>
                       <Badge
-                        className={cn("mt-1", getPriorityColor(ticket.priority))}
+                        className={cn("mt-1 text-xs", getPriorityColor(ticket.priority))}
                       >
                         {getPriorityLabel(ticket.priority)}
                       </Badge>
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-muted-foreground">
+                      <p className="text-xs sm:text-sm font-medium text-muted-foreground">
                         Setor
                       </p>
-                      <p className="mt-1">
+                      <p className="mt-1 text-sm sm:text-base">
                         {ticket.sector?.name || "Sem setor"}
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-muted-foreground">
+                      <p className="text-xs sm:text-sm font-medium text-muted-foreground">
                         Criado em
                       </p>
-                      <p className="mt-1">
+                      <p className="mt-1 text-sm sm:text-base">
                         {format(new Date(ticket.created_at), "dd/MM/yyyy HH:mm", {
                           locale: ptBR,
                         })}
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-muted-foreground">
+                      <p className="text-xs sm:text-sm font-medium text-muted-foreground">
                         Criado por
                       </p>
-                      <p className="mt-1">
+                      <p className="mt-1 text-sm sm:text-base">
                         {(ticket as any).created_by_user?.name || "Desconhecido"}
                       </p>
                     </div>
                     {(ticket as any).assigned_to_user && (
                       <div>
-                        <p className="text-sm font-medium text-muted-foreground">
+                        <p className="text-xs sm:text-sm font-medium text-muted-foreground">
                           Atendido por
                         </p>
-                        <p className="mt-1">
+                        <p className="mt-1 text-sm sm:text-base">
                           {(ticket as any).assigned_to_user.name}
                         </p>
                       </div>
                     )}
                     {ticket.sla_due_date && (
                       <div>
-                        <p className="text-sm font-medium text-muted-foreground">
+                        <p className="text-xs sm:text-sm font-medium text-muted-foreground">
                           SLA Vencimento
                         </p>
-                        <p className="mt-1">
+                        <p className="mt-1 text-sm sm:text-base">
                           {format(
                             new Date(ticket.sla_due_date),
                             "dd/MM/yyyy HH:mm",
@@ -299,10 +299,10 @@ export function TicketDetailModal({
                   <Separator />
 
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground mb-2">
+                    <p className="text-xs sm:text-sm font-medium text-muted-foreground mb-2">
                       Descrição
                     </p>
-                    <p className="text-sm whitespace-pre-wrap">{ticket.description}</p>
+                    <p className="text-xs sm:text-sm whitespace-pre-wrap break-words">{ticket.description}</p>
                   </div>
                 </CardContent>
               </Card>
@@ -317,25 +317,25 @@ export function TicketDetailModal({
               {/* Histórico de Alterações */}
               {history.length > 0 && (
                 <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <History className="h-5 w-5" />
+                  <CardHeader className="p-4 sm:p-6">
+                    <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+                      <History className="h-4 w-4 sm:h-5 sm:w-5" />
                       Histórico de Alterações
                     </CardTitle>
                   </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
+                  <CardContent className="p-4 sm:p-6 pt-0">
+                    <div className="space-y-2 sm:space-y-3">
                       {history.map((item) => (
                         <div
                           key={item.id}
-                          className="flex items-start gap-3 p-3 rounded-lg border bg-card"
+                          className="flex items-start gap-2 sm:gap-3 p-2 sm:p-3 rounded-lg border bg-card"
                         >
-                          <div className="rounded-full p-2 bg-muted">
-                            <Clock className="h-4 w-4" />
+                          <div className="rounded-full p-1.5 sm:p-2 bg-muted flex-shrink-0">
+                            <Clock className="h-3 w-3 sm:h-4 sm:w-4" />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2 mb-1">
-                              <p className="font-medium text-sm">
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 mb-1">
+                              <p className="font-medium text-xs sm:text-sm">
                                 {item.user?.name || "Sistema"}
                               </p>
                               <span className="text-xs text-muted-foreground">
@@ -348,9 +348,9 @@ export function TicketDetailModal({
                                 )}
                               </span>
                             </div>
-                            <p className="text-sm">{item.action}</p>
+                            <p className="text-xs sm:text-sm break-words">{item.action}</p>
                             {item.old_value && item.new_value && (
-                              <div className="mt-2 text-xs text-muted-foreground">
+                              <div className="mt-2 text-xs text-muted-foreground break-words">
                                 <span className="line-through">
                                   {item.old_value}
                                 </span>
@@ -371,27 +371,27 @@ export function TicketDetailModal({
               {/* Comentários */}
               {comments.length > 0 && (
                 <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <MessageSquare className="h-5 w-5" />
+                  <CardHeader className="p-4 sm:p-6">
+                    <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+                      <MessageSquare className="h-4 w-4 sm:h-5 sm:w-5" />
                       Comentários ({comments.length})
                     </CardTitle>
                   </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
+                  <CardContent className="p-4 sm:p-6 pt-0">
+                    <div className="space-y-2 sm:space-y-3">
                       {comments.map((comment) => (
                         <div
                           key={comment.id}
                           className={cn(
-                            "p-3 rounded-lg border",
+                            "p-2 sm:p-3 rounded-lg border",
                             comment.is_internal
                               ? "bg-yellow-50 border-yellow-200"
                               : "bg-card"
                           )}
                         >
-                          <div className="flex items-center gap-2 mb-2">
-                            <User className="h-4 w-4 text-muted-foreground" />
-                            <p className="font-medium text-sm">
+                          <div className="flex flex-wrap items-center gap-2 mb-2">
+                            <User className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground flex-shrink-0" />
+                            <p className="font-medium text-xs sm:text-sm">
                               {comment.user?.name || "Desconhecido"}
                             </p>
                             {comment.is_internal && (
@@ -409,7 +409,7 @@ export function TicketDetailModal({
                               )}
                             </span>
                           </div>
-                          <p className="text-sm whitespace-pre-wrap">
+                          <p className="text-xs sm:text-sm whitespace-pre-wrap break-words">
                             {comment.content}
                           </p>
                         </div>
@@ -422,25 +422,24 @@ export function TicketDetailModal({
               {/* Anexos */}
               {attachments.length > 0 && (
                 <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <FileText className="h-5 w-5" />
+                  <CardHeader className="p-4 sm:p-6">
+                    <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+                      <FileText className="h-4 w-4 sm:h-5 sm:w-5" />
                       Anexos ({attachments.length})
                     </CardTitle>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="p-4 sm:p-6 pt-0">
                     <div className="space-y-2">
-                      <h4 className="text-sm font-medium">Anexos ({attachments.length})</h4>
                       <div className="space-y-2">
                         {attachments.map((attachment) => (
                           <div
                             key={attachment.id}
-                            className="flex items-center justify-between p-3 rounded border bg-muted/30"
+                            className="flex items-center justify-between p-2 sm:p-3 rounded border bg-muted/30 gap-2"
                           >
-                            <div className="flex items-center gap-3 flex-1 min-w-0">
-                              <FileText className="h-5 w-5 text-muted-foreground flex-shrink-0" />
+                            <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+                              <FileText className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground flex-shrink-0" />
                               <div className="flex-1 min-w-0">
-                                <p className="text-sm font-medium truncate">{attachment.filename}</p>
+                                <p className="text-xs sm:text-sm font-medium truncate">{attachment.filename}</p>
                                 <p className="text-xs text-muted-foreground">
                                   {(attachment.file_size / 1024).toFixed(1)} KB •{" "}
                                   {format(new Date(attachment.created_at), "dd MMM yyyy", {
@@ -452,10 +451,11 @@ export function TicketDetailModal({
                             <Button
                               variant="ghost"
                               size="sm"
+                              className="flex-shrink-0 h-8 sm:h-9"
                               onClick={() => window.open(attachment.file_path, "_blank")}
                             >
-                              <Download className="h-4 w-4 mr-2" />
-                              Baixar
+                              <Download className="h-3 w-3 sm:h-4 sm:w-4 sm:mr-2" />
+                              <span className="hidden sm:inline">Baixar</span>
                             </Button>
                           </div>
                         ))}

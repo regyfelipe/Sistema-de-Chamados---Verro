@@ -283,43 +283,43 @@ export default function GerenciaPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-3 sm:p-4 md:p-6">
+      <div className="max-w-7xl mx-auto space-y-4 sm:space-y-6">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 bg-white p-6 rounded-lg shadow-sm border">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 sm:gap-4 bg-white p-4 sm:p-6 rounded-lg shadow-sm border">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               Dashboard Gerencial
             </h1>
-            <p className="text-muted-foreground mt-1">
+            <p className="text-sm sm:text-base text-muted-foreground mt-1">
               Acompanhamento em tempo real dos chamados
             </p>
           </div>
           <div className="text-left md:text-right">
-            <div className="flex items-center gap-2 text-sm">
+            <div className="flex items-center gap-2 text-xs sm:text-sm">
               <div className="relative">
-                <Activity className="h-4 w-4 text-green-500 animate-pulse" />
-                <span className="absolute top-0 right-0 h-2 w-2 bg-green-500 rounded-full animate-ping" />
+                <Activity className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 animate-pulse" />
+                <span className="absolute top-0 right-0 h-1.5 w-1.5 sm:h-2 sm:w-2 bg-green-500 rounded-full animate-ping" />
               </div>
               <span className="font-medium">
                 Atualizado: {format(lastUpdate, "HH:mm:ss", { locale: ptBR })}
               </span>
             </div>
-            <p className="text-xs text-muted-foreground mt-1">
+            <p className="text-xs text-muted-foreground mt-1 hidden sm:block">
               Atualização automática a cada 30s • Tempo real ativo
             </p>
           </div>
         </div>
 
         {/* Estatísticas Principais */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-4">
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total</CardTitle>
-              <TicketIcon className="h-4 w-4 text-muted-foreground" />
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-3 sm:p-6">
+              <CardTitle className="text-xs sm:text-sm font-medium">Total</CardTitle>
+              <TicketIcon className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{stats.total}</div>
+            <CardContent className="p-3 sm:p-6 pt-0">
+              <div className="text-xl sm:text-2xl font-bold">{stats.total}</div>
               <p className="text-xs text-muted-foreground">
                 chamados no sistema
               </p>
@@ -327,14 +327,14 @@ export default function GerenciaPage() {
           </Card>
 
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Abertos</CardTitle>
-              <div className="rounded-full p-2 bg-blue-50">
-                <TicketIcon className="h-4 w-4 text-blue-600" />
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-3 sm:p-6">
+              <CardTitle className="text-xs sm:text-sm font-medium">Abertos</CardTitle>
+              <div className="rounded-full p-1.5 sm:p-2 bg-blue-50">
+                <TicketIcon className="h-3 w-3 sm:h-4 sm:w-4 text-blue-600" />
               </div>
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-blue-600">
+            <CardContent className="p-3 sm:p-6 pt-0">
+              <div className="text-xl sm:text-2xl font-bold text-blue-600">
                 {stats.aberto}
               </div>
               <p className="text-xs text-muted-foreground">
@@ -344,16 +344,16 @@ export default function GerenciaPage() {
           </Card>
 
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-3 sm:p-6">
+              <CardTitle className="text-xs sm:text-sm font-medium">
                 Em Atendimento
               </CardTitle>
-              <div className="rounded-full p-2 bg-yellow-50">
-                <Clock className="h-4 w-4 text-yellow-600" />
+              <div className="rounded-full p-1.5 sm:p-2 bg-yellow-50">
+                <Clock className="h-3 w-3 sm:h-4 sm:w-4 text-yellow-600" />
               </div>
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-yellow-600">
+            <CardContent className="p-3 sm:p-6 pt-0">
+              <div className="text-xl sm:text-2xl font-bold text-yellow-600">
                 {stats.em_atendimento}
               </div>
               <p className="text-xs text-muted-foreground">sendo trabalhados</p>
@@ -361,14 +361,14 @@ export default function GerenciaPage() {
           </Card>
 
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Aguardando</CardTitle>
-              <div className="rounded-full p-2 bg-orange-50">
-                <UserCheck className="h-4 w-4 text-orange-600" />
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-3 sm:p-6">
+              <CardTitle className="text-xs sm:text-sm font-medium">Aguardando</CardTitle>
+              <div className="rounded-full p-1.5 sm:p-2 bg-orange-50">
+                <UserCheck className="h-3 w-3 sm:h-4 sm:w-4 text-orange-600" />
               </div>
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-orange-600">
+            <CardContent className="p-3 sm:p-6 pt-0">
+              <div className="text-xl sm:text-2xl font-bold text-orange-600">
                 {stats.aguardando}
               </div>
               <p className="text-xs text-muted-foreground">
@@ -378,14 +378,14 @@ export default function GerenciaPage() {
           </Card>
 
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Fechados</CardTitle>
-              <div className="rounded-full p-2 bg-green-50">
-                <CheckCircle2 className="h-4 w-4 text-green-600" />
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-3 sm:p-6">
+              <CardTitle className="text-xs sm:text-sm font-medium">Fechados</CardTitle>
+              <div className="rounded-full p-1.5 sm:p-2 bg-green-50">
+                <CheckCircle2 className="h-3 w-3 sm:h-4 sm:w-4 text-green-600" />
               </div>
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-green-600">
+            <CardContent className="p-3 sm:p-6 pt-0">
+              <div className="text-xl sm:text-2xl font-bold text-green-600">
                 {stats.fechado}
               </div>
               <p className="text-xs text-muted-foreground">resolvidos</p>
@@ -393,40 +393,40 @@ export default function GerenciaPage() {
           </Card>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
           {/* Atendentes Ativos */}
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Users className="h-5 w-5" />
+            <CardHeader className="p-4 sm:p-6">
+              <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+                <Users className="h-4 w-4 sm:h-5 sm:w-5" />
                 Atendentes Ativos
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-4 sm:p-6 pt-0">
               {activeAttendants.length > 0 ? (
-                <div className="space-y-3">
+                <div className="space-y-2 sm:space-y-3">
                   {activeAttendants.map((attendant) => (
                     <div
                       key={attendant.user_id}
-                      className="flex items-center justify-between p-3 rounded-lg border bg-card"
+                      className="flex items-center justify-between p-2 sm:p-3 rounded-lg border bg-card"
                     >
-                      <div className="flex-1">
-                        <p className="font-medium">{attendant.user_name}</p>
-                        <p className="text-sm text-muted-foreground">
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-sm sm:text-base truncate">{attendant.user_name}</p>
+                        <p className="text-xs sm:text-sm text-muted-foreground truncate">
                           {attendant.sector_name}
                         </p>
                       </div>
-                      <div className="text-right">
-                        <div className="flex items-center gap-2">
-                          <span className="text-2xl font-bold">
+                      <div className="text-right ml-2 flex-shrink-0">
+                        <div className="flex items-center gap-1 sm:gap-2">
+                          <span className="text-lg sm:text-2xl font-bold">
                             {attendant.tickets_count}
                           </span>
-                          <span className="text-sm text-muted-foreground">
+                          <span className="text-xs sm:text-sm text-muted-foreground hidden sm:inline">
                             chamados
                           </span>
                         </div>
                         {attendant.priority_high > 0 && (
-                          <Badge variant="destructive" className="mt-1">
+                          <Badge variant="destructive" className="mt-1 text-xs">
                             {attendant.priority_high} alta/crítica
                           </Badge>
                         )}
@@ -435,7 +435,7 @@ export default function GerenciaPage() {
                   ))}
                 </div>
               ) : (
-                <p className="text-center text-muted-foreground py-8">
+                <p className="text-center text-muted-foreground py-8 text-sm sm:text-base">
                   Nenhum atendente ativo no momento
                 </p>
               )}
@@ -444,31 +444,31 @@ export default function GerenciaPage() {
 
           {/* Distribuição por Prioridade */}
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <AlertCircle className="h-5 w-5" />
+            <CardHeader className="p-4 sm:p-6">
+              <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+                <AlertCircle className="h-4 w-4 sm:h-5 sm:w-5" />
                 Distribuição por Prioridade
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
+            <CardContent className="p-4 sm:p-6 pt-0">
+              <div className="space-y-2 sm:space-y-3">
                 {Object.entries(priorityStats).map(([priority, count]) => (
                   <div
                     key={priority}
-                    className="flex items-center justify-between"
+                    className="flex items-center justify-between gap-2"
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
                       <Badge
                         className={cn(
-                          "w-20 justify-center",
+                          "w-16 sm:w-20 justify-center text-xs",
                           getPriorityColor(priority)
                         )}
                       >
                         {getPriorityLabel(priority)}
                       </Badge>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-32 bg-gray-200 rounded-full h-2">
+                    <div className="flex items-center gap-2 flex-1 min-w-0">
+                      <div className="flex-1 bg-gray-200 rounded-full h-2 min-w-0">
                         <div
                           className={cn(
                             "h-2 rounded-full",
@@ -481,7 +481,7 @@ export default function GerenciaPage() {
                           }}
                         />
                       </div>
-                      <span className="text-lg font-bold w-12 text-right">
+                      <span className="text-base sm:text-lg font-bold w-8 sm:w-12 text-right flex-shrink-0">
                         {count}
                       </span>
                     </div>
@@ -494,47 +494,48 @@ export default function GerenciaPage() {
 
         {/* Chamados Recentes */}
         <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <TrendingUp className="h-5 w-5" />
+          <CardHeader className="p-4 sm:p-6">
+            <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+              <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5" />
               Chamados Recentes
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-4 sm:p-6 pt-0">
             {recentTickets.length > 0 ? (
               <div className="space-y-2">
                 {recentTickets.map((ticket: any) => (
                   <div
                     key={ticket.id}
                     onClick={() => setSelectedTicketId(ticket.id)}
-                    className="flex items-center justify-between p-3 rounded-lg border bg-card hover:bg-accent transition-colors cursor-pointer"
+                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 rounded-lg border bg-card hover:bg-accent transition-colors cursor-pointer gap-2"
                   >
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
-                        <p className="font-medium truncate">{ticket.title}</p>
-                        <Badge className={cn(getStatusColor(ticket.status))}>
-                          {ticket.status}
-                        </Badge>
-                        <Badge
-                          className={cn(getPriorityColor(ticket.priority))}
-                        >
-                          {getPriorityLabel(ticket.priority)}
-                        </Badge>
+                      <div className="flex flex-wrap items-center gap-2 mb-1">
+                        <p className="font-medium text-sm sm:text-base truncate flex-1 min-w-0">{ticket.title}</p>
+                        <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
+                          <Badge className={cn("text-xs", getStatusColor(ticket.status))}>
+                            {ticket.status}
+                          </Badge>
+                          <Badge
+                            className={cn("text-xs", getPriorityColor(ticket.priority))}
+                          >
+                            {getPriorityLabel(ticket.priority)}
+                          </Badge>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                        <span>
-                          Criado por:{" "}
-                          {ticket.created_by_user?.name || "Desconhecido"}
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:gap-4 text-xs sm:text-sm text-muted-foreground gap-1">
+                        <span className="truncate">
+                          Por: {ticket.created_by_user?.name || "Desconhecido"}
                         </span>
                         {ticket.assigned_to_user && (
-                          <span>
-                            Atendido por: {ticket.assigned_to_user.name}
+                          <span className="truncate">
+                            Atendido: {ticket.assigned_to_user.name}
                           </span>
                         )}
                         {ticket.sector && (
-                          <span>Setor: {ticket.sector.name}</span>
+                          <span className="truncate">Setor: {ticket.sector.name}</span>
                         )}
-                        <span>
+                        <span className="truncate">
                           {format(
                             new Date(ticket.created_at),
                             "dd/MM/yyyy HH:mm",
@@ -549,7 +550,7 @@ export default function GerenciaPage() {
                 ))}
               </div>
             ) : (
-              <p className="text-center text-muted-foreground py-8">
+              <p className="text-center text-muted-foreground py-8 text-sm sm:text-base">
                 Nenhum chamado recente
               </p>
             )}

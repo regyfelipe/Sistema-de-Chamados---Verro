@@ -73,56 +73,65 @@ export function KanbanFilters({
 
   return (
     <Card>
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center gap-2">
-            <Filter className="h-5 w-5" />
-            Filtros do Kanban
+      <CardHeader className="p-3 sm:p-4 md:p-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0">
+          <CardTitle className="flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base">
+            <Filter className="h-4 w-4 sm:h-5 sm:w-5" />
+            <span className="hidden sm:inline">Filtros do Kanban</span>
+            <span className="sm:hidden">Filtros</span>
             {activeFiltersCount > 0 && (
-              <Badge variant="secondary">{activeFiltersCount}</Badge>
+              <Badge variant="secondary" className="text-[10px] sm:text-xs">
+                {activeFiltersCount}
+              </Badge>
             )}
           </CardTitle>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto">
             <Select value={groupBy} onValueChange={onGroupByChange}>
-              <SelectTrigger className="w-[180px]">
-                <Layers className="mr-2 h-4 w-4" />
+              <SelectTrigger className="w-full sm:w-[140px] md:w-[180px] h-8 sm:h-10 text-xs sm:text-sm">
+                <Layers className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                 <SelectValue placeholder="Agrupar por" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="none">Sem agrupamento</SelectItem>
-                <SelectItem value="sector">Por Setor</SelectItem>
-                <SelectItem value="priority">Por Prioridade</SelectItem>
+                <SelectItem value="none" className="text-sm">Sem agrupamento</SelectItem>
+                <SelectItem value="sector" className="text-sm">Por Setor</SelectItem>
+                <SelectItem value="priority" className="text-sm">Por Prioridade</SelectItem>
               </SelectContent>
             </Select>
-            <Button variant="outline" size="sm" onClick={handleClearFilters}>
-              <X className="mr-2 h-4 w-4" />
-              Limpar
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={handleClearFilters}
+              className="h-8 sm:h-10 text-xs sm:text-sm px-2 sm:px-3"
+            >
+              <X className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Limpar</span>
+              <span className="sm:hidden">X</span>
             </Button>
           </div>
         </div>
       </CardHeader>
-      <CardContent>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <CardContent className="p-3 sm:p-4 md:p-6 pt-0">
+        <div className="grid grid-cols-1 gap-2 sm:gap-3 md:gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <Input
             placeholder="Buscar por título ou descrição..."
             value={filters.search}
             onChange={(e) => handleFilterChange("search", e.target.value)}
-            className="col-span-full sm:col-span-1 lg:col-span-2"
+            className="col-span-full sm:col-span-1 lg:col-span-2 h-8 sm:h-10 text-xs sm:text-sm"
           />
 
           <Select
             value={filters.priority}
             onValueChange={(value) => handleFilterChange("priority", value)}
           >
-            <SelectTrigger>
+            <SelectTrigger className="h-8 sm:h-10 text-xs sm:text-sm">
               <SelectValue placeholder="Prioridade" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Todas as Prioridades</SelectItem>
-              <SelectItem value="baixa">Baixa</SelectItem>
-              <SelectItem value="media">Média</SelectItem>
-              <SelectItem value="alta">Alta</SelectItem>
-              <SelectItem value="critica">Crítica</SelectItem>
+              <SelectItem value="all" className="text-sm">Todas as Prioridades</SelectItem>
+              <SelectItem value="baixa" className="text-sm">Baixa</SelectItem>
+              <SelectItem value="media" className="text-sm">Média</SelectItem>
+              <SelectItem value="alta" className="text-sm">Alta</SelectItem>
+              <SelectItem value="critica" className="text-sm">Crítica</SelectItem>
             </SelectContent>
           </Select>
 
@@ -130,13 +139,13 @@ export function KanbanFilters({
             value={filters.sector_id}
             onValueChange={(value) => handleFilterChange("sector_id", value)}
           >
-            <SelectTrigger>
+            <SelectTrigger className="h-8 sm:h-10 text-xs sm:text-sm">
               <SelectValue placeholder="Setor" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Todos os Setores</SelectItem>
+              <SelectItem value="all" className="text-sm">Todos os Setores</SelectItem>
               {sectors.map((sector) => (
-                <SelectItem key={sector.id} value={sector.id}>
+                <SelectItem key={sector.id} value={sector.id} className="text-sm">
                   {sector.name}
                 </SelectItem>
               ))}
@@ -147,14 +156,14 @@ export function KanbanFilters({
             value={filters.assigned_to}
             onValueChange={(value) => handleFilterChange("assigned_to", value)}
           >
-            <SelectTrigger>
+            <SelectTrigger className="h-8 sm:h-10 text-xs sm:text-sm">
               <SelectValue placeholder="Atribuído a" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Todos</SelectItem>
-              <SelectItem value="none">Não Atribuído</SelectItem>
+              <SelectItem value="all" className="text-sm">Todos</SelectItem>
+              <SelectItem value="none" className="text-sm">Não Atribuído</SelectItem>
               {users.map((user) => (
-                <SelectItem key={user.id} value={user.id}>
+                <SelectItem key={user.id} value={user.id} className="text-sm">
                   {user.name}
                 </SelectItem>
               ))}

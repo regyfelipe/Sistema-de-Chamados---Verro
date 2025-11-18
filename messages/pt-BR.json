@@ -28,7 +28,9 @@
     "kanban": "Kanban",
     "chat": "Chat",
     "admin": "Administração",
-    "logout": "Sair"
+    "logout": "Sair",
+    "language": "Idioma",
+    "theme": "Tema"
   },
   "tickets": {
     "title": "Chamados",

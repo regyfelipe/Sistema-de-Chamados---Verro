@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/select"
 import { useToast } from "@/components/ui/use-toast"
 import { supabase } from "@/lib/supabase"
+import { Badge } from "@/components/ui/badge"
 import { Plus, Pencil, Trash2 } from "lucide-react"
 
 interface UsersManagementProps {
@@ -200,30 +201,31 @@ export function UsersManagement({ initialUsers }: UsersManagementProps) {
   }
 
   return (
-    <div className="space-y-4">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-semibold">Usuários</h2>
+    <div className="space-y-3 sm:space-y-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0">
+        <h2 className="text-lg sm:text-xl md:text-2xl font-semibold">Usuários</h2>
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
-            <Button onClick={handleCreate}>
-              <Plus className="mr-2 h-4 w-4" />
-              Novo Usuário
+            <Button onClick={handleCreate} className="w-full sm:w-auto h-8 sm:h-10 text-xs sm:text-sm">
+              <Plus className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Novo Usuário</span>
+              <span className="sm:hidden">Novo</span>
             </Button>
           </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>
+          <DialogContent className="w-[95vw] max-w-[95vw] sm:max-w-[500px] max-h-[95vh] overflow-y-auto p-4 sm:p-6">
+            <DialogHeader className="space-y-2 sm:space-y-3">
+              <DialogTitle className="text-lg sm:text-xl">
                 {editingUser ? "Editar Usuário" : "Novo Usuário"}
               </DialogTitle>
-              <DialogDescription>
+              <DialogDescription className="text-xs sm:text-sm">
                 {editingUser
                   ? "Atualize as informações do usuário"
                   : "Crie um novo usuário no sistema"}
               </DialogDescription>
             </DialogHeader>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="name">Nome *</Label>
+            <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
+              <div className="space-y-1.5 sm:space-y-2">
+                <Label htmlFor="name" className="text-xs sm:text-sm font-medium">Nome *</Label>
                 <Input
                   id="name"
                   value={formData.name}
@@ -231,10 +233,11 @@ export function UsersManagement({ initialUsers }: UsersManagementProps) {
                     setFormData({ ...formData, name: e.target.value })
                   }
                   required
+                  className="h-9 sm:h-10 text-sm sm:text-base"
                 />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="email">Email *</Label>
+              <div className="space-y-1.5 sm:space-y-2">
+                <Label htmlFor="email" className="text-xs sm:text-sm font-medium">Email *</Label>
                 <Input
                   id="email"
                   type="email"
@@ -243,11 +246,12 @@ export function UsersManagement({ initialUsers }: UsersManagementProps) {
                     setFormData({ ...formData, email: e.target.value })
                   }
                   required
+                  className="h-9 sm:h-10 text-sm sm:text-base"
                 />
               </div>
               {!editingUser && (
-                <div className="space-y-2">
-                  <Label htmlFor="password">Senha *</Label>
+                <div className="space-y-1.5 sm:space-y-2">
+                  <Label htmlFor="password" className="text-xs sm:text-sm font-medium">Senha *</Label>
                   <Input
                     id="password"
                     type="password"
@@ -256,12 +260,13 @@ export function UsersManagement({ initialUsers }: UsersManagementProps) {
                       setFormData({ ...formData, password: e.target.value })
                     }
                     required
+                    className="h-9 sm:h-10 text-sm sm:text-base"
                   />
                 </div>
               )}
               {editingUser && (
-                <div className="space-y-2">
-                  <Label htmlFor="password">Nova Senha (deixe em branco para manter)</Label>
+                <div className="space-y-1.5 sm:space-y-2">
+                  <Label htmlFor="password" className="text-xs sm:text-sm font-medium">Nova Senha (deixe em branco para manter)</Label>
                   <Input
                     id="password"
                     type="password"
@@ -269,58 +274,60 @@ export function UsersManagement({ initialUsers }: UsersManagementProps) {
                     onChange={(e) =>
                       setFormData({ ...formData, password: e.target.value })
                     }
+                    className="h-9 sm:h-10 text-sm sm:text-base"
                   />
                 </div>
               )}
-              <div className="space-y-2">
-                <Label htmlFor="role">Perfil *</Label>
+              <div className="space-y-1.5 sm:space-y-2">
+                <Label htmlFor="role" className="text-xs sm:text-sm font-medium">Perfil *</Label>
                 <Select
                   value={formData.role}
                   onValueChange={(value) =>
                     setFormData({ ...formData, role: value })
                   }
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="h-9 sm:h-10 text-sm sm:text-base">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="solicitante">Solicitante</SelectItem>
-                    <SelectItem value="atendente">Atendente</SelectItem>
-                    <SelectItem value="admin">Admin</SelectItem>
-                    <SelectItem value="super_admin">Super Admin</SelectItem>
+                    <SelectItem value="solicitante" className="text-sm">Solicitante</SelectItem>
+                    <SelectItem value="atendente" className="text-sm">Atendente</SelectItem>
+                    <SelectItem value="admin" className="text-sm">Admin</SelectItem>
+                    <SelectItem value="super_admin" className="text-sm">Super Admin</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="sector_id">Setor</Label>
+              <div className="space-y-1.5 sm:space-y-2">
+                <Label htmlFor="sector_id" className="text-xs sm:text-sm font-medium">Setor</Label>
                 <Select
                   value={formData.sector_id}
                   onValueChange={(value) =>
                     setFormData({ ...formData, sector_id: value })
                   }
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="h-9 sm:h-10 text-sm sm:text-base">
                     <SelectValue placeholder="Selecione um setor" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="none">Nenhum</SelectItem>
+                    <SelectItem value="none" className="text-sm">Nenhum</SelectItem>
                     {sectors.map((sector) => (
-                      <SelectItem key={sector.id} value={sector.id}>
+                      <SelectItem key={sector.id} value={sector.id} className="text-sm">
                         {sector.name}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
-              <DialogFooter>
+              <DialogFooter className="flex-col sm:flex-row gap-2 sm:gap-0 pt-2 sm:pt-4">
                 <Button
                   type="button"
                   variant="outline"
                   onClick={() => setDialogOpen(false)}
+                  className="w-full sm:w-auto h-9 sm:h-10 text-sm sm:text-base"
                 >
                   Cancelar
                 </Button>
-                <Button type="submit">
+                <Button type="submit" className="w-full sm:w-auto h-9 sm:h-10 text-sm sm:text-base">
                   {editingUser ? "Atualizar" : "Criar"}
                 </Button>
               </DialogFooter>
@@ -329,17 +336,18 @@ export function UsersManagement({ initialUsers }: UsersManagementProps) {
         </Dialog>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 sm:gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {users.map((user) => (
-          <Card key={user.id}>
-            <CardHeader>
-              <CardTitle className="flex items-center justify-between">
-                {user.name}
-                <div className="flex gap-2">
+          <Card key={user.id} className="hover:shadow-md transition-shadow border-border/50">
+            <CardHeader className="p-4 sm:p-5 md:p-6 border-b border-border/50">
+              <CardTitle className="flex items-center justify-between text-base sm:text-lg font-semibold">
+                <span className="truncate flex-1">{user.name}</span>
+                <div className="flex gap-1 sm:gap-2 ml-2 shrink-0">
                   <Button
                     variant="ghost"
                     size="icon"
                     onClick={() => handleEdit(user)}
+                    className="h-8 w-8 sm:h-9 sm:w-9 hover:bg-primary/10"
                   >
                     <Pencil className="h-4 w-4" />
                   </Button>
@@ -347,17 +355,18 @@ export function UsersManagement({ initialUsers }: UsersManagementProps) {
                     variant="ghost"
                     size="icon"
                     onClick={() => handleDelete(user.id)}
+                    className="h-8 w-8 sm:h-9 sm:w-9 hover:bg-destructive/10"
                   >
                     <Trash2 className="h-4 w-4 text-destructive" />
                   </Button>
                 </div>
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground mb-2">{user.email}</p>
-              <p className="text-xs text-muted-foreground">
-                Perfil: {user.role}
-              </p>
+            <CardContent className="p-4 sm:p-5 md:p-6 pt-4">
+              <p className="text-sm text-muted-foreground mb-3 truncate">{user.email}</p>
+              <Badge variant="outline" className="text-xs font-medium capitalize">
+                {user.role}
+              </Badge>
             </CardContent>
           </Card>
         ))}

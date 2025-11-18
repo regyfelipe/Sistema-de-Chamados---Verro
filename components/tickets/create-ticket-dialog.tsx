@@ -194,16 +194,18 @@ export function CreateTicketDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px]">
-        <DialogHeader>
-          <DialogTitle>{t("tickets.create")}</DialogTitle>
-          <DialogDescription>
+      <DialogContent className="w-[95vw] max-w-[95vw] sm:max-w-[600px] max-h-[95vh] overflow-y-auto p-4 sm:p-6">
+        <DialogHeader className="space-y-2 sm:space-y-3">
+          <DialogTitle className="text-lg sm:text-xl">{t("tickets.create")}</DialogTitle>
+          <DialogDescription className="text-xs sm:text-sm">
             {t("tickets.create")} - {t("common.loading")}
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="title">{t("tickets.titleLabel")} *</Label>
+        <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
+          <div className="space-y-1.5 sm:space-y-2">
+            <Label htmlFor="title" className="text-xs sm:text-sm font-medium">
+              {t("tickets.titleLabel")} *
+            </Label>
             <Input
               id="title"
               placeholder="Ex: Problema com impressora"
@@ -213,11 +215,14 @@ export function CreateTicketDialog({
               }
               required
               autoFocus
+              className="h-9 sm:h-10 text-sm sm:text-base"
             />
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="sector">{t("tickets.sector")} *</Label>
+          <div className="space-y-1.5 sm:space-y-2">
+            <Label htmlFor="sector" className="text-xs sm:text-sm font-medium">
+              {t("tickets.sector")} *
+            </Label>
             <Select
               value={formData.sector_id}
               onValueChange={(value) =>
@@ -225,12 +230,12 @@ export function CreateTicketDialog({
               }
               required
             >
-              <SelectTrigger>
+              <SelectTrigger className="h-9 sm:h-10 text-sm sm:text-base">
                 <SelectValue placeholder="Selecione o setor" />
               </SelectTrigger>
               <SelectContent>
                 {sectors.map((sector) => (
-                  <SelectItem key={sector.id} value={sector.id}>
+                  <SelectItem key={sector.id} value={sector.id} className="text-sm sm:text-base">
                     {sector.name}
                   </SelectItem>
                 ))}
@@ -238,28 +243,40 @@ export function CreateTicketDialog({
             </Select>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="priority">{t("tickets.priority")}</Label>
+          <div className="space-y-1.5 sm:space-y-2">
+            <Label htmlFor="priority" className="text-xs sm:text-sm font-medium">
+              {t("tickets.priority")}
+            </Label>
             <Select
               value={formData.priority}
               onValueChange={(value: any) =>
                 setFormData({ ...formData, priority: value })
               }
             >
-              <SelectTrigger>
+              <SelectTrigger className="h-9 sm:h-10 text-sm sm:text-base">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="baixa">{t("tickets.priorities.baixa")}</SelectItem>
-                <SelectItem value="media">{t("tickets.priorities.media")}</SelectItem>
-                <SelectItem value="alta">{t("tickets.priorities.alta")}</SelectItem>
-                <SelectItem value="critica">{t("tickets.priorities.critica")}</SelectItem>
+                <SelectItem value="baixa" className="text-sm sm:text-base">
+                  {t("tickets.priorities.baixa")}
+                </SelectItem>
+                <SelectItem value="media" className="text-sm sm:text-base">
+                  {t("tickets.priorities.media")}
+                </SelectItem>
+                <SelectItem value="alta" className="text-sm sm:text-base">
+                  {t("tickets.priorities.alta")}
+                </SelectItem>
+                <SelectItem value="critica" className="text-sm sm:text-base">
+                  {t("tickets.priorities.critica")}
+                </SelectItem>
               </SelectContent>
             </Select>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="description">{t("tickets.description")} *</Label>
+          <div className="space-y-1.5 sm:space-y-2">
+            <Label htmlFor="description" className="text-xs sm:text-sm font-medium">
+              {t("tickets.description")} *
+            </Label>
             <Textarea
               id="description"
               placeholder="Descreva o problema ou solicitação..."
@@ -268,19 +285,25 @@ export function CreateTicketDialog({
                 setFormData({ ...formData, description: e.target.value })
               }
               required
-              rows={5}
+              rows={4}
+              className="text-sm sm:text-base resize-none min-h-[100px] sm:min-h-[120px]"
             />
           </div>
 
-          <DialogFooter>
+          <DialogFooter className="flex-col sm:flex-row gap-2 sm:gap-0 pt-2 sm:pt-4">
             <Button
               type="button"
               variant="outline"
               onClick={() => onOpenChange(false)}
+              className="w-full sm:w-auto h-9 sm:h-10 text-sm sm:text-base"
             >
               {t("common.cancel")}
             </Button>
-            <Button type="submit" disabled={loading}>
+            <Button 
+              type="submit" 
+              disabled={loading}
+              className="w-full sm:w-auto h-9 sm:h-10 text-sm sm:text-base"
+            >
               {loading ? t("tickets.creating") : t("tickets.create")}
             </Button>
           </DialogFooter>

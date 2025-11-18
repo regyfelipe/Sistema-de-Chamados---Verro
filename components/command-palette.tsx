@@ -97,11 +97,11 @@ export function CommandPalette({ tickets: initialTickets }: CommandPaletteProps)
     <>
       <button
         onClick={() => setOpen(true)}
-        className="flex h-9 w-full items-center gap-2 rounded-md border border-input bg-background px-3 text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+        className="flex h-7 w-7 sm:h-8 sm:w-8 md:h-9 md:w-full items-center justify-center md:justify-start gap-1.5 md:gap-2 rounded-md border border-input bg-background px-1.5 md:px-3 text-xs md:text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground"
       >
-        <Search className="h-4 w-4" />
-        <span className="hidden sm:inline-flex">Buscar...</span>
-        <kbd className="pointer-events-none ml-auto hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
+        <Search className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+        <span className="hidden md:inline-flex">Buscar...</span>
+        <kbd className="pointer-events-none ml-auto hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 lg:flex">
           <span className="text-xs">⌘</span>K
         </kbd>
       </button>

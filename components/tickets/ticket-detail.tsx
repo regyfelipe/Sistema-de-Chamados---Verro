@@ -402,17 +402,19 @@ export function TicketDetail({ ticket, currentUser }: TicketDetailProps) {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
+    <div className="space-y-3 sm:space-y-4 md:space-y-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+        <div className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto">
           <Link href="/tickets">
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" size="icon" className="h-8 w-8 sm:h-10 sm:w-10">
               <ArrowLeft className="h-4 w-4" />
             </Button>
           </Link>
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">{ticketState.title}</h1>
-            <p className="text-muted-foreground mt-1">
+          <div className="flex-1 min-w-0">
+            <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold tracking-tight truncate">
+              {ticketState.title}
+            </h1>
+            <p className="text-xs sm:text-sm text-muted-foreground mt-1">
               Criado em{" "}
               {format(new Date(ticketState.created_at), "dd 'de' MMMM 'de' yyyy 'às' HH:mm", {
                 locale: ptBR,
@@ -420,10 +422,12 @@ export function TicketDetail({ ticket, currentUser }: TicketDetailProps) {
             </p>
           </div>
         </div>
-        <ChatSheet
-          ticketId={ticketState.id}
-          ticketTitle={ticketState.title}
-        />
+        <div className="w-full sm:w-auto">
+          <ChatSheet
+            ticketId={ticketState.id}
+            ticketTitle={ticketState.title}
+          />
+        </div>
       </div>
 
       <SLAAlertBanner ticket={ticketState} />
@@ -454,15 +458,129 @@ export function TicketDetail({ ticket, currentUser }: TicketDetailProps) {
         />
       )}
 
-      <div className="grid gap-6 lg:grid-cols-3">
-        {/* Conteúdo principal */}
-        <div className="lg:col-span-2 space-y-6">
+      <div className="grid gap-3 sm:gap-4 md:gap-6 lg:grid-cols-3">
+        {/* Sidebar - aparece primeiro no mobile */}
+        <div className="lg:order-2 space-y-3 sm:space-y-4 md:space-y-6">
           <Card>
-            <CardHeader>
-              <CardTitle>Descrição</CardTitle>
+            <CardHeader className="p-3 sm:p-4 md:p-6">
+              <CardTitle className="text-base sm:text-lg">Informações</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <p className="whitespace-pre-wrap">{ticketState.description}</p>
+            <CardContent className="space-y-3 sm:space-y-4 p-3 sm:p-4 md:p-6 pt-0">
+              <div>
+                <label className="text-xs sm:text-sm font-medium text-muted-foreground">Status</label>
+                {canEdit ? (
+                  <Select
+                    value={ticketState.status}
+                    onValueChange={handleStatusChange}
+                  >
+                    <SelectTrigger className="mt-1 h-8 sm:h-10 text-xs sm:text-sm">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="aberto" className="text-sm">Aberto</SelectItem>
+                      <SelectItem value="em_atendimento" className="text-sm">Em Atendimento</SelectItem>
+                      <SelectItem value="aguardando" className="text-sm">Aguardando</SelectItem>
+                      <SelectItem value="fechado" className="text-sm">Fechado</SelectItem>
+                    </SelectContent>
+                  </Select>
+                ) : (
+                  <div className="mt-1">
+                    <Badge variant="outline" className="text-xs sm:text-sm">
+                      {statusLabels[ticketState.status]}
+                    </Badge>
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <label className="text-xs sm:text-sm font-medium text-muted-foreground">Prioridade</label>
+                {canChangePriorityAndSector ? (
+                  <Select
+                    value={ticketState.priority}
+                    onValueChange={handlePriorityChange}
+                  >
+                    <SelectTrigger className="mt-1 h-8 sm:h-10 text-xs sm:text-sm">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="baixa" className="text-sm">Baixa</SelectItem>
+                      <SelectItem value="media" className="text-sm">Média</SelectItem>
+                      <SelectItem value="alta" className="text-sm">Alta</SelectItem>
+                      <SelectItem value="critica" className="text-sm">Crítica</SelectItem>
+                    </SelectContent>
+                  </Select>
+                ) : (
+                  <div className="mt-1">
+                    <Badge
+                      variant="outline"
+                      className={`text-xs sm:text-sm ${priorityColors[ticketState.priority]}`}
+                    >
+                      {ticketState.priority}
+                    </Badge>
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <label className="text-xs sm:text-sm font-medium text-muted-foreground">Setor</label>
+                {canChangePriorityAndSector ? (
+                  <Select
+                    value={ticketState.sector_id || "none"}
+                    onValueChange={handleSectorChange}
+                  >
+                    <SelectTrigger className="mt-1 h-8 sm:h-10 text-xs sm:text-sm">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="none" className="text-sm">Sem setor</SelectItem>
+                      {sectors.map((sector) => (
+                        <SelectItem key={sector.id} value={sector.id} className="text-sm">
+                          {sector.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                ) : (
+                  <p className="mt-1 text-xs sm:text-sm">{ticketState.sector?.name || "Sem setor"}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="text-xs sm:text-sm font-medium text-muted-foreground">Criado por</label>
+                <p className="mt-1 text-xs sm:text-sm">{ticketState.created_by_user?.name || "Usuário"}</p>
+              </div>
+
+              {ticketState.assigned_to_user && (
+                <div>
+                  <label className="text-xs sm:text-sm font-medium text-muted-foreground">
+                    Atribuído a
+                  </label>
+                  <p className="mt-1 text-xs sm:text-sm">{ticketState.assigned_to_user.name}</p>
+                </div>
+              )}
+
+              {ticketState.sla_due_date && (
+                <div>
+                  <label className="text-xs sm:text-sm font-medium text-muted-foreground">SLA</label>
+                  <p className="mt-1 text-xs sm:text-sm">
+                    {format(new Date(ticketState.sla_due_date), "dd MMM yyyy 'às' HH:mm", {
+                      locale: ptBR,
+                    })}
+                  </p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Conteúdo principal */}
+        <div className="lg:col-span-2 lg:order-1 space-y-3 sm:space-y-4 md:space-y-6">
+          <Card>
+            <CardHeader className="p-3 sm:p-4 md:p-6">
+              <CardTitle className="text-base sm:text-lg">Descrição</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3 sm:space-y-4 p-3 sm:p-4 md:p-6 pt-0">
+              <p className="text-sm sm:text-base whitespace-pre-wrap">{ticketState.description}</p>
               {attachments.length > 0 && (
                 <AttachmentList
                   attachments={attachments}
@@ -477,38 +595,38 @@ export function TicketDetail({ ticket, currentUser }: TicketDetailProps) {
 
           {/* Comentários */}
           <Card>
-            <CardHeader>
-              <CardTitle>Comentários</CardTitle>
+            <CardHeader className="p-3 sm:p-4 md:p-6">
+              <CardTitle className="text-base sm:text-lg">Comentários</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-3 sm:space-y-4 p-3 sm:p-4 md:p-6 pt-0">
               {ticketState.comments.map((comment) => (
                 <div
                   key={comment.id}
-                  className={`p-4 rounded-lg border ${
+                  className={`p-2 sm:p-3 md:p-4 rounded-lg border ${
                     comment.is_internal ? "bg-yellow-50 border-yellow-200" : "bg-background"
                   }`}
                 >
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-2">
-                      <span className="font-medium">{comment.user?.name || "Usuário"}</span>
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1 sm:gap-2 mb-2">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-xs sm:text-sm font-medium">{comment.user?.name || "Usuário"}</span>
                       {comment.is_internal && (
-                        <Badge variant="outline" className="text-xs">
+                        <Badge variant="outline" className="text-[10px] sm:text-xs">
                           Interno
                         </Badge>
                       )}
                     </div>
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-[10px] sm:text-xs text-muted-foreground">
                       {format(new Date(comment.created_at), "dd MMM yyyy 'às' HH:mm", {
                         locale: ptBR,
                       })}
                     </span>
                   </div>
-                  <p className="text-sm whitespace-pre-wrap">{comment.content}</p>
+                  <p className="text-xs sm:text-sm whitespace-pre-wrap">{comment.content}</p>
                 </div>
               ))}
 
               {canEdit && (
-                <form onSubmit={handleCommentSubmit} className="space-y-3 pt-4 border-t">
+                <form onSubmit={handleCommentSubmit} className="space-y-2 sm:space-y-3 pt-3 sm:pt-4 border-t">
                   <div className="flex items-center justify-between">
                     <TemplateSelector
                       ticket={ticketState}
@@ -520,7 +638,8 @@ export function TicketDetail({ ticket, currentUser }: TicketDetailProps) {
                     placeholder="Adicione um comentário... (Use templates ou digite diretamente)"
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
-                    rows={4}
+                    rows={3}
+                    className="text-sm sm:text-base resize-none min-h-[80px] sm:min-h-[100px]"
                   />
                   <AttachmentUpload
                     ticketId={ticketState.id}
@@ -530,8 +649,8 @@ export function TicketDetail({ ticket, currentUser }: TicketDetailProps) {
                       router.refresh()
                     }}
                   />
-                  <div className="flex items-center justify-between">
-                    <label className="flex items-center gap-2 text-sm">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0">
+                    <label className="flex items-center gap-2 text-xs sm:text-sm">
                       <input
                         type="checkbox"
                         checked={isInternal}
@@ -540,8 +659,12 @@ export function TicketDetail({ ticket, currentUser }: TicketDetailProps) {
                       />
                       <span>Comentário interno (apenas atendentes)</span>
                     </label>
-                    <Button type="submit" disabled={loading || !comment.trim()}>
-                      <Send className="mr-2 h-4 w-4" />
+                    <Button 
+                      type="submit" 
+                      disabled={loading || !comment.trim()}
+                      className="w-full sm:w-auto h-8 sm:h-10 text-xs sm:text-sm"
+                    >
+                      <Send className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                       Enviar
                     </Button>
                   </div>
@@ -553,49 +676,49 @@ export function TicketDetail({ ticket, currentUser }: TicketDetailProps) {
           {/* Histórico Aprimorado */}
           {ticketState.history.length > 0 && (
             <Card>
-              <CardHeader>
-                <CardTitle>Histórico Completo</CardTitle>
-                <p className="text-sm text-muted-foreground">
+              <CardHeader className="p-3 sm:p-4 md:p-6">
+                <CardTitle className="text-base sm:text-lg">Histórico Completo</CardTitle>
+                <p className="text-xs sm:text-sm text-muted-foreground">
                   Todas as alterações e eventos deste chamado
                 </p>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
+              <CardContent className="p-3 sm:p-4 md:p-6 pt-0">
+                <div className="space-y-3 sm:space-y-4">
                   {ticketState.history.map((item, index) => {
                     const isLast = index === ticketState.history.length - 1
                     return (
-                      <div key={item.id} className="relative flex gap-4">
+                      <div key={item.id} className="relative flex gap-2 sm:gap-4">
                         {/* Linha vertical */}
                         {!isLast && (
-                          <div className="absolute left-2 top-6 bottom-0 w-0.5 bg-border" />
+                          <div className="absolute left-2 sm:left-2 top-6 bottom-0 w-0.5 bg-border" />
                         )}
                         {/* Ícone */}
-                        <div className="relative z-10 flex h-8 w-8 items-center justify-center rounded-full bg-muted">
-                          <Clock className="h-4 w-4 text-muted-foreground" />
+                        <div className="relative z-10 flex h-6 w-6 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-muted flex-shrink-0">
+                          <Clock className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
                         </div>
                         {/* Conteúdo */}
-                        <div className="flex-1 space-y-1 pb-4">
-                          <div className="flex items-center gap-2">
-                            <span className="font-medium text-sm">
+                        <div className="flex-1 space-y-1 pb-3 sm:pb-4 min-w-0">
+                          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:gap-2">
+                            <span className="font-medium text-xs sm:text-sm">
                               {item.user?.name || "Sistema"}
                             </span>
-                            <span className="text-sm text-muted-foreground">
+                            <span className="text-xs sm:text-sm text-muted-foreground">
                               {item.action}
                             </span>
                           </div>
                           {item.old_value && item.new_value && (
-                            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                            <div className="flex flex-wrap items-center gap-1 sm:gap-2 text-[10px] sm:text-xs text-muted-foreground">
                               <span className="line-through">{item.old_value}</span>
                               <span>→</span>
                               <span className="font-medium">{item.new_value}</span>
                             </div>
                           )}
                           {!item.old_value && item.new_value && (
-                            <p className="text-xs text-muted-foreground">
+                            <p className="text-[10px] sm:text-xs text-muted-foreground">
                               {item.new_value}
                             </p>
                           )}
-                          <p className="text-xs text-muted-foreground">
+                          <p className="text-[10px] sm:text-xs text-muted-foreground">
                             {format(new Date(item.created_at), "dd MMM yyyy 'às' HH:mm", {
                               locale: ptBR,
                             })}
@@ -608,120 +731,6 @@ export function TicketDetail({ ticket, currentUser }: TicketDetailProps) {
               </CardContent>
             </Card>
           )}
-        </div>
-
-        {/* Sidebar */}
-        <div className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Informações</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <label className="text-sm font-medium text-muted-foreground">Status</label>
-                {canEdit ? (
-                  <Select
-                    value={ticketState.status}
-                    onValueChange={handleStatusChange}
-                  >
-                    <SelectTrigger className="mt-1">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="aberto">Aberto</SelectItem>
-                      <SelectItem value="em_atendimento">Em Atendimento</SelectItem>
-                      <SelectItem value="aguardando">Aguardando</SelectItem>
-                      <SelectItem value="fechado">Fechado</SelectItem>
-                    </SelectContent>
-                  </Select>
-                ) : (
-                  <div className="mt-1">
-                    <Badge variant="outline">
-                      {statusLabels[ticketState.status]}
-                    </Badge>
-                  </div>
-                )}
-              </div>
-
-              <div>
-                <label className="text-sm font-medium text-muted-foreground">Prioridade</label>
-                {canChangePriorityAndSector ? (
-                  <Select
-                    value={ticketState.priority}
-                    onValueChange={handlePriorityChange}
-                  >
-                    <SelectTrigger className="mt-1">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="baixa">Baixa</SelectItem>
-                      <SelectItem value="media">Média</SelectItem>
-                      <SelectItem value="alta">Alta</SelectItem>
-                      <SelectItem value="critica">Crítica</SelectItem>
-                    </SelectContent>
-                  </Select>
-                ) : (
-                  <div className="mt-1">
-                    <Badge
-                      variant="outline"
-                      className={priorityColors[ticketState.priority]}
-                    >
-                      {ticketState.priority}
-                    </Badge>
-                  </div>
-                )}
-              </div>
-
-              <div>
-                <label className="text-sm font-medium text-muted-foreground">Setor</label>
-                {canChangePriorityAndSector ? (
-                  <Select
-                    value={ticketState.sector_id || "none"}
-                    onValueChange={handleSectorChange}
-                  >
-                    <SelectTrigger className="mt-1">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="none">Sem setor</SelectItem>
-                      {sectors.map((sector) => (
-                        <SelectItem key={sector.id} value={sector.id}>
-                          {sector.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                ) : (
-                  <p className="mt-1 text-sm">{ticketState.sector?.name || "Sem setor"}</p>
-                )}
-              </div>
-
-              <div>
-                <label className="text-sm font-medium text-muted-foreground">Criado por</label>
-                <p className="mt-1 text-sm">{ticketState.created_by_user?.name || "Usuário"}</p>
-              </div>
-
-              {ticketState.assigned_to_user && (
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">
-                    Atribuído a
-                  </label>
-                  <p className="mt-1 text-sm">{ticketState.assigned_to_user.name}</p>
-                </div>
-              )}
-
-              {ticketState.sla_due_date && (
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">SLA</label>
-                  <p className="mt-1 text-sm">
-                    {format(new Date(ticketState.sla_due_date), "dd MMM yyyy 'às' HH:mm", {
-                      locale: ptBR,
-                    })}
-                  </p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
         </div>
       </div>
     </div>

@@ -62,7 +62,7 @@ export function TicketsList({ initialTickets }: TicketsListProps) {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3 sm:space-y-4">
       {/* Filtros Avançados */}
       <AdvancedFilters
         filters={filters}
@@ -71,17 +71,17 @@ export function TicketsList({ initialTickets }: TicketsListProps) {
       />
 
       {/* Controles de visualização */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4">
         {/* Contador de resultados */}
         {filteredTickets.length > 0 && (
-          <div className="text-sm text-muted-foreground">
+          <div className="text-xs sm:text-sm text-muted-foreground">
             Mostrando {filteredTickets.length} de {tickets.length} chamados
           </div>
         )}
 
         {/* Toggle de visualização */}
         <div className="flex items-center gap-2">
-          <span className="text-sm text-muted-foreground">Visualização:</span>
+          <span className="text-xs sm:text-sm text-muted-foreground hidden sm:inline">Visualização:</span>
           <div className="flex items-center border rounded-md">
             <Button
               variant={!isCompact ? "default" : "ghost"}
@@ -89,10 +89,10 @@ export function TicketsList({ initialTickets }: TicketsListProps) {
               onClick={() => {
                 if (isCompact) toggleViewMode()
               }}
-              className="rounded-r-none"
+              className="rounded-r-none h-8 sm:h-9 text-xs sm:text-sm px-2 sm:px-3"
             >
-              <List className="h-4 w-4 mr-2" />
-              Normal
+              <List className="h-3.5 w-3.5 sm:h-4 sm:w-4 sm:mr-2" />
+              <span className="hidden sm:inline">Normal</span>
             </Button>
             <Button
               variant={isCompact ? "default" : "ghost"}
@@ -100,10 +100,10 @@ export function TicketsList({ initialTickets }: TicketsListProps) {
               onClick={() => {
                 if (!isCompact) toggleViewMode()
               }}
-              className="rounded-l-none"
+              className="rounded-l-none h-8 sm:h-9 text-xs sm:text-sm px-2 sm:px-3"
             >
-              <LayoutGrid className="h-4 w-4 mr-2" />
-              Compacta
+              <LayoutGrid className="h-3.5 w-3.5 sm:h-4 sm:w-4 sm:mr-2" />
+              <span className="hidden sm:inline">Compacta</span>
             </Button>
           </div>
         </div>

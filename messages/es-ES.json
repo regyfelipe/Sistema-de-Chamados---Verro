@@ -27,7 +27,9 @@
     "kanban": "Kanban",
     "chat": "Chat",
     "admin": "Administración",
-    "logout": "Salir"
+    "logout": "Salir",
+    "language": "Idioma",
+    "theme": "Tema"
   },
   "tickets": {
     "title": "Tickets",

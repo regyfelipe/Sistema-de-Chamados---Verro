@@ -16,8 +16,8 @@ export function LanguageSelector() {
 
   return (
     <Select value={locale} onValueChange={(value) => setLocale(value as Locale)}>
-      <SelectTrigger className="w-[140px]">
-        <Languages className="mr-2 h-4 w-4" />
+      <SelectTrigger className="w-[120px] sm:w-[140px]">
+        <Languages className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
         <SelectValue />
       </SelectTrigger>
       <SelectContent>

@@ -52,42 +52,42 @@ export function KanbanCard({ ticket }: KanbanCardProps) {
       <Link href={`/tickets/${ticket.id}`}>
         <Card
           className={cn(
-            "mb-3 cursor-grab active:cursor-grabbing hover:shadow-md transition-all",
+            "mb-2 sm:mb-3 cursor-grab active:cursor-grabbing hover:shadow-md transition-all",
             isDragging && "ring-2 ring-primary"
           )}
         >
-          <CardContent className="p-4 space-y-3">
+          <CardContent className="p-2.5 sm:p-3 md:p-4 space-y-2 sm:space-y-3">
             {/* Título e Prioridade */}
-            <div className="flex items-start justify-between gap-2">
-              <h4 className="font-semibold text-sm line-clamp-2 flex-1">
+            <div className="flex items-start justify-between gap-1.5 sm:gap-2">
+              <h4 className="font-semibold text-xs sm:text-sm line-clamp-2 flex-1">
                 {ticket.title}
               </h4>
               <Badge
                 variant="outline"
-                className={cn("text-xs shrink-0", priorityColors[ticket.priority])}
+                className={cn("text-[10px] sm:text-xs shrink-0", priorityColors[ticket.priority])}
               >
                 {ticket.priority}
               </Badge>
             </div>
 
             {/* Descrição */}
-            <p className="text-xs text-muted-foreground line-clamp-2">
+            <p className="text-[10px] sm:text-xs text-muted-foreground line-clamp-2">
               {ticket.description}
             </p>
 
             {/* Informações */}
-            <div className="space-y-2 text-xs text-muted-foreground">
+            <div className="space-y-1.5 sm:space-y-2 text-[10px] sm:text-xs text-muted-foreground">
               {/* Setor */}
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-1 sm:gap-1.5">
                 <span className="font-medium">Setor:</span>
-                <span>{ticket.sector?.name || "Sem setor"}</span>
+                <span className="truncate">{ticket.sector?.name || "Sem setor"}</span>
               </div>
 
               {/* Atribuído a */}
               {ticket.assigned_to_user && (
-                <div className="flex items-center gap-1.5">
-                  <User className="h-3 w-3" />
-                  <span>{ticket.assigned_to_user.name}</span>
+                <div className="flex items-center gap-1 sm:gap-1.5">
+                  <User className="h-2.5 w-2.5 sm:h-3 sm:w-3 shrink-0" />
+                  <span className="truncate">{ticket.assigned_to_user.name}</span>
                 </div>
               )}
 
@@ -95,13 +95,13 @@ export function KanbanCard({ ticket }: KanbanCardProps) {
               {slaStatus && (
                 <div
                   className={cn(
-                    "flex items-center gap-1.5",
+                    "flex items-center gap-1 sm:gap-1.5",
                     slaStatus === "expired" && "text-red-600 dark:text-red-400",
                     slaStatus === "warning" && "text-orange-600 dark:text-orange-400"
                   )}
                 >
-                  <Clock className="h-3 w-3" />
-                  <span>
+                  <Clock className="h-2.5 w-2.5 sm:h-3 sm:w-3 shrink-0" />
+                  <span className="truncate">
                     {slaStatus === "expired" && "Vencido"}
                     {slaStatus === "warning" && "Próximo do vencimento"}
                     {slaStatus === "ok" && "No prazo"}
@@ -110,8 +110,8 @@ export function KanbanCard({ ticket }: KanbanCardProps) {
               )}
 
               {/* Data */}
-              <div className="flex items-center gap-1.5">
-                <span>
+              <div className="flex items-center gap-1 sm:gap-1.5">
+                <span className="truncate">
                   {format(new Date(ticket.created_at), "dd MMM yyyy", {
                     locale: ptBR,
                   })}
@@ -119,7 +119,7 @@ export function KanbanCard({ ticket }: KanbanCardProps) {
               </div>
 
               {/* ID */}
-              <div className="text-xs font-mono text-muted-foreground/70">
+              <div className="text-[10px] sm:text-xs font-mono text-muted-foreground/70">
                 #{ticket.id.slice(0, 8)}
               </div>
             </div>

@@ -196,7 +196,7 @@ export function KanbanBoard({ initialTickets }: KanbanBoardProps) {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3 sm:space-y-4">
       {/* Filtros */}
       <KanbanFilters
         filters={filters}
@@ -212,7 +212,7 @@ export function KanbanBoard({ initialTickets }: KanbanBoardProps) {
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
       >
-        <div className="flex gap-4 overflow-x-auto pb-4">
+        <div className="flex gap-2 sm:gap-3 md:gap-4 overflow-x-auto pb-2 sm:pb-3 md:pb-4 -mx-2 sm:-mx-3 md:-mx-4 px-2 sm:px-3 md:px-4">
           {statusColumns.map((column) => {
             const columnTickets = groupedTickets[column.id] || []
             return (

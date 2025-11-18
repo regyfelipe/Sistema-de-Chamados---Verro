@@ -138,16 +138,17 @@ export function AdvancedFilters({
 
   return (
     <Card>
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center gap-2">
-            <Filter className="h-5 w-5" />
-            Filtros Avançados
+      <CardHeader className="p-3 sm:p-4 md:p-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4">
+          <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+            <Filter className="h-4 w-4 sm:h-5 sm:w-5" />
+            <span className="hidden sm:inline">Filtros Avançados</span>
+            <span className="sm:hidden">Filtros</span>
             {activeFiltersCount > 0 && (
-              <Badge variant="secondary">{activeFiltersCount}</Badge>
+              <Badge variant="secondary" className="text-xs">{activeFiltersCount}</Badge>
             )}
           </CardTitle>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
             {savedFilters.length > 0 && (
               <Select
                 value=""
@@ -159,8 +160,8 @@ export function AdvancedFilters({
                   }
                 }}
               >
-                <SelectTrigger className="w-[180px]">
-                  <Star className="mr-2 h-4 w-4" />
+                <SelectTrigger className="w-[140px] sm:w-[180px] h-8 sm:h-9 text-xs sm:text-sm">
+                  <Star className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                   <SelectValue placeholder="Filtros salvos" />
                 </SelectTrigger>
                 <SelectContent>
@@ -184,75 +185,89 @@ export function AdvancedFilters({
             )}
             <Dialog open={saveDialogOpen} onOpenChange={setSaveDialogOpen}>
               <DialogTrigger asChild>
-                <Button variant="outline" size="sm">
-                  <Star className="mr-2 h-4 w-4" />
-                  Salvar Filtro
+                <Button variant="outline" size="sm" className="h-8 sm:h-9 text-xs sm:text-sm px-2 sm:px-3">
+                  <Star className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+                  <span className="hidden sm:inline">Salvar Filtro</span>
+                  <span className="sm:hidden">Salvar</span>
                 </Button>
               </DialogTrigger>
-              <DialogContent>
+              <DialogContent className="w-[95vw] sm:w-full max-w-md">
                 <DialogHeader>
-                  <DialogTitle>Salvar Filtro Favorito</DialogTitle>
-                  <DialogDescription>
+                  <DialogTitle className="text-base sm:text-lg">Salvar Filtro Favorito</DialogTitle>
+                  <DialogDescription className="text-xs sm:text-sm">
                     Digite um nome para salvar este conjunto de filtros
                   </DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4 py-4">
                   <div className="space-y-2">
-                    <Label htmlFor="filter-name">Nome do Filtro</Label>
+                    <Label htmlFor="filter-name" className="text-xs sm:text-sm">Nome do Filtro</Label>
                     <Input
                       id="filter-name"
                       placeholder="Ex: Chamados críticos do mês"
                       value={filterName}
                       onChange={(e) => setFilterName(e.target.value)}
+                      className="text-sm"
                     />
                   </div>
                 </div>
-                <DialogFooter>
-                  <Button variant="outline" onClick={() => setSaveDialogOpen(false)}>
+                <DialogFooter className="flex-col sm:flex-row gap-2">
+                  <Button variant="outline" onClick={() => setSaveDialogOpen(false)} className="w-full sm:w-auto text-xs sm:text-sm">
                     Cancelar
                   </Button>
-                  <Button onClick={handleSaveFilter}>Salvar</Button>
+                  <Button onClick={handleSaveFilter} className="w-full sm:w-auto text-xs sm:text-sm">Salvar</Button>
                 </DialogFooter>
               </DialogContent>
             </Dialog>
             {onExport && (
-              <Button variant="outline" size="sm" onClick={onExport}>
-                <Download className="mr-2 h-4 w-4" />
-                Exportar
+              <Button variant="outline" size="sm" onClick={onExport} className="h-8 sm:h-9 text-xs sm:text-sm px-2 sm:px-3">
+                <Download className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="hidden sm:inline">Exportar</span>
+                <span className="sm:hidden">Exp</span>
               </Button>
             )}
-            <Button variant="ghost" size="sm" onClick={resetFilters}>
-              <X className="mr-2 h-4 w-4" />
-              Limpar
+            <Button variant="ghost" size="sm" onClick={resetFilters} className="h-8 sm:h-9 text-xs sm:text-sm px-2 sm:px-3">
+              <X className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Limpar</span>
             </Button>
             <Button
               variant="ghost"
               size="sm"
               onClick={() => setIsExpanded(!isExpanded)}
+              className="h-8 sm:h-9 text-xs sm:text-sm px-2 sm:px-3"
             >
-              {isExpanded ? "Recolher" : "Expandir"}
+              {isExpanded ? (
+                <>
+                  <span className="hidden sm:inline">Recolher</span>
+                  <span className="sm:hidden">Rec</span>
+                </>
+              ) : (
+                <>
+                  <span className="hidden sm:inline">Expandir</span>
+                  <span className="sm:hidden">Exp</span>
+                </>
+              )}
             </Button>
           </div>
         </div>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-3 sm:space-y-4 p-3 sm:p-4 md:p-6">
         {/* Busca */}
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-2 sm:left-3 top-1/2 transform -translate-y-1/2 h-3.5 w-3.5 sm:h-4 sm:w-4 text-muted-foreground" />
           <Input
-            placeholder="Buscar por título, descrição, ID, setor, usuário..."
+            placeholder="Buscar por título, descrição, ID, setor..."
             value={filters.search}
             onChange={(e) => updateFilter("search", e.target.value)}
-            className="pl-10"
+            className="pl-8 sm:pl-10 text-xs sm:text-sm h-8 sm:h-9"
           />
         </div>
 
         {/* Filtros básicos */}
-        <div className="grid gap-4 md:grid-cols-4">
-          <div className="space-y-2">
-            <Label>Status</Label>
+        <div className="grid gap-2 sm:gap-3 md:gap-4 grid-cols-2 md:grid-cols-4">
+          <div className="space-y-1 sm:space-y-2">
+            <Label className="text-xs sm:text-sm">Status</Label>
             <Select value={filters.status} onValueChange={(v) => updateFilter("status", v)}>
-              <SelectTrigger>
+              <SelectTrigger className="h-8 sm:h-9 text-xs sm:text-sm">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -265,13 +280,13 @@ export function AdvancedFilters({
             </Select>
           </div>
 
-          <div className="space-y-2">
-            <Label>Prioridade</Label>
+          <div className="space-y-1 sm:space-y-2">
+            <Label className="text-xs sm:text-sm">Prioridade</Label>
             <Select
               value={filters.priority}
               onValueChange={(v) => updateFilter("priority", v)}
             >
-              <SelectTrigger>
+              <SelectTrigger className="h-8 sm:h-9 text-xs sm:text-sm">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -284,13 +299,13 @@ export function AdvancedFilters({
             </Select>
           </div>
 
-          <div className="space-y-2">
-            <Label>Setor</Label>
+          <div className="space-y-1 sm:space-y-2">
+            <Label className="text-xs sm:text-sm">Setor</Label>
             <Select
               value={filters.sector_id}
               onValueChange={(v) => updateFilter("sector_id", v)}
             >
-              <SelectTrigger>
+              <SelectTrigger className="h-8 sm:h-9 text-xs sm:text-sm">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -304,13 +319,13 @@ export function AdvancedFilters({
             </Select>
           </div>
 
-          <div className="space-y-2">
-            <Label>SLA</Label>
+          <div className="space-y-1 sm:space-y-2">
+            <Label className="text-xs sm:text-sm">SLA</Label>
             <Select
               value={filters.slaStatus}
               onValueChange={(v) => updateFilter("slaStatus", v as any)}
             >
-              <SelectTrigger>
+              <SelectTrigger className="h-8 sm:h-9 text-xs sm:text-sm">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -325,15 +340,15 @@ export function AdvancedFilters({
 
         {/* Filtros avançados (expandidos) */}
         {isExpanded && (
-          <div className="space-y-4 pt-4 border-t">
-            <div className="grid gap-4 md:grid-cols-2">
-              <div className="space-y-2">
-                <Label>Criado por</Label>
+          <div className="space-y-3 sm:space-y-4 pt-3 sm:pt-4 border-t">
+            <div className="grid gap-2 sm:gap-3 md:gap-4 grid-cols-1 md:grid-cols-2">
+              <div className="space-y-1 sm:space-y-2">
+                <Label className="text-xs sm:text-sm">Criado por</Label>
                 <Select
                   value={filters.created_by}
                   onValueChange={(v) => updateFilter("created_by", v)}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="h-8 sm:h-9 text-xs sm:text-sm">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -347,13 +362,13 @@ export function AdvancedFilters({
                 </Select>
               </div>
 
-              <div className="space-y-2">
-                <Label>Atribuído a</Label>
+              <div className="space-y-1 sm:space-y-2">
+                <Label className="text-xs sm:text-sm">Atribuído a</Label>
                 <Select
                   value={filters.assigned_to}
                   onValueChange={(v) => updateFilter("assigned_to", v)}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="h-8 sm:h-9 text-xs sm:text-sm">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -370,17 +385,17 @@ export function AdvancedFilters({
             </div>
 
             {/* Filtro por data */}
-            <div className="space-y-2">
-              <Label className="flex items-center gap-2">
-                <Calendar className="h-4 w-4" />
+            <div className="space-y-1 sm:space-y-2">
+              <Label className="flex items-center gap-2 text-xs sm:text-sm">
+                <Calendar className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                 Filtrar por Data
               </Label>
-              <div className="grid gap-4 md:grid-cols-3">
+              <div className="grid gap-2 sm:gap-3 md:gap-4 grid-cols-1 sm:grid-cols-3">
                 <Select
                   value={filters.dateFilterType}
                   onValueChange={(v) => updateFilter("dateFilterType", v as any)}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="h-8 sm:h-9 text-xs sm:text-sm">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -397,12 +412,14 @@ export function AdvancedFilters({
                       value={filters.dateFrom}
                       onChange={(e) => updateFilter("dateFrom", e.target.value)}
                       placeholder="Data inicial"
+                      className="h-8 sm:h-9 text-xs sm:text-sm"
                     />
                     <Input
                       type="date"
                       value={filters.dateTo}
                       onChange={(e) => updateFilter("dateTo", e.target.value)}
                       placeholder="Data final"
+                      className="h-8 sm:h-9 text-xs sm:text-sm"
                     />
                   </>
                 )}
