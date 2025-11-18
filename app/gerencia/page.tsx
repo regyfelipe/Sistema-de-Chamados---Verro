@@ -19,6 +19,14 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { TicketDetailModal } from "@/components/gerencia/ticket-detail-modal";
+import { ManagerTrendsChart } from "@/components/gerencia/manager-trends-chart";
+import { ManagerSLAAlerts } from "@/components/gerencia/manager-sla-alerts";
+import { ManagerSectorPerformance } from "@/components/gerencia/manager-sector-performance";
+import { ManagerQualityMetrics } from "@/components/gerencia/manager-quality-metrics";
+import { ManagerTopAttendants } from "@/components/gerencia/manager-top-attendants";
+import { Button } from "@/components/ui/button";
+import { Filter } from "lucide-react";
+import { getAllRatings } from "@/lib/ratings";
 
 interface ManagerDashboardStats {
   aberto: number;
@@ -61,9 +69,19 @@ export default function GerenciaPage() {
     critica: 0,
   });
   const [recentTickets, setRecentTickets] = useState<Ticket[]>([]);
+  const [allTickets, setAllTickets] = useState<Ticket[]>([]);
   const [loading, setLoading] = useState(true);
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
   const [selectedTicketId, setSelectedTicketId] = useState<string | null>(null);
+  const [period, setPeriod] = useState<"7" | "15" | "30">("30");
+  const [ratings, setRatings] = useState<Array<{ rating: number; comment?: string }>>([]);
+  const [trendsData, setTrendsData] = useState<Array<{
+    date: string;
+    aberto: number;
+    em_atendimento: number;
+    fechado: number;
+    total: number;
+  }>>([]);
 
   // Função para buscar todos os dados
   const fetchDashboardData = async () => {
@@ -181,10 +199,55 @@ export default function GerenciaPage() {
       // Tickets recentes (últimos 10)
       const newRecentTickets = tickets?.slice(0, 10) || [];
 
+      // Calcular dados de tendências
+      const days = parseInt(period);
+      const startDate = new Date();
+      startDate.setDate(startDate.getDate() - days);
+      
+      const trendsMap = new Map<string, { aberto: number; em_atendimento: number; fechado: number; total: number }>();
+      
+      tickets?.forEach((ticket: any) => {
+        if (!ticket.created_at) return; // Pular se não tiver data de criação
+        
+        const ticketDate = new Date(ticket.created_at);
+        if (isNaN(ticketDate.getTime())) return; // Pular se data inválida
+        
+        if (ticketDate >= startDate) {
+          const isoString = ticketDate.toISOString();
+          if (!isoString) return; // Pular se toISOString falhar
+          
+          const dateStr = isoString.split("T")[0];
+          if (!trendsMap.has(dateStr)) {
+            trendsMap.set(dateStr, { aberto: 0, em_atendimento: 0, fechado: 0, total: 0 });
+          }
+          const dayData = trendsMap.get(dateStr)!;
+          dayData.total++;
+          if (ticket.status === "aberto") dayData.aberto++;
+          else if (ticket.status === "em_atendimento") dayData.em_atendimento++;
+          else if (ticket.status === "fechado") dayData.fechado++;
+        }
+      });
+
+      // Preencher dias sem dados
+      const trendsArray: Array<{ date: string; aberto: number; em_atendimento: number; fechado: number; total: number }> = [];
+      for (let i = 0; i < days; i++) {
+        const date = new Date();
+        date.setDate(date.getDate() - (days - i - 1));
+        const dateStr = date.toISOString().split("T")[0];
+        trendsArray.push(trendsMap.get(dateStr) || { date: dateStr, aberto: 0, em_atendimento: 0, fechado: 0, total: 0 });
+      }
+
+      // Buscar avaliações
+      const ratingsData = await getAllRatings(1000);
+      const ratingsArray = ratingsData.map((r) => ({ rating: r.rating, comment: r.comment || undefined }));
+
       setStats(newStats);
       setPriorityStats(newPriorityStats);
       setActiveAttendants(newActiveAttendants);
       setRecentTickets(newRecentTickets);
+      setAllTickets(tickets || []);
+      setTrendsData(trendsArray);
+      setRatings(ratingsArray);
       setLastUpdate(new Date());
       setLoading(false);
     } catch (error) {
@@ -201,7 +264,7 @@ export default function GerenciaPage() {
     const interval = setInterval(fetchDashboardData, 30000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [period]);
 
   // Escutar mudanças em tempo real
   useEffect(() => {
@@ -311,6 +374,44 @@ export default function GerenciaPage() {
           </div>
         </div>
 
+        {/* Filtros de Período */}
+        <Card>
+          <CardContent className="p-3 sm:p-4">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <div className="flex items-center gap-2">
+                <Filter className="h-4 w-4 text-muted-foreground" />
+                <span className="text-sm font-medium">Período:</span>
+              </div>
+              <div className="flex gap-2">
+                <Button
+                  variant={period === "7" ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setPeriod("7")}
+                  className="text-xs sm:text-sm"
+                >
+                  7 dias
+                </Button>
+                <Button
+                  variant={period === "15" ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setPeriod("15")}
+                  className="text-xs sm:text-sm"
+                >
+                  15 dias
+                </Button>
+                <Button
+                  variant={period === "30" ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setPeriod("30")}
+                  className="text-xs sm:text-sm"
+                >
+                  30 dias
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Estatísticas Principais */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-4">
           <Card>
@@ -391,6 +492,23 @@ export default function GerenciaPage() {
               <p className="text-xs text-muted-foreground">resolvidos</p>
             </CardContent>
           </Card>
+        </div>
+
+        {/* Alertas de SLA */}
+        <ManagerSLAAlerts tickets={allTickets} />
+
+        {/* Métricas de Qualidade */}
+        <ManagerQualityMetrics tickets={allTickets} ratings={ratings} />
+
+        {/* Gráfico de Tendências */}
+        <ManagerTrendsChart data={trendsData} period={period} />
+
+        <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
+          {/* Desempenho por Setor */}
+          <ManagerSectorPerformance tickets={allTickets} />
+
+          {/* Ranking de Atendentes */}
+          <ManagerTopAttendants tickets={allTickets} limit={10} />
         </div>
 
         <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
