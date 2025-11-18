@@ -217,6 +217,8 @@ export default function GerenciaPage() {
           if (!isoString) return; // Pular se toISOString falhar
           
           const dateStr = isoString.split("T")[0];
+          if (!dateStr) return; // Pular se split falhar
+          
           if (!trendsMap.has(dateStr)) {
             trendsMap.set(dateStr, { aberto: 0, em_atendimento: 0, fechado: 0, total: 0 });
           }
@@ -234,7 +236,14 @@ export default function GerenciaPage() {
         const date = new Date();
         date.setDate(date.getDate() - (days - i - 1));
         const dateStr = date.toISOString().split("T")[0];
-        trendsArray.push(trendsMap.get(dateStr) || { date: dateStr, aberto: 0, em_atendimento: 0, fechado: 0, total: 0 });
+        const existingData = trendsMap.get(dateStr);
+        trendsArray.push({
+          date: dateStr,
+          aberto: existingData?.aberto || 0,
+          em_atendimento: existingData?.em_atendimento || 0,
+          fechado: existingData?.fechado || 0,
+          total: existingData?.total || 0,
+        });
       }
 
       // Buscar avaliações
@@ -264,6 +273,7 @@ export default function GerenciaPage() {
     const interval = setInterval(fetchDashboardData, 30000);
 
     return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [period]);
 
   // Escutar mudanças em tempo real
@@ -287,6 +297,7 @@ export default function GerenciaPage() {
     return () => {
       supabase.removeChannel(channel);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getPriorityColor = (priority: string) => {
