@@ -35,7 +35,7 @@ export function TicketsBySectorChart({ data }: TicketsBySectorChartProps) {
     )
   }
 
-  // Transformar dados para o formato esperado pelo Recharts
+  
   const chartData = data.map((item) => ({
     name: item.sector_name,
     value: item.count,

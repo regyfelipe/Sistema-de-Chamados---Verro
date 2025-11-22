@@ -19,14 +19,14 @@ export function useNotifications() {
 
   const userId = session?.user?.id
 
-  // Carregar notificações iniciais
+  
   useEffect(() => {
     if (!userId) return
 
     loadNotifications()
     loadUnreadCount()
 
-    // Configurar subscription para notificações em tempo real
+    
     const channel = supabase
       .channel("notifications")
       .on(
@@ -45,7 +45,7 @@ export function useNotifications() {
             setNotifications((prev) => [newNotification, ...prev])
             setUnreadCount((prev) => prev + 1)
 
-            // Mostrar notificação push no navegador
+            
             if (typeof window !== "undefined" && "Notification" in window) {
               const BrowserNotification = window.Notification
               if (BrowserNotification && BrowserNotification.permission === "granted") {
@@ -71,7 +71,7 @@ export function useNotifications() {
             setNotifications((prev) => prev.filter((n) => n.id !== deletedId))
           }
 
-          // Recarregar contador
+          
           loadUnreadCount()
         }
       )

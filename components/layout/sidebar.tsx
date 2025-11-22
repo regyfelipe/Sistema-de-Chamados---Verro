@@ -34,7 +34,7 @@ export function Sidebar() {
 
   return (
     <>
-      {/* Mobile menu button - Mobile Small (320-480px) e Mobile (480-767px) */}
+      
       <div className="lg:hidden fixed top-3 left-3 sm:top-4 sm:left-4 z-50">
         <Button
           variant="ghost"
@@ -50,7 +50,7 @@ export function Sidebar() {
         </Button>
       </div>
 
-      {/* Sidebar */}
+      
       <aside
         className={cn(
           "fixed left-0 top-0 z-40 h-screen w-56 sm:w-64 border-r bg-background transition-transform lg:translate-x-0",
@@ -105,7 +105,7 @@ export function Sidebar() {
         </div>
       </aside>
 
-      {/* Overlay for mobile - Mobile Small e Mobile */}
+      
       {isOpen && (
         <div
           className="fixed inset-0 z-30 bg-black/50 lg:hidden"

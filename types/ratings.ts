@@ -2,9 +2,9 @@ export interface TicketRating {
   id: string
   ticket_id: string
   user_id: string
-  rating: number // 1-5 estrelas
+  rating: number
   comment?: string
-  nps_score?: number // 0-10 para cálculo NPS
+  nps_score?: number
   created_at: string
   updated_at: string
   user?: {
@@ -29,10 +29,10 @@ export interface RatingStats {
     "5": number
   }
   nps: {
-    promoters: number // 9-10
-    passives: number // 7-8
-    detractors: number // 0-6
-    score: number // NPS = (Promotores - Detratores) / Total * 100
+    promoters: number
+    passives: number
+    detractors: number
+    score: number
   }
 }
 

@@ -44,10 +44,9 @@ export function BasicDashboard({ tickets, userRole }: BasicDashboardProps) {
       return acc + waitTime
     }, 0)
 
-    return Math.round(totalWaitTime / openTickets.length / (1000 * 60 * 60)) // em horas
+    return Math.round(totalWaitTime / openTickets.length / (1000 * 60 * 60)) 
   }
 
-  // Calcular tempo médio de resolução
   const calculateAverageResolutionTime = () => {
     if (closedTickets.length === 0) return 0
 
@@ -58,22 +57,20 @@ export function BasicDashboard({ tickets, userRole }: BasicDashboardProps) {
       return acc + timeDiff
     }, 0)
 
-    return Math.round(totalTime / closedTickets.length / (1000 * 60 * 60)) // em horas
+    return Math.round(totalTime / closedTickets.length / (1000 * 60 * 60)) 
   }
 
-  // Tickets por prioridade
   const ticketsByPriority = openTickets.reduce((acc, ticket) => {
     acc[ticket.priority] = (acc[ticket.priority] || 0) + 1
     return acc
   }, {} as Record<string, number>)
 
-  // Tickets com SLA próximo ou vencido
   const ticketsWithSLAWarning = openTickets.filter(ticket => {
     if (!ticket.sla_due_date) return false
     const dueDate = new Date(ticket.sla_due_date)
     const now = new Date()
     const hoursUntilDue = (dueDate.getTime() - now.getTime()) / (1000 * 60 * 60)
-    return hoursUntilDue <= 24 && hoursUntilDue > 0 // Próximo de vencer (menos de 24h)
+    return hoursUntilDue <= 24 && hoursUntilDue > 0 
   })
 
   const ticketsWithSLAExpired = openTickets.filter(ticket => {
@@ -88,7 +85,6 @@ export function BasicDashboard({ tickets, userRole }: BasicDashboardProps) {
 
   return (
     <div className="space-y-6">
-      {/* Estatísticas Principais */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

@@ -19,7 +19,7 @@ export async function getTemplates(
         created_by_user:users!comment_templates_created_by_fkey(id, name)
       `)
 
-    // Buscar templates globais ou do setor específico
+   
     if (sectorId) {
       query = query.or(`is_global.eq.true,sector_id.eq.${sectorId}`)
     } else {
@@ -125,7 +125,7 @@ export function replaceTemplateVariables(
 ): string {
   let result = template
 
-  // Variáveis disponíveis
+ 
   const replacements: Record<string, string> = {
     "{{user_name}}": variables.user_name || "[Nome do Usuário]",
     "{{current_user_name}}": variables.current_user_name || "[Seu Nome]",
@@ -140,7 +140,7 @@ export function replaceTemplateVariables(
     "{{current_datetime}}": `${format(new Date(), "dd/MM/yyyy", { locale: ptBR })} às ${format(new Date(), "HH:mm", { locale: ptBR })}`,
   }
 
-  // Substituir todas as variáveis
+ 
   Object.entries(replacements).forEach(([key, value]) => {
     result = result.replace(new RegExp(key.replace(/[{}]/g, "\\$&"), "g"), value)
   })

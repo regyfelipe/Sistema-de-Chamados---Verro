@@ -41,13 +41,13 @@ export function usePermissions() {
   ): Promise<boolean> => {
     if (!session?.user?.id) return false
 
-    // Verificar cache primeiro
+   
     const cached = permissions.find((p) => p.permission_code === permissionCode)
     if (cached && !cached.granted) {
       return false
     }
 
-    // Verificar no servidor
+   
     return hasPermission(session.user.id, permissionCode, sectorId, field)
   }
 

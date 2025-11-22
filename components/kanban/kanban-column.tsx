@@ -24,7 +24,7 @@ export function KanbanColumn({ id, title, tickets, color }: KanbanColumnProps) {
 
   return (
     <div className="flex flex-col h-full min-w-[260px] sm:min-w-[280px] md:min-w-[300px] max-w-[260px] sm:max-w-[280px] md:max-w-[350px]">
-      {/* Header */}
+      
       <div
         className={cn(
           "sticky top-0 z-10 p-2 sm:p-3 md:p-4 rounded-t-lg border-b",
@@ -39,7 +39,7 @@ export function KanbanColumn({ id, title, tickets, color }: KanbanColumnProps) {
         </div>
       </div>
 
-      {/* Cards Container */}
+      
       <div
         ref={setNodeRef}
         className={cn(

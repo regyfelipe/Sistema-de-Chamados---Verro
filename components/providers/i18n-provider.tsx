@@ -25,7 +25,7 @@ interface I18nProviderProps {
 }
 
 export function I18nProvider({ children, initialLocale }: I18nProviderProps) {
-  // Inicializar com locale do localStorage ou padrão
+  
   const getInitialLocale = (): Locale => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('locale') as Locale
@@ -40,7 +40,7 @@ export function I18nProvider({ children, initialLocale }: I18nProviderProps) {
   const [messages, setMessages] = useState<Messages>({})
   const [isRTL, setIsRTL] = useState(rtlLocales.includes(locale))
 
-  // Carregar mensagens quando o locale muda
+  
   useEffect(() => {
     const loadMessages = async () => {
       try {
@@ -49,11 +49,11 @@ export function I18nProvider({ children, initialLocale }: I18nProviderProps) {
         const rtl = rtlLocales.includes(locale)
         setIsRTL(rtl)
         
-        // Salvar no localStorage
+        
         if (typeof window !== 'undefined') {
           localStorage.setItem('locale', locale)
           
-          // Atualizar dir do HTML para RTL
+          
           if (rtl) {
             document.documentElement.dir = 'rtl'
             document.documentElement.lang = locale
@@ -78,7 +78,7 @@ export function I18nProvider({ children, initialLocale }: I18nProviderProps) {
     }
   }
 
-  // Função de tradução
+  
   const t = (key: string, params?: Record<string, any>): string => {
     const keys = key.split('.')
     let value: any = messages
@@ -87,7 +87,7 @@ export function I18nProvider({ children, initialLocale }: I18nProviderProps) {
       if (value && typeof value === 'object' && k in value) {
         value = value[k]
       } else {
-        return key // Retornar a chave se não encontrar
+        return key 
       }
     }
 
@@ -95,7 +95,7 @@ export function I18nProvider({ children, initialLocale }: I18nProviderProps) {
       return key
     }
 
-    // Substituir parâmetros
+    
     if (params) {
       return value.replace(/\{\{(\w+)\}\}/g, (match, paramKey) => {
         return params[paramKey] !== undefined ? String(params[paramKey]) : match

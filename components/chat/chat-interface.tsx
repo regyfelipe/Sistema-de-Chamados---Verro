@@ -41,7 +41,7 @@ export function ChatInterface({ ticketId, title, compact = false }: ChatInterfac
   const userId = session?.user?.id
   const userRole = session?.user?.role
 
-  // Scroll automático quando novas mensagens chegam
+
   useEffect(() => {
     scrollToBottom()
   }, [messages, scrollToBottom])
@@ -54,7 +54,7 @@ export function ChatInterface({ ticketId, title, compact = false }: ChatInterfac
       await sendMessage(message)
       setMessage("")
     } catch (err) {
-      // Erro já é tratado no hook
+
     }
   }
 
@@ -70,7 +70,7 @@ export function ChatInterface({ ticketId, title, compact = false }: ChatInterfac
         description: "Mensagem editada com sucesso",
       })
     } catch (err) {
-      // Erro já é tratado no hook
+
     }
   }
 
@@ -84,7 +84,7 @@ export function ChatInterface({ ticketId, title, compact = false }: ChatInterfac
         description: "Mensagem deletada com sucesso",
       })
     } catch (err) {
-      // Erro já é tratado no hook
+
     }
   }
 

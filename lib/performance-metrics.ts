@@ -1,10 +1,10 @@
 import { supabase } from "./supabase"
 
 export interface PerformanceMetrics {
-  avgFirstResponseTime: number // em horas
-  avgResolutionTime: number // em horas
-  firstContactResolutionRate: number // porcentagem
-  satisfactionRate: number // porcentagem
+  avgFirstResponseTime: number
+  avgResolutionTime: number
+  firstContactResolutionRate: number
+  satisfactionRate: number
   ticketVolume: {
     today: number
     thisWeek: number
@@ -15,7 +15,7 @@ export interface PerformanceMetrics {
     firstResponseTime: {
       current: number
       previous: number
-      change: number // porcentagem
+      change: number
     }
     resolutionTime: {
       current: number
@@ -96,12 +96,12 @@ export async function getAvgFirstResponseTime(days: number = 30): Promise<number
     const startDate = new Date()
     startDate.setDate(startDate.getDate() - days)
 
-    // Buscar tickets criados no período
+   
     const { data: tickets, error: ticketsError } = await supabase
       .from("tickets")
       .select("id, created_at")
       .gte("created_at", startDate.toISOString())
-      .eq("status", "fechado") // Apenas tickets fechados para métrica precisa
+      .eq("status", "fechado")
 
     if (ticketsError || !tickets) {
       console.error("Erro ao buscar tickets:", ticketsError)
@@ -113,9 +113,9 @@ export async function getAvgFirstResponseTime(days: number = 30): Promise<number
     let totalResponseTime = 0
     let ticketsWithResponse = 0
 
-    // Para cada ticket, buscar o primeiro comentário de um atendente
+   
     for (const ticket of tickets) {
-      // Buscar primeiro comentário não-interno (ou primeiro comentário de atendente)
+     
       const { data: comments, error: commentsError } = await supabase
         .from("comments")
         .select("*, user:users(*)")
@@ -126,7 +126,7 @@ export async function getAvgFirstResponseTime(days: number = 30): Promise<number
       if (commentsError || !comments || comments.length === 0) continue
 
       const firstComment = comments[0]
-      // Verificar se é de um atendente (não do criador)
+     
       if (firstComment.user?.role === "atendente" || 
           firstComment.user?.role === "admin" || 
           firstComment.user?.role === "super_admin") {
@@ -302,7 +302,7 @@ export async function getFirstContactResolutionRate(days: number = 30): Promise<
     const startDate = new Date()
     startDate.setDate(startDate.getDate() - days)
 
-    // Buscar tickets fechados no período
+   
     const { data: tickets, error: ticketsError } = await supabase
       .from("tickets")
       .select("id")
@@ -315,8 +315,8 @@ export async function getFirstContactResolutionRate(days: number = 30): Promise<
 
     let ticketsWithFCR = 0
 
-    // Para cada ticket, verificar se foi resolvido na primeira interação
-    // Consideramos FCR se o ticket foi fechado com 1 ou 2 comentários (primeira interação)
+   
+   
     for (const ticket of tickets) {
       const { data: comments, error: commentsError } = await supabase
         .from("comments")
@@ -325,11 +325,11 @@ export async function getFirstContactResolutionRate(days: number = 30): Promise<
 
       if (commentsError) continue
 
-      // Considerar FCR se tiver 2 ou menos comentários (criação + primeira resposta)
-      // Ou se foi fechado rapidamente (menos de 4 horas) com poucos comentários
+     
+     
       const commentCount = comments?.length || 0
       
-      // Buscar histórico para ver tempo de resolução
+     
       const { data: history } = await supabase
         .from("ticket_history")
         .select("created_at, action")
@@ -342,7 +342,7 @@ export async function getFirstContactResolutionRate(days: number = 30): Promise<
       if (commentCount <= 2) {
         ticketsWithFCR++
       } else if (history && history.length > 0) {
-        // Verificar se foi fechado rapidamente
+       
         const ticketData = await supabase
           .from("tickets")
           .select("created_at, updated_at")
@@ -354,7 +354,7 @@ export async function getFirstContactResolutionRate(days: number = 30): Promise<
           const closed = new Date(ticketData.data.updated_at)
           const diffHours = (closed.getTime() - created.getTime()) / (1000 * 60 * 60)
           
-          // Se fechado em menos de 4 horas, considerar FCR
+         
           if (diffHours < 4) {
             ticketsWithFCR++
           }
@@ -380,7 +380,7 @@ export async function getSatisfactionRate(days: number = 30): Promise<number> {
     const startDate = new Date()
     startDate.setDate(startDate.getDate() - days)
 
-    // Buscar avaliações no período
+   
     const { data: ratings, error } = await supabase
       .from("ticket_ratings")
       .select("rating")
@@ -390,7 +390,7 @@ export async function getSatisfactionRate(days: number = 30): Promise<number> {
       return 0
     }
 
-    // Considerar satisfeito: rating >= 4
+   
     const satisfied = ratings.filter((r) => r.rating >= 4).length
     return Math.round((satisfied / ratings.length) * 100 * 100) / 100
   } catch (error) {
@@ -407,7 +407,7 @@ export async function getTicketVolume() {
     const now = new Date()
     const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate())
     const weekStart = new Date(now)
-    weekStart.setDate(now.getDate() - now.getDay()) // Início da semana
+    weekStart.setDate(now.getDate() - now.getDay())
     const monthStart = new Date(now.getFullYear(), now.getMonth(), 1)
     const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1)
     const lastMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0)
@@ -462,15 +462,15 @@ export async function getPerformanceMetrics(): Promise<PerformanceMetrics> {
       getTicketVolume(),
     ])
 
-    // Calcular tendências (comparar últimos 30 dias com 30 dias anteriores)
-    // Período anterior: dias 31-60
+   
+   
     const [prevAvgFirstResponse, prevAvgResolution, prevFcrRate] = await Promise.all([
       getAvgFirstResponseTimeForPeriod(31, 60),
       getAvgResolutionTimeForPeriod(31, 60),
       getFirstContactResolutionRateForPeriod(31, 60),
     ])
 
-    // Calcular mudança percentual
+   
     const calculateChange = (current: number, previous: number): number => {
       if (previous === 0) return current > 0 ? 100 : 0
       const change = ((current - previous) / previous) * 100

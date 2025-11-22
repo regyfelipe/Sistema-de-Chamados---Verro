@@ -144,7 +144,6 @@ export function UsersManagement({ initialUsers }: UsersManagementProps) {
           console.error("   Detalhes:", error.details);
           console.error("   Hint:", error.hint);
           
-          // Mensagens de erro mais específicas
           let errorMessage = error.message || "Erro ao criar usuário";
           
           if (error.code === "23505") {

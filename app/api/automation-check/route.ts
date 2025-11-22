@@ -3,7 +3,6 @@ import { checkTicketsWithoutResponse } from "@/lib/automation-engine";
 
 export async function GET() {
   try {
-    // Verificar tickets sem resposta (padrão: 7 dias)
     const days = parseInt(
       new URLSearchParams(new URL(process.env.NEXT_PUBLIC_URL || "").search).get(
         "days"

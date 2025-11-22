@@ -43,7 +43,7 @@ export function SatisfactionStats({ stats }: SatisfactionStatsProps) {
 
   return (
     <div className="grid gap-6 md:grid-cols-2">
-      {/* Métricas Principais */}
+
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -72,7 +72,7 @@ export function SatisfactionStats({ stats }: SatisfactionStatsProps) {
             </div>
           </div>
 
-          {/* Distribuição */}
+
           <div className="space-y-2">
             <p className="text-sm font-medium">Distribuição de Avaliações</p>
             {Object.entries(stats.distribution)
@@ -98,7 +98,7 @@ export function SatisfactionStats({ stats }: SatisfactionStatsProps) {
         </CardContent>
       </Card>
 
-      {/* NPS */}
+
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -147,7 +147,6 @@ export function SatisfactionStats({ stats }: SatisfactionStatsProps) {
             </div>
           </div>
 
-          {/* Gráfico de Distribuição */}
           <div className="pt-4">
             <p className="text-sm font-medium mb-3">Distribuição por Avaliação</p>
             <ResponsiveContainer width="100%" height={150}>

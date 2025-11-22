@@ -12,7 +12,7 @@ interface AttendantPerformance {
   sector_name: string;
   tickets_closed: number;
   tickets_in_progress: number;
-  avg_resolution_time: number; // em horas
+  avg_resolution_time: number;
   high_priority_count: number;
 }
 
@@ -22,7 +22,7 @@ interface ManagerTopAttendantsProps {
 }
 
 export function ManagerTopAttendants({ tickets, limit = 10 }: ManagerTopAttendantsProps) {
-  // Agrupar por atendente
+ 
   const attendantMap = new Map<string, AttendantPerformance>();
 
   tickets.forEach((ticket) => {
@@ -49,7 +49,7 @@ export function ManagerTopAttendants({ tickets, limit = 10 }: ManagerTopAttendan
     if (ticket.status === "fechado") {
       attendant.tickets_closed++;
       
-      // Calcular tempo de resolução
+     
       const created = new Date(ticket.created_at);
       const closed = new Date(ticket.updated_at);
       const resolutionTime = (closed.getTime() - created.getTime()) / (1000 * 60 * 60);
@@ -69,14 +69,14 @@ export function ManagerTopAttendants({ tickets, limit = 10 }: ManagerTopAttendan
     }
   });
 
-  // Converter para array e ordenar
+ 
   const attendants = Array.from(attendantMap.values())
     .map((attendant) => ({
       ...attendant,
       avg_resolution_time: Math.round(attendant.avg_resolution_time),
     }))
     .sort((a, b) => {
-      // Ordenar por: tickets fechados primeiro, depois por tempo médio
+     
       if (b.tickets_closed !== a.tickets_closed) {
         return b.tickets_closed - a.tickets_closed;
       }

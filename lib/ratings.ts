@@ -11,8 +11,8 @@ export async function createRating(data: {
   comment?: string
 }): Promise<TicketRating | null> {
   try {
-    // Converter rating 1-5 para NPS 0-10
-    // 1 = 0-2, 2 = 3-4, 3 = 5-6, 4 = 7-8, 5 = 9-10
+   
+   
     const npsScore = data.rating === 1 ? 2 : 
                      data.rating === 2 ? 4 :
                      data.rating === 3 ? 6 :
@@ -56,7 +56,7 @@ export async function updateRating(
   try {
     const updateData: any = { ...updates }
 
-    // Recalcular NPS se rating mudou
+   
     if (updates.rating) {
       updateData.nps_score = updates.rating === 1 ? 2 : 
                             updates.rating === 2 ? 4 :
@@ -102,7 +102,7 @@ export async function getRatingByTicketAndUser(
 
     if (error) {
       if (error.code === "PGRST116") {
-        // Nenhum resultado encontrado
+       
         return null
       }
       console.error("Erro ao buscar avaliação:", error)
@@ -212,7 +212,7 @@ export async function getRatingStats(): Promise<RatingStats> {
       "5": ratings.filter((r) => r.rating === 5).length,
     }
 
-    // Calcular NPS
+   
     const promoters = ratings.filter((r) => r.nps_score && r.nps_score >= 9).length
     const passives = ratings.filter((r) => r.nps_score && r.nps_score >= 7 && r.nps_score <= 8).length
     const detractors = ratings.filter((r) => r.nps_score && r.nps_score <= 6).length

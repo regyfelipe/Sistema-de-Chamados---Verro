@@ -35,7 +35,7 @@ export function ManagerTrendsChart({ data, period }: ManagerTrendsChartProps) {
   }
 
   const formattedData = data
-    .filter((item) => item.date) // Filtrar itens sem data
+    .filter((item) => item.date)
     .map((item) => {
       try {
         return {
@@ -43,7 +43,7 @@ export function ManagerTrendsChart({ data, period }: ManagerTrendsChartProps) {
           formattedDate: format(parseISO(item.date), "dd/MM", { locale: ptBR }),
         };
       } catch (error) {
-        // Se houver erro ao parsear a data, usar a data original
+       
         return {
           ...item,
           formattedDate: item.date || "",
@@ -101,7 +101,7 @@ export function ManagerTrendsChart({ data, period }: ManagerTrendsChartProps) {
                       </div>
                     );
                   } catch (error) {
-                    // Se houver erro ao formatar a data, mostrar data original
+                   
                     return (
                       <div className="rounded-lg border bg-white p-3 shadow-lg">
                         <div className="grid gap-2">

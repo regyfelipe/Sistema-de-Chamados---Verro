@@ -9,7 +9,7 @@ import {
   AuditFilters,
 } from "@/types/audit"
 
-// Re-exportar tipos para facilitar importação
+
 export type { AuditFilters } from "@/types/audit"
 
 /**
@@ -27,7 +27,7 @@ export async function logAuditEvent(data: {
   severity?: AuditSeverity
 }): Promise<void> {
   try {
-    // Verificar se logging está habilitado
+    
     const { data: config } = await supabase
       .from("audit_config")
       .select("value")
@@ -35,16 +35,16 @@ export async function logAuditEvent(data: {
       .single()
 
     if (config?.value === "false") {
-      return // Logging desabilitado
+      return 
     }
 
-    // Obter IP e User Agent se não fornecidos
+    
     let ipAddress = data.ip_address
     let userAgent = data.user_agent
 
-    // Se estiver no servidor, tentar obter do contexto
+    
     if (typeof window === "undefined" && !ipAddress) {
-      // Em produção, você pode obter do request headers
+      
       ipAddress = undefined
     }
 
@@ -60,13 +60,13 @@ export async function logAuditEvent(data: {
       severity: data.severity || "info",
     })
 
-    // Verificar se é uma ação suspeita
+    
     if (data.severity === "warning" || data.severity === "error" || data.severity === "critical") {
       await checkSuspiciousActivity(data)
     }
   } catch (error) {
     console.error("Erro ao registrar log de auditoria:", error)
-    // Não lançar erro para não quebrar o fluxo principal
+    
   }
 }
 
@@ -87,17 +87,17 @@ async function checkSuspiciousActivity(data: {
       .single()
 
     if (config?.value === "false") {
-      return // Alertas desabilitados
+      return 
     }
 
-    // Verificar múltiplas operações em massa
+    
     if (data.action_type === "bulk_operation" || data.action_type === "delete") {
       const { data: recentLogs } = await supabase
         .from("audit_logs")
         .select("id")
         .eq("user_id", data.user_id)
         .eq("action_type", data.action_type)
-        .gte("created_at", new Date(Date.now() - 60 * 60 * 1000).toISOString()) // Última hora
+        .gte("created_at", new Date(Date.now() - 60 * 60 * 1000).toISOString()) 
 
       const { data: configValue } = await supabase
         .from("audit_config")
@@ -121,14 +121,14 @@ async function checkSuspiciousActivity(data: {
       }
     }
 
-    // Verificar tentativas de login falhadas
+    
     if (data.action_type === "login" && data.severity === "error") {
       const { data: failedLogins } = await supabase
         .from("audit_logs")
         .select("id")
         .eq("action_type", "login")
         .eq("severity", "error")
-        .gte("created_at", new Date(Date.now() - 15 * 60 * 1000).toISOString()) // Últimos 15 minutos
+        .gte("created_at", new Date(Date.now() - 15 * 60 * 1000).toISOString()) 
 
       const { data: configValue } = await supabase
         .from("audit_config")
@@ -223,7 +223,7 @@ export async function getAuditLogs(
  */
 export async function exportAuditLogsToCSV(filters: AuditFilters = {}): Promise<string> {
   try {
-    const { logs } = await getAuditLogs(filters, 10000) // Limite alto para exportação
+    const { logs } = await getAuditLogs(filters, 10000) 
 
     const headers = [
       "Data/Hora",

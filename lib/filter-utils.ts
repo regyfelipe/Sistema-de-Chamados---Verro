@@ -23,34 +23,34 @@ function checkSLAStatusSync(ticket: Ticket): "ok" | "warning" | "overdue" {
  */
 export function applyFilters(tickets: Ticket[], filters: TicketFilters): Ticket[] {
   return tickets.filter((ticket) => {
-    // Busca por palavras-chave (com fuzzy search)
+   
     if (filters.search) {
-      // Usa busca fuzzy para melhor tolerância a erros
+     
       const searchResults = fuzzySearchTickets([ticket], filters.search)
       if (searchResults.length === 0) return false
     }
 
-    // Filtro por status
+   
     if (filters.status !== "all" && ticket.status !== filters.status) {
       return false
     }
 
-    // Filtro por prioridade
+   
     if (filters.priority !== "all" && ticket.priority !== filters.priority) {
       return false
     }
 
-    // Filtro por setor
+   
     if (filters.sector_id !== "all" && ticket.sector_id !== filters.sector_id) {
       return false
     }
 
-    // Filtro por criador
+   
     if (filters.created_by !== "all" && ticket.created_by !== filters.created_by) {
       return false
     }
 
-    // Filtro por responsável
+   
     if (filters.assigned_to !== "all") {
       if (filters.assigned_to === "unassigned") {
         if (ticket.assigned_to) return false
@@ -59,13 +59,13 @@ export function applyFilters(tickets: Ticket[], filters: TicketFilters): Ticket[
       }
     }
 
-    // Filtro por data
+   
     if (filters.dateFilterType !== "none") {
       if (!filters.dateFrom || !filters.dateTo) return true
 
       const fromDate = new Date(filters.dateFrom)
       const toDate = new Date(filters.dateTo)
-      toDate.setHours(23, 59, 59, 999) // Fim do dia
+      toDate.setHours(23, 59, 59, 999)
 
       let ticketDate: Date
 
@@ -89,7 +89,7 @@ export function applyFilters(tickets: Ticket[], filters: TicketFilters): Ticket[
       }
     }
 
-    // Filtro por status de SLA (versão síncrona simplificada)
+   
     if (filters.slaStatus !== "all" && ticket.sla_due_date) {
       const slaStatus = checkSLAStatusSync(ticket)
       if (slaStatus !== filters.slaStatus) {

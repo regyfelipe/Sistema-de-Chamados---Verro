@@ -51,7 +51,7 @@ export function CreateTicketDialog({
     []
   );
 
-  // Carregar setores quando o dialog abrir
+ 
   useEffect(() => {
     if (open) {
       loadSectors();
@@ -84,10 +84,10 @@ export function CreateTicketDialog({
     setLoading(true);
 
     try {
-      // Usar o sistema de SLA avançado
+     
       const { calculateSLADueDate } = await import("@/lib/advanced-sla");
 
-      // Criar ticket temporário para calcular SLA
+     
       const tempTicket = {
         id: "",
         title: formData.title,
@@ -114,7 +114,7 @@ export function CreateTicketDialog({
 
       if (error) throw error;
 
-      // Buscar o ticket recém-criado
+     
       const { data: tickets } = await supabase
         .from("tickets")
         .select("id")
@@ -132,7 +132,7 @@ export function CreateTicketDialog({
           action: "Chamado criado",
         });
 
-        // Buscar ticket completo para automações
+       
         const { data: fullTicket } = await supabase
           .from("tickets")
           .select(`
@@ -144,13 +144,13 @@ export function CreateTicketDialog({
           .eq("id", ticketId)
           .single();
 
-        // Disparar automações para ticket criado
+       
         if (fullTicket) {
           const { triggerAutomations } = await import("@/lib/automation-engine");
           await triggerAutomations("ticket_created", fullTicket as any);
         }
 
-        // Notificar atendentes do setor
+       
         const { data: attendants } = await supabase
           .from("users")
           .select("id")

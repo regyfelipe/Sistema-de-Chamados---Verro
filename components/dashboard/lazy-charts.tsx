@@ -5,7 +5,6 @@ import { ComponentType } from "react"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 
-// Lazy load dos gráficos (componentes pesados)
 export const TicketsBySectorChart = dynamic(
   () => import("./tickets-by-sector-chart").then((mod) => mod.TicketsBySectorChart),
   {
@@ -19,7 +18,7 @@ export const TicketsBySectorChart = dynamic(
         </CardContent>
       </Card>
     ),
-    ssr: false, // Desabilitar SSR para componentes com Recharts
+    ssr: false, 
   }
 )
 

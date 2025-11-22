@@ -13,7 +13,7 @@ const fuseOptions = {
     { name: "created_by_user.name", weight: 0.025 },
     { name: "assigned_to_user.name", weight: 0.025 },
   ],
-  threshold: 0.4, // 0 = busca exata, 1 = aceita qualquer coisa
+  threshold: 0.4,
   includeScore: true,
   minMatchCharLength: 2,
   ignoreLocation: true,
@@ -50,10 +50,10 @@ export function simpleFuzzySearch(
   const textLower = text.toLowerCase()
   const queryLower = query.toLowerCase()
 
-  // Busca exata
+ 
   if (textLower.includes(queryLower)) return true
 
-  // Busca com tolerância a erros (até 1 caractere diferente a cada 4)
+ 
   const maxErrors = Math.floor(query.length / 4)
   let errors = 0
   let queryIndex = 0
@@ -64,7 +64,7 @@ export function simpleFuzzySearch(
     } else {
       errors++
       if (errors > maxErrors) {
-        // Tenta buscar a próxima ocorrência
+       
         const nextIndex = textLower.indexOf(queryLower[0], i)
         if (nextIndex === -1) return false
         i = nextIndex
@@ -88,7 +88,7 @@ export function searchInMultipleFields(
 
   const queryLower = query.toLowerCase()
 
-  // Campos para buscar
+ 
   const searchFields = [
     ticket.title,
     ticket.description,
@@ -98,7 +98,7 @@ export function searchInMultipleFields(
     ticket.assigned_to_user?.name || "",
   ]
 
-  // Busca em cada campo
+ 
   for (const field of searchFields) {
     if (field && simpleFuzzySearch(field, query)) {
       return true
@@ -122,7 +122,7 @@ export function generateSearchSuggestions(
   const queryLower = query.toLowerCase()
 
   for (const ticket of tickets) {
-    // Sugestões do título
+   
     const titleWords = ticket.title.toLowerCase().split(/\s+/)
     for (const word of titleWords) {
       if (word.startsWith(queryLower) && word.length > queryLower.length) {
@@ -133,7 +133,7 @@ export function generateSearchSuggestions(
 
     if (suggestions.size >= limit) break
 
-    // Sugestões do setor
+   
     if (ticket.sector?.name) {
       const sectorLower = ticket.sector.name.toLowerCase()
       if (sectorLower.startsWith(queryLower)) {

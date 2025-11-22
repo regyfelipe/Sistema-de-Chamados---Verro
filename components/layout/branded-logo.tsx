@@ -26,9 +26,9 @@ export function BrandedLogo() {
     }
   };
 
-  // Mostrar apenas "SC" em mobile/tablet
-  // Mostrar texto completo em telas grandes (xl: 1280px+)
-  // Usando CSS puro (media queries) para funcionar corretamente no SSR
+ 
+ 
+ 
 
   if (loading) {
     return (
@@ -62,9 +62,9 @@ export function BrandedLogo() {
     );
   }
 
-  // Mostrar apenas "SC" em mobile/tablet
-  // Mostrar texto completo em telas grandes (xl: 1280px+)
-  // Usando CSS puro para garantir funcionamento no SSR
+ 
+ 
+ 
   const fullText = config?.company_name || t("common.appName");
   const shortText = config?.company_name?.substring(0, 2).toUpperCase() || "SC";
 

@@ -9,7 +9,7 @@ import { createNotification } from "./notifications";
  */
 export async function checkAndEscalateTickets(): Promise<void> {
   try {
-    // Buscar tickets abertos com SLA
+   
     const { data: tickets, error } = await supabase
       .from("tickets")
       .select(
@@ -33,7 +33,7 @@ export async function checkAndEscalateTickets(): Promise<void> {
         const needsEscalation = await checkEscalation(ticket);
 
         if (needsEscalation) {
-          // Verificar se já foi escalado recentemente (últimas 2 horas)
+         
           const { data: recentEscalation } = await supabase
             .from("ticket_escalations")
             .select("*")
@@ -45,26 +45,26 @@ export async function checkAndEscalateTickets(): Promise<void> {
             .limit(1);
 
           if (recentEscalation && recentEscalation.length > 0) {
-            // Já foi escalado recentemente, pular
+           
             continue;
           }
 
-          // Escalar ticket
+         
           const escalation = await escalateTicket(
             ticket.id,
             "SLA próximo do vencimento"
           );
 
           if (escalation) {
-            // Notificar usuários relevantes
+           
             const usersToNotify: string[] = [];
 
-            // Notificar criador
+           
             if (ticket.created_by) {
               usersToNotify.push(ticket.created_by);
             }
 
-            // Notificar responsável anterior
+           
             if (
               ticket.assigned_to &&
               ticket.assigned_to !== escalation.escalated_to
@@ -72,12 +72,12 @@ export async function checkAndEscalateTickets(): Promise<void> {
               usersToNotify.push(ticket.assigned_to);
             }
 
-            // Notificar novo responsável
+           
             if (escalation.escalated_to) {
               usersToNotify.push(escalation.escalated_to);
             }
 
-            // Criar notificações
+           
             for (const userId of usersToNotify) {
               await createNotification({
                 user_id: userId,

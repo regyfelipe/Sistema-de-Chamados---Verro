@@ -13,14 +13,14 @@ export default async function TicketsPage() {
     redirect("/login")
   }
 
-  // Buscar dados completos do usuário para obter sector_id
+  
   const { data: userData } = await supabase
     .from("users")
     .select("sector_id")
     .eq("id", session.user.id)
     .single()
 
-  // Buscar tickets com filtro de acesso baseado no role
+  
   const tickets = await getTicketsWithAccess(
     session.user.id,
     session.user.role || "solicitante",

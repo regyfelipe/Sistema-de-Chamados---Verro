@@ -12,9 +12,9 @@ export interface SectorSLAConfig {
 export interface BusinessHours {
   id: string;
   sector_id?: string;
-  day_of_week: number; // 0 = Domingo, 6 = Sábado
-  start_time: string; // HH:mm
-  end_time: string; // HH:mm
+  day_of_week: number;
+  start_time: string;
+  end_time: string;
   is_active: boolean;
   created_at: string;
   updated_at: string;
@@ -23,7 +23,7 @@ export interface BusinessHours {
 export interface Holiday {
   id: string;
   name: string;
-  date: string; // YYYY-MM-DD
+  date: string;
   sector_id?: string;
   is_recurring: boolean;
   created_at: string;
@@ -51,7 +51,7 @@ export interface SLAPause {
 export interface SLAConfig {
   businessHours: BusinessHours[];
   holidays: Holiday[];
-  slaByPriority: Record<string, number>; // priority -> hours
+  slaByPriority: Record<string, number>;
   escalationConfig?: {
     hours: number;
     escalateTo?: string;

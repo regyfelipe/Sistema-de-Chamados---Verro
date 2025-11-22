@@ -54,8 +54,6 @@ export const authOptions: NextAuthOptions = {
           console.log("   Nome:", data.name);
           console.log("   Role:", data.role);
 
-          // Em produção, usar bcrypt para verificar senha
-          // Por enquanto, validação simples
           if (data.password !== credentials.password) {
             console.error("❌ [Auth] Senha inválida para:", credentials.email);
             return null;

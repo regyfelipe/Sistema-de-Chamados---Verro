@@ -81,7 +81,7 @@ export async function editChatMessage(
   newMessage: string
 ): Promise<ChatMessage | null> {
   try {
-    // Verificar se a mensagem pertence ao usuário
+   
     const { data: existingMessage, error: fetchError } = await supabase
       .from("chat_messages")
       .select("user_id")
@@ -128,7 +128,7 @@ export async function deleteChatMessage(
   userId: string
 ): Promise<boolean> {
   try {
-    // Verificar se a mensagem pertence ao usuário ou se é admin
+   
     const { data: existingMessage, error: fetchError } = await supabase
       .from("chat_messages")
       .select("user_id, user:users(role)")
@@ -229,7 +229,7 @@ export async function getUnreadChatCount(
     let query = supabase
       .from("chat_messages")
       .select("id", { count: "exact", head: true })
-      .neq("user_id", userId) // Não contar próprias mensagens
+      .neq("user_id", userId)
 
     if (ticketId) {
       query = query.eq("ticket_id", ticketId)

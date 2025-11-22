@@ -28,13 +28,13 @@ export function useChat({ ticketId, autoMarkAsRead = true }: UseChatOptions = {}
 
   const userId = session?.user?.id
 
-  // Carregar mensagens iniciais
+  
   useEffect(() => {
     if (!userId) return
 
     loadMessages()
 
-    // Configurar subscription para mensagens em tempo real
+    
     const channelName = ticketId ? `chat-ticket-${ticketId}` : "chat-general"
     const channel = supabase
       .channel(channelName)
@@ -53,7 +53,7 @@ export function useChat({ ticketId, autoMarkAsRead = true }: UseChatOptions = {}
 
           if (payload.eventType === "INSERT") {
             const newMessage = payload.new as any
-            // Buscar dados do usuário e ticket se necessário
+            
             const fetchPromises = [
               supabase
                 .from("users")
@@ -82,7 +82,7 @@ export function useChat({ ticketId, autoMarkAsRead = true }: UseChatOptions = {}
               }
               setMessages((prev) => [...prev, chatMessage])
               scrollToBottom()
-              // Marcar como lida automaticamente se for mensagem de outro usuário
+              
               if (autoMarkAsRead && newMessage.user_id !== userId) {
                 markChatAsRead(userId || "", ticketId)
               }
@@ -122,7 +122,7 @@ export function useChat({ ticketId, autoMarkAsRead = true }: UseChatOptions = {}
       setMessages(loadedMessages)
       scrollToBottom()
 
-      // Marcar como lida após carregar
+      
       if (autoMarkAsRead) {
         await markChatAsRead(userId, ticketId)
       }
@@ -143,7 +143,7 @@ export function useChat({ ticketId, autoMarkAsRead = true }: UseChatOptions = {}
 
       try {
         await sendChatMessage(userId, message, ticketId)
-        // A mensagem será adicionada via Realtime subscription
+        
         scrollToBottom()
       } catch (err: any) {
         setError(err.message || "Erro ao enviar mensagem")
@@ -163,7 +163,7 @@ export function useChat({ ticketId, autoMarkAsRead = true }: UseChatOptions = {}
 
       try {
         await editChatMessage(messageId, userId, newMessage)
-        // A mensagem será atualizada via Realtime subscription
+        
       } catch (err: any) {
         setError(err.message || "Erro ao editar mensagem")
         console.error("Erro ao editar mensagem:", err)
@@ -181,7 +181,7 @@ export function useChat({ ticketId, autoMarkAsRead = true }: UseChatOptions = {}
 
       try {
         await deleteChatMessage(messageId, userId)
-        // A mensagem será removida via Realtime subscription
+        
       } catch (err: any) {
         setError(err.message || "Erro ao deletar mensagem")
         console.error("Erro ao deletar mensagem:", err)

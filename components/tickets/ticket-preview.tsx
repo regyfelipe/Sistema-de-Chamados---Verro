@@ -74,7 +74,7 @@ export function TicketPreview({ ticket, children }: TicketPreviewProps) {
 
       if (error) throw error
 
-      // Registrar no histórico
+     
       await supabase.from("ticket_history").insert({
         ticket_id: ticket.id,
         user_id: session?.user?.id || "",
@@ -83,7 +83,7 @@ export function TicketPreview({ ticket, children }: TicketPreviewProps) {
         new_value: newStatus,
       })
 
-      // Notificar usuários relevantes
+     
       const usersToNotify: string[] = []
       if (ticket.created_by !== session?.user?.id) {
         usersToNotify.push(ticket.created_by)
@@ -134,7 +134,7 @@ export function TicketPreview({ ticket, children }: TicketPreviewProps) {
 
       if (error) throw error
 
-      // Registrar no histórico
+     
       await supabase.from("ticket_history").insert({
         ticket_id: ticket.id,
         user_id: session.user.id,
@@ -142,7 +142,7 @@ export function TicketPreview({ ticket, children }: TicketPreviewProps) {
         new_value: session.user.id,
       })
 
-      // Notificar criador
+     
       if (ticket.created_by !== session.user.id) {
         await createNotification({
           user_id: ticket.created_by,

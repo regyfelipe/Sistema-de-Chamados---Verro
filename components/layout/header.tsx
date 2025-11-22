@@ -35,14 +35,14 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-30 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      {/* Mobile Small (320-480px): h-12, Mobile (480-767px): h-14, Tablet+: h-16 */}
+     
       <div className="flex h-12 sm:h-14 md:h-16 items-center justify-between px-2 sm:px-3 md:px-4 lg:px-6 gap-1 sm:gap-2">
-        {/* Logo - sempre visível, com espaço para o botão do menu no mobile */}
+       
         <div className="flex items-center gap-1 sm:gap-2 md:gap-4 flex-shrink-0 min-w-0 pl-10 sm:pl-12 lg:pl-0">
           <BrandedLogo />
         </div>
 
-        {/* Ações principais - Desktop (1024px+) */}
+       
         <div className="hidden lg:flex items-center gap-3 xl:gap-4">
           <CommandPalette />
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
@@ -66,7 +66,7 @@ export function Header() {
           </div>
         </div>
 
-        {/* Ações principais - Tablet (768-1024px) */}
+       
         <div className="hidden md:flex lg:hidden items-center gap-2">
           <CommandPalette />
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
@@ -105,7 +105,7 @@ export function Header() {
           </DropdownMenu>
         </div>
 
-        {/* Ações principais - Mobile (480-767px) */}
+       
         <div className="hidden sm:flex md:hidden items-center gap-1.5">
           <CommandPalette />
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
@@ -158,7 +158,7 @@ export function Header() {
           </Sheet>
         </div>
 
-        {/* Ações principais - Mobile Small (320-480px) */}
+       
         <div className="flex sm:hidden items-center gap-1">
           <CommandPalette />
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>

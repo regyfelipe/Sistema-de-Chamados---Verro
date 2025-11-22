@@ -16,11 +16,11 @@ export async function isHoliday(
   date: Date,
   sectorId?: string
 ): Promise<boolean> {
-  const dateStr = date.toISOString().split("T")[0]; // YYYY-MM-DD
+  const dateStr = date.toISOString().split("T")[0]; 
   const day = date.getDate();
   const month = date.getMonth() + 1;
 
-  // Buscar feriados específicos do setor ou globais
+  
   let query = supabase.from("holidays").select("*").eq("date", dateStr);
 
   if (sectorId) {
@@ -35,7 +35,7 @@ export async function isHoliday(
     return true;
   }
 
-  // Verificar feriados recorrentes (mesmo dia/mês, anos diferentes)
+  
   const { data: recurring } = await supabase
     .from("holidays")
     .select("*")
@@ -48,7 +48,7 @@ export async function isHoliday(
         holidayDate.getDate() === day &&
         holidayDate.getMonth() + 1 === month
       ) {
-        // Verificar se é do setor ou global
+        
         if (!holiday.sector_id || holiday.sector_id === sectorId) {
           return true;
         }
@@ -66,9 +66,9 @@ export async function isBusinessHours(
   date: Date,
   sectorId?: string
 ): Promise<boolean> {
-  const dayOfWeek = date.getDay(); // 0 = Domingo, 6 = Sábado
+  const dayOfWeek = date.getDay(); 
 
-  // Buscar business hours do setor ou globais
+  
   let query = supabase
     .from("business_hours")
     .select("*")
@@ -84,11 +84,11 @@ export async function isBusinessHours(
   const { data } = await query;
 
   if (!data || data.length === 0) {
-    // Se não houver configuração, considerar 24/7
+    
     return true;
   }
 
-  // Usar a primeira configuração encontrada (prioridade: setor > global)
+  
   const config = sectorId
     ? data.find((bh: BusinessHours) => bh.sector_id === sectorId) || data[0]
     : data[0];
@@ -115,10 +115,10 @@ export async function getNextBusinessHour(
 ): Promise<Date> {
   let current = new Date(date);
   let attempts = 0;
-  const maxAttempts = 14; // Máximo 2 semanas
+  const maxAttempts = 14; 
 
   while (attempts < maxAttempts) {
-    // Verificar se é feriado
+    
     if (await isHoliday(current, sectorId)) {
       current.setDate(current.getDate() + 1);
       current.setHours(0, 0, 0, 0);
@@ -126,12 +126,12 @@ export async function getNextBusinessHour(
       continue;
     }
 
-    // Verificar se está dentro do business hours
+    
     if (await isBusinessHours(current, sectorId)) {
       return current;
     }
 
-    // Avançar para o próximo dia e resetar para início do dia
+    
     current.setDate(current.getDate() + 1);
     current.setHours(0, 0, 0, 0);
     attempts++;
@@ -151,21 +151,21 @@ export async function calculateBusinessHours(
   let current = new Date(startDate);
   let remainingHours = hoursToAdd;
 
-  // Se não estiver em business hours, avançar para o próximo
+  
   if (!(await isBusinessHours(current, sectorId))) {
     current = await getNextBusinessHour(current, sectorId);
   }
 
   while (remainingHours > 0) {
-    // Verificar se é feriado
+    
     if (await isHoliday(current, sectorId)) {
       current = await getNextBusinessHour(current, sectorId);
       continue;
     }
 
-    // Verificar se está em business hours
+    
     if (await isBusinessHours(current, sectorId)) {
-      // Obter horário de fechamento do dia
+      
       const dayOfWeek = current.getDay();
       let query = supabase
         .from("business_hours")
@@ -190,16 +190,16 @@ export async function calculateBusinessHours(
         const endOfDay = new Date(current);
         endOfDay.setHours(parseInt(endTime[0]), parseInt(endTime[1]), 0, 0);
 
-        // Calcular horas restantes no dia
+        
         const hoursInDay =
           (endOfDay.getTime() - current.getTime()) / (1000 * 60 * 60);
 
         if (hoursInDay >= remainingHours) {
-          // Adicionar horas restantes
+          
           current.setTime(current.getTime() + remainingHours * 60 * 60 * 1000);
           remainingHours = 0;
         } else {
-          // Consumir todo o dia e avançar para o próximo
+          
           remainingHours -= hoursInDay;
           current = await getNextBusinessHour(
             new Date(endOfDay.getTime() + 1000),
@@ -207,12 +207,12 @@ export async function calculateBusinessHours(
           );
         }
       } else {
-        // Sem configuração, adicionar horas normalmente
+        
         current.setTime(current.getTime() + remainingHours * 60 * 60 * 1000);
         remainingHours = 0;
       }
     } else {
-      // Não está em business hours, avançar
+      
       current = await getNextBusinessHour(current, sectorId);
     }
   }
@@ -238,7 +238,7 @@ export async function getSLAConfigByPriority(
     return data.sla_hours;
   }
 
-  // Fallback: buscar do setor
+  
   const { data: sector } = await supabase
     .from("sectors")
     .select("sla_hours")
@@ -255,10 +255,10 @@ export async function calculateSLADueDate(ticket: Ticket): Promise<Date> {
   const sectorId = ticket.sector_id;
   const priority = ticket.priority;
 
-  // Obter horas de SLA por prioridade
+  
   const slaHours = sectorId ? await getSLAConfigByPriority(sectorId, priority) : 24;
 
-  // Calcular considerando business hours e feriados
+  
   const createdDate = new Date(ticket.created_at);
   const dueDate = await calculateBusinessHours(createdDate, slaHours, sectorId || undefined);
 
@@ -297,7 +297,7 @@ export async function escalateTicket(
   reason?: string
 ): Promise<TicketEscalation | null> {
   try {
-    // Buscar ticket
+    
     const { data: ticket } = await supabase
       .from("tickets")
       .select("*")
@@ -306,7 +306,7 @@ export async function escalateTicket(
 
     if (!ticket) return null;
 
-    // Buscar configuração de escalação
+    
     const { data: config } = await supabase
       .from("sector_sla_config")
       .select("escalation_to, escalation_hours")
@@ -316,7 +316,7 @@ export async function escalateTicket(
 
     if (!config || !config.escalation_to) return null;
 
-    // Verificar se já foi escalado
+    
     const { data: existing } = await supabase
       .from("ticket_escalations")
       .select("escalation_level")
@@ -327,7 +327,7 @@ export async function escalateTicket(
 
     const escalationLevel = existing ? existing.escalation_level + 1 : 1;
 
-    // Criar escalação
+    
     const { data: escalation, error } = await supabase
       .from("ticket_escalations")
       .insert({
@@ -345,13 +345,13 @@ export async function escalateTicket(
       return null;
     }
 
-    // Atualizar ticket (atribuir ao escalado)
+    
     await supabase
       .from("tickets")
       .update({ assigned_to: config.escalation_to })
       .eq("id", ticketId);
 
-    // Registrar no histórico
+    
     await supabase.from("ticket_history").insert({
       ticket_id: ticketId,
       user_id: ticket.created_by,
@@ -401,7 +401,7 @@ export async function pauseSLA(
  */
 export async function resumeSLA(ticketId: string): Promise<boolean> {
   try {
-    // Buscar pausa ativa
+    
     const { data: pause } = await supabase
       .from("sla_pauses")
       .select("*")
@@ -413,7 +413,7 @@ export async function resumeSLA(ticketId: string): Promise<boolean> {
 
     if (!pause) return false;
 
-    // Atualizar pausa
+    
     const { error } = await supabase
       .from("sla_pauses")
       .update({ resumed_at: new Date().toISOString() })
@@ -424,7 +424,7 @@ export async function resumeSLA(ticketId: string): Promise<boolean> {
       return false;
     }
 
-    // Recalcular SLA devido
+    
     const { data: ticket } = await supabase
       .from("tickets")
       .select("*")

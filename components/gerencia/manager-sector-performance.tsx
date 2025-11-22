@@ -13,8 +13,8 @@ interface SectorPerformance {
   aberto: number;
   em_atendimento: number;
   fechado: number;
-  avgResolutionTime: number; // em horas
-  slaCompliance: number; // porcentagem
+  avgResolutionTime: number; 
+  slaCompliance: number; 
 }
 
 interface ManagerSectorPerformanceProps {
@@ -22,7 +22,7 @@ interface ManagerSectorPerformanceProps {
 }
 
 export function ManagerSectorPerformance({ tickets }: ManagerSectorPerformanceProps) {
-  // Agrupar por setor
+  
   const sectorMap = new Map<string, SectorPerformance>();
 
   tickets.forEach((ticket) => {
@@ -50,13 +50,13 @@ export function ManagerSectorPerformance({ tickets }: ManagerSectorPerformancePr
     else if (ticket.status === "fechado") sector.fechado++;
   });
 
-  // Calcular tempo médio de resolução e SLA compliance
+  
   const sectors = Array.from(sectorMap.values()).map((sector) => {
     const sectorTickets = tickets.filter(
       (t) => (t.sector_id || "none") === sector.sector_id
     );
 
-    // Tempo médio de resolução (apenas fechados)
+    
     const closedTickets = sectorTickets.filter((t) => t.status === "fechado");
     if (closedTickets.length > 0) {
       const totalTime = closedTickets.reduce((acc, ticket) => {
@@ -69,7 +69,7 @@ export function ManagerSectorPerformance({ tickets }: ManagerSectorPerformancePr
       );
     }
 
-    // SLA Compliance
+    
     const ticketsWithSLA = sectorTickets.filter((t) => t.sla_due_date);
     if (ticketsWithSLA.length > 0) {
       const now = new Date();
@@ -85,7 +85,7 @@ export function ManagerSectorPerformance({ tickets }: ManagerSectorPerformancePr
     return sector;
   });
 
-  // Ordenar por total (mais chamados primeiro)
+  
   sectors.sort((a, b) => b.total - a.total);
 
   if (sectors.length === 0) {

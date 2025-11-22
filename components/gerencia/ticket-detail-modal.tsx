@@ -54,7 +54,7 @@ export function TicketDetailModal({
     if (open && ticketId) {
       fetchTicketDetails();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+   
   }, [open, ticketId]);
 
   const fetchTicketDetails = async () => {
@@ -62,7 +62,7 @@ export function TicketDetailModal({
 
     setLoading(true);
     try {
-      // Buscar ticket
+     
       const { data: ticketData, error: ticketError } = await supabase
         .from("tickets")
         .select(
@@ -82,7 +82,7 @@ export function TicketDetailModal({
         return;
       }
 
-      // Buscar comentários
+     
       const { data: commentsData } = await supabase
         .from("comments")
         .select(
@@ -94,7 +94,7 @@ export function TicketDetailModal({
         .eq("ticket_id", ticketId)
         .order("created_at", { ascending: true });
 
-      // Buscar histórico
+     
       const { data: historyData } = await supabase
         .from("ticket_history")
         .select(
@@ -106,7 +106,7 @@ export function TicketDetailModal({
         .eq("ticket_id", ticketId)
         .order("created_at", { ascending: false });
 
-      // Buscar anexos
+     
       const { data: attachmentsData } = await supabase
         .from("attachments")
         .select(
@@ -118,7 +118,7 @@ export function TicketDetailModal({
         .eq("ticket_id", ticketId)
         .order("created_at", { ascending: false });
 
-      // Buscar avaliação (todas as avaliações do ticket)
+     
       const ratingsData = await getRatingsByTicket(ticketId);
 
       setTicket(ticketData as any);

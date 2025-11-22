@@ -15,13 +15,13 @@ interface ManagerSLAAlertsProps {
 export function ManagerSLAAlerts({ tickets }: ManagerSLAAlertsProps) {
   const now = new Date();
   
-  // Chamados vencidos
+  
   const overdue = tickets.filter((ticket) => {
     if (!ticket.sla_due_date || ticket.status === "fechado") return false;
     return new Date(ticket.sla_due_date) < now;
   });
 
-  // Chamados próximos do vencimento (próximas 2 horas)
+  
   const warning = tickets.filter((ticket) => {
     if (!ticket.sla_due_date || ticket.status === "fechado") return false;
     const dueDate = new Date(ticket.sla_due_date);
@@ -29,7 +29,7 @@ export function ManagerSLAAlerts({ tickets }: ManagerSLAAlertsProps) {
     return hoursUntilDue > 0 && hoursUntilDue <= 2;
   });
 
-  // Chamados críticos sem atendente
+  
   const criticalUnassigned = tickets.filter(
     (ticket) =>
       (ticket.priority === "critica" || ticket.priority === "alta") &&

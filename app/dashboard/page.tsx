@@ -32,10 +32,8 @@ async function getDashboardData(
   userRole: string,
   userSectorId?: string
 ) {
-  // Buscar tickets com filtro de acesso (todos os tickets, não apenas os recentes)
   const allTickets = await getTicketsWithAccess(userId, userRole, userSectorId)
 
-  // Contar tickets por status (apenas os que o usuário tem acesso)
   const stats = {
     aberto: allTickets.filter(t => t.status === "aberto").length || 0,
     em_atendimento: allTickets.filter(t => t.status === "em_atendimento").length || 0,
@@ -43,13 +41,10 @@ async function getDashboardData(
     fechado: allTickets.filter(t => t.status === "fechado").length || 0,
   }
 
-  // Limitar a 10 tickets mais recentes para o componente RecentTickets (apenas para admin)
   const recentTickets = allTickets.slice(0, 10)
 
-  // Se for Solicitante ou Atendente, não buscar métricas avançadas
   const isAdmin = userRole === "admin" || userRole === "super_admin"
 
-  // Buscar dados para gráficos (apenas para admin)
   const [
     ticketsBySector,
     ticketsByPriority,
@@ -70,7 +65,7 @@ async function getDashboardData(
 
   return {
     tickets: recentTickets || [],
-    allTickets: allTickets || [], // Todos os tickets para BasicDashboard
+    allTickets: allTickets || [], 
     stats,
     ticketsBySector,
     ticketsByPriority,
@@ -90,7 +85,6 @@ export default async function DashboardPage() {
     redirect("/login")
   }
 
-  // Buscar dados completos do usuário para obter sector_id
   const { data: userData } = await supabase
     .from("users")
     .select("sector_id")
@@ -115,7 +109,6 @@ export default async function DashboardPage() {
     userData?.sector_id
   )
 
-  // Dashboard simplificado para Solicitante/Atendente
   if (!isAdmin) {
     return (
       <MainLayout>
@@ -136,7 +129,6 @@ export default async function DashboardPage() {
     )
   }
 
-  // Dashboard completo para Admin
   return (
     <MainLayout>
       <div className="space-y-8">
@@ -150,12 +142,10 @@ export default async function DashboardPage() {
         <DashboardStats stats={stats} />
         <SLAAlerts />
 
-        {/* Métricas de Performance */}
         {performanceMetrics && (
           <PerformanceMetricsCard metrics={performanceMetrics} />
         )}
 
-        {/* Gráficos */}
         <div className="grid gap-6 md:grid-cols-2">
           <TicketsBySectorChart data={ticketsBySector} />
           <TicketsByPriorityChart data={ticketsByPriority} />
@@ -168,7 +158,6 @@ export default async function DashboardPage() {
           <TopAttendants attendants={topAttendants} />
         </div>
 
-        {/* Dashboard de Satisfação */}
         {ratingStats.total > 0 && (
           <SatisfactionStats stats={ratingStats} />
         )}

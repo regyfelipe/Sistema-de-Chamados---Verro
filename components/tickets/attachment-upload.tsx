@@ -41,7 +41,7 @@ export function AttachmentUpload({
 
     try {
       for (const file of files) {
-        // Upload para Supabase Storage
+       
         const fileExt = file.name.split(".").pop()
         const fileName = `${ticketId}/${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`
         const filePath = `attachments/${fileName}`
@@ -51,7 +51,7 @@ export function AttachmentUpload({
           .upload(filePath, file)
 
         if (uploadError) {
-          // Se o bucket não existir, criar primeiro
+         
           if (uploadError.message.includes("Bucket not found")) {
             toast({
               title: "Erro",
@@ -63,12 +63,12 @@ export function AttachmentUpload({
           throw uploadError
         }
 
-        // Obter URL pública
+       
         const {
           data: { publicUrl },
         } = supabase.storage.from("attachments").getPublicUrl(filePath)
 
-        // Salvar referência no banco
+       
         const { data: attachment, error: dbError } = await supabase
           .from("attachments")
           .insert({
@@ -85,7 +85,7 @@ export function AttachmentUpload({
 
         if (dbError) throw dbError
 
-        // Registrar no histórico
+       
         await supabase.from("ticket_history").insert({
           ticket_id: ticketId,
           user_id: userId,

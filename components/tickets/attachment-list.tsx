@@ -25,11 +25,11 @@ export function AttachmentList({
 
   const handleDownload = async (attachment: Attachment) => {
     try {
-      // Se for URL do Supabase Storage, tentar baixar diretamente
+      
       if (attachment.file_path.includes("supabase.co")) {
         window.open(attachment.file_path, "_blank")
       } else {
-        // Fallback para outros tipos de URL
+        
         const response = await fetch(attachment.file_path)
         const blob = await response.blob()
         const url = window.URL.createObjectURL(blob)
@@ -43,7 +43,7 @@ export function AttachmentList({
       }
     } catch (error) {
       console.error("Erro ao baixar arquivo:", error)
-      // Fallback: abrir em nova aba
+      
       window.open(attachment.file_path, "_blank")
     }
   }
@@ -54,12 +54,12 @@ export function AttachmentList({
     }
 
     try {
-      // Extrair caminho do arquivo da URL
+      
       const url = new URL(attachment.file_path)
       const filePath = url.pathname.split("/storage/v1/object/public/attachments/")[1]
 
       if (filePath) {
-        // Deletar do storage
+        
         const { error: storageError } = await supabase.storage
           .from("attachments")
           .remove([filePath])
@@ -69,7 +69,7 @@ export function AttachmentList({
         }
       }
 
-      // Deletar do banco
+      
       const { error } = await supabase
         .from("attachments")
         .delete()
@@ -77,7 +77,7 @@ export function AttachmentList({
 
       if (error) throw error
 
-      // Registrar no histórico
+      
       await supabase.from("ticket_history").insert({
         ticket_id: ticketId,
         user_id: session?.user?.id || "",

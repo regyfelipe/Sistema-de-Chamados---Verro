@@ -24,7 +24,7 @@ async function getTicket(id: string, userId?: string) {
     return null;
   }
 
-  // Buscar comentários
+  
   const { data: comments } = await supabase
     .from("comments")
     .select(
@@ -36,7 +36,7 @@ async function getTicket(id: string, userId?: string) {
     .eq("ticket_id", id)
     .order("created_at", { ascending: true });
 
-  // Buscar histórico
+  
   const { data: history } = await supabase
     .from("ticket_history")
     .select(
@@ -48,7 +48,7 @@ async function getTicket(id: string, userId?: string) {
     .eq("ticket_id", id)
     .order("created_at", { ascending: false });
 
-  // Buscar anexos
+  
   const { data: attachments } = await supabase
     .from("attachments")
     .select(
@@ -60,7 +60,7 @@ async function getTicket(id: string, userId?: string) {
     .eq("ticket_id", id)
     .order("created_at", { ascending: false });
 
-  // Buscar avaliação (se houver) - apenas se o usuário for o criador do chamado
+  
   let rating = null;
   if (userId && ticket.created_by === userId) {
     const { data: ratingData } = await supabase
@@ -104,14 +104,14 @@ export default async function TicketDetailPage({
     notFound();
   }
 
-  // Buscar dados completos do usuário para verificar acesso
+  
   const { data: userData } = await supabase
     .from("users")
     .select("sector_id")
     .eq("id", session.user.id)
     .single();
 
-  // Verificar se o usuário tem acesso a este ticket
+  
   const hasAccess = await canAccessTicket(
     ticket,
     session.user.id,

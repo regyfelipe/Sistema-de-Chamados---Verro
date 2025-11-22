@@ -10,7 +10,6 @@ export function ThemeToggle() {
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = React.useState(false)
 
-  // Evitar hidration mismatch
   React.useEffect(() => {
     setMounted(true)
   }, [])

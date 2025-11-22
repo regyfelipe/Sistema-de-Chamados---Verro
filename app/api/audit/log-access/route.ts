@@ -10,7 +10,6 @@ export async function POST(request: NextRequest) {
 
     const { path, user_id, ip_address, user_agent } = body
 
-    // Registrar acesso apenas para páginas importantes
     const importantPaths = [
       "/dashboard",
       "/tickets",

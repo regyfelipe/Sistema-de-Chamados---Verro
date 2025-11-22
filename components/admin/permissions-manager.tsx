@@ -232,7 +232,7 @@ export function PermissionsManager({
     }
   }
 
-  // Agrupar permissões por resource_type
+
   const permissionsByResource = permissions.reduce((acc, perm) => {
     if (!acc[perm.resource_type]) {
       acc[perm.resource_type] = []
@@ -360,7 +360,7 @@ export function PermissionsManager({
                           className="h-7 w-7"
                           onClick={(e) => {
                             e.stopPropagation()
-                            // TODO: Implementar edição de grupos
+                           
                           }}
                         >
                           <Pencil className="h-3.5 w-3.5" />

@@ -20,7 +20,7 @@ export async function checkSLAStatus(ticket: Ticket): Promise<{
   const diffMs = dueDate.getTime() - now.getTime();
   const diffHours = diffMs / (1000 * 60 * 60);
 
-  // Vencido
+  
   if (diffHours < 0) {
     return {
       status: "overdue",
@@ -28,8 +28,8 @@ export async function checkSLAStatus(ticket: Ticket): Promise<{
     };
   }
 
-  // Aviso (menos de 25% do tempo restante)
-  // Usar configuração avançada se disponível
+  
+  
   let totalHours = ticket.sector?.sla_hours || 24;
   if (ticket.sector_id && ticket.priority) {
     try {
@@ -38,7 +38,7 @@ export async function checkSLAStatus(ticket: Ticket): Promise<{
         ticket.priority
       );
     } catch (error) {
-      // Fallback para sla_hours do setor
+      
     }
   }
   const percentage = (diffHours / totalHours) * 100;
@@ -66,20 +66,20 @@ export async function getTicketsWithSLAAlerts(
   userRole?: string,
   userSectorId?: string
 ) {
-  // Usar getTicketsWithAccess se tiver parâmetros de usuário
+  
   let tickets: any[] = []
 
   if (userId && userRole) {
     const { getTicketsWithAccess } = await import("./ticket-access")
     const allTickets = await getTicketsWithAccess(userId, userRole, userSectorId)
-    // Filtrar apenas abertos com SLA
+    
     tickets = allTickets.filter(
       (t: any) =>
         ["aberto", "em_atendimento", "aguardando"].includes(t.status) &&
         t.sla_due_date
     )
   } else {
-    // Sem filtro (admin)
+    
     const { data, error } = await supabase
       .from("tickets")
       .select(
@@ -141,12 +141,12 @@ export function getSLAStatus(slaDueDate: string): "ok" | "warning" | "expired" {
   const diffMs = dueDate.getTime() - now.getTime();
   const diffHours = diffMs / (1000 * 60 * 60);
 
-  // Vencido
+  
   if (diffHours < 0) {
     return "expired";
   }
 
-  // Aviso (menos de 25% do tempo restante ou menos de 2 horas)
+  
   if (diffHours < 2) {
     return "warning";
   }

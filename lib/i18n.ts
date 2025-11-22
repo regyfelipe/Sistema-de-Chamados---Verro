@@ -25,7 +25,6 @@ export async function getMessages(locale: Locale) {
     const messages = await import(`@/messages/${locale}.json`);
     return messages.default;
   } catch (error) {
-    // Fallback para locale padrão se não encontrar
     const messages = await import(`@/messages/${defaultLocale}.json`);
     return messages.default;
   }

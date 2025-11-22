@@ -19,7 +19,7 @@ export function useTickets() {
     queryFn: async () => {
       if (!userId) return []
 
-      // Buscar sector_id do usuário
+     
       const { data: userData } = await supabase
         .from("users")
         .select("sector_id")
@@ -33,7 +33,7 @@ export function useTickets() {
       )
     },
     enabled: !!userId,
-    staleTime: 2 * 60 * 1000, // 2 minutos
+    staleTime: 2 * 60 * 1000,
   })
 }
 
@@ -61,7 +61,7 @@ export function useTicket(ticketId: string) {
       return data as Ticket
     },
     enabled: !!ticketId,
-    staleTime: 1 * 60 * 1000, // 1 minuto
+    staleTime: 1 * 60 * 1000,
   })
 }
 
@@ -90,7 +90,7 @@ export function useUpdateTicket() {
       return data as Ticket
     },
     onSuccess: (data) => {
-      // Invalidar queries relacionadas
+     
       queryClient.invalidateQueries({ queryKey: ["tickets"] })
       queryClient.invalidateQueries({ queryKey: ["ticket", data.id] })
     },

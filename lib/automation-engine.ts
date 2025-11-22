@@ -69,7 +69,7 @@ function evaluateConditions(
 ): boolean {
   if (conditions.length === 0) return true;
 
-  // Todas as condições devem ser verdadeiras (AND)
+  
   return conditions.every((condition) => evaluateCondition(condition, ticket));
 }
 
@@ -95,7 +95,7 @@ async function executeAction(
 
         if (error) throw error;
 
-        // Registrar no histórico
+       
         await supabase.from("ticket_history").insert({
           ticket_id: ticket.id,
           user_id: userId,
@@ -103,7 +103,7 @@ async function executeAction(
           new_value: userId,
         });
 
-        // Notificar
+       
         await createNotification({
           user_id: userId,
           type: "ticket_assigned",
@@ -239,13 +239,13 @@ export async function executeRule(
   ticket: Ticket
 ): Promise<{ executed: boolean; message?: string }> {
   try {
-    // Verificar se a regra está ativa
+   
     if (!rule.is_active) {
       await logAutomationExecution(rule.id, ticket.id, "skipped", "Regra inativa");
       return { executed: false, message: "Regra inativa" };
     }
 
-    // Avaliar condições
+   
     const conditionsMet = evaluateConditions(rule.conditions, ticket);
 
     if (!conditionsMet) {
@@ -258,7 +258,7 @@ export async function executeRule(
       return { executed: false, message: "Condições não atendidas" };
     }
 
-    // Executar ações
+   
     const results = await Promise.all(
       rule.actions.map((action) => executeAction(action, ticket))
     );
@@ -296,7 +296,7 @@ export async function triggerAutomations(
   ticket: Ticket
 ): Promise<void> {
   try {
-    // Buscar regras ativas para o evento
+   
     const { data: rules, error } = await supabase
       .from("automation_rules")
       .select("*")
@@ -313,7 +313,7 @@ export async function triggerAutomations(
       return;
     }
 
-    // Executar regras em ordem de prioridade
+   
     for (const rule of rules) {
       try {
         await executeRule(rule as AutomationRule, ticket);
@@ -355,7 +355,7 @@ export async function checkTicketsWithoutResponse(days: number = 7): Promise<voi
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - days);
 
-    // Buscar tickets abertos sem atualização há X dias
+   
     const { data: tickets, error } = await supabase
       .from("tickets")
       .select("*")
@@ -367,7 +367,7 @@ export async function checkTicketsWithoutResponse(days: number = 7): Promise<voi
       return;
     }
 
-    // Buscar regras de fechamento automático
+   
     const { data: rules } = await supabase
       .from("automation_rules")
       .select("*")

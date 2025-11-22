@@ -83,10 +83,10 @@ export default function GerenciaPage() {
     total: number;
   }>>([]);
 
-  // Função para buscar todos os dados
+
   const fetchDashboardData = async () => {
     try {
-      // Buscar todos os tickets
+
       const { data: tickets, error: ticketsError } = await supabase
         .from("tickets")
         .select(
@@ -99,7 +99,7 @@ export default function GerenciaPage() {
         )
         .order("created_at", { ascending: false });
 
-      // Buscar setores dos atendentes separadamente
+
       const attendantIds = Array.from(
         new Set(
           tickets
@@ -132,7 +132,7 @@ export default function GerenciaPage() {
         return;
       }
 
-      // Calcular estatísticas
+
       const newStats: ManagerDashboardStats = {
         aberto: tickets?.filter((t: any) => t.status === "aberto").length || 0,
         em_atendimento:
@@ -145,7 +145,7 @@ export default function GerenciaPage() {
         total: tickets?.length || 0,
       };
 
-      // Calcular estatísticas de prioridade
+
       const newPriorityStats: PriorityStats = {
         baixa: tickets?.filter((t: any) => t.priority === "baixa").length || 0,
         media: tickets?.filter((t: any) => t.priority === "media").length || 0,
@@ -154,7 +154,7 @@ export default function GerenciaPage() {
           tickets?.filter((t: any) => t.priority === "critica").length || 0,
       };
 
-      // Buscar atendentes ativos (com tickets em atendimento)
+
       const activeTickets =
         tickets?.filter(
           (t: any) => t.status === "em_atendimento" && t.assigned_to
@@ -167,7 +167,7 @@ export default function GerenciaPage() {
         if (!userId) return;
 
         if (!attendantsMap.has(userId)) {
-          // Buscar setor do atendente
+
           const attendantData =
             attendantsWithSectors[userId] || ticket.assigned_to_user;
           const attendantSector =
@@ -196,10 +196,10 @@ export default function GerenciaPage() {
         (a, b) => b.tickets_count - a.tickets_count
       );
 
-      // Tickets recentes (últimos 10)
+
       const newRecentTickets = tickets?.slice(0, 10) || [];
 
-      // Calcular dados de tendências
+
       const days = parseInt(period);
       const startDate = new Date();
       startDate.setDate(startDate.getDate() - days);
@@ -207,17 +207,17 @@ export default function GerenciaPage() {
       const trendsMap = new Map<string, { aberto: number; em_atendimento: number; fechado: number; total: number }>();
       
       tickets?.forEach((ticket: any) => {
-        if (!ticket.created_at) return; // Pular se não tiver data de criação
+        
         
         const ticketDate = new Date(ticket.created_at);
-        if (isNaN(ticketDate.getTime())) return; // Pular se data inválida
+        
         
         if (ticketDate >= startDate) {
           const isoString = ticketDate.toISOString();
-          if (!isoString) return; // Pular se toISOString falhar
+          
           
           const dateStr = isoString.split("T")[0];
-          if (!dateStr) return; // Pular se split falhar
+          
           
           if (!trendsMap.has(dateStr)) {
             trendsMap.set(dateStr, { aberto: 0, em_atendimento: 0, fechado: 0, total: 0 });
@@ -230,7 +230,7 @@ export default function GerenciaPage() {
         }
       });
 
-      // Preencher dias sem dados
+
       const trendsArray: Array<{ date: string; aberto: number; em_atendimento: number; fechado: number; total: number }> = [];
       for (let i = 0; i < days; i++) {
         const date = new Date();
@@ -246,7 +246,7 @@ export default function GerenciaPage() {
         });
       }
 
-      // Buscar avaliações
+
       const ratingsData = await getAllRatings(1000);
       const ratingsArray = ratingsData.map((r) => ({ rating: r.rating, comment: r.comment || undefined }));
 
@@ -265,18 +265,18 @@ export default function GerenciaPage() {
     }
   };
 
-  // Carregar dados iniciais
+
   useEffect(() => {
     fetchDashboardData();
 
-    // Atualizar a cada 30 segundos
+
     const interval = setInterval(fetchDashboardData, 30000);
 
     return () => clearInterval(interval);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [period]);
 
-  // Escutar mudanças em tempo real
+
   useEffect(() => {
     const channel = supabase
       .channel("manager-dashboard")
@@ -288,7 +288,7 @@ export default function GerenciaPage() {
           table: "tickets",
         },
         () => {
-          // Atualizar dados quando houver mudança
+
           fetchDashboardData();
         }
       )
@@ -297,7 +297,7 @@ export default function GerenciaPage() {
     return () => {
       supabase.removeChannel(channel);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const getPriorityColor = (priority: string) => {
@@ -359,7 +359,7 @@ export default function GerenciaPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-3 sm:p-4 md:p-6">
       <div className="max-w-7xl mx-auto space-y-4 sm:space-y-6">
-        {/* Header */}
+        
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 sm:gap-4 bg-white p-4 sm:p-6 rounded-lg shadow-sm border">
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
@@ -385,7 +385,7 @@ export default function GerenciaPage() {
           </div>
         </div>
 
-        {/* Filtros de Período */}
+        
         <Card>
           <CardContent className="p-3 sm:p-4">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
@@ -423,7 +423,7 @@ export default function GerenciaPage() {
           </CardContent>
         </Card>
 
-        {/* Estatísticas Principais */}
+        
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-4">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-3 sm:p-6">
@@ -505,25 +505,25 @@ export default function GerenciaPage() {
           </Card>
         </div>
 
-        {/* Alertas de SLA */}
+        
         <ManagerSLAAlerts tickets={allTickets} />
 
-        {/* Métricas de Qualidade */}
+        
         <ManagerQualityMetrics tickets={allTickets} ratings={ratings} />
 
-        {/* Gráfico de Tendências */}
+        
         <ManagerTrendsChart data={trendsData} period={period} />
 
         <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
-          {/* Desempenho por Setor */}
+          
           <ManagerSectorPerformance tickets={allTickets} />
 
-          {/* Ranking de Atendentes */}
+          
           <ManagerTopAttendants tickets={allTickets} limit={10} />
         </div>
 
         <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
-          {/* Atendentes Ativos */}
+          
           <Card>
             <CardHeader className="p-4 sm:p-6">
               <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
@@ -571,7 +571,7 @@ export default function GerenciaPage() {
             </CardContent>
           </Card>
 
-          {/* Distribuição por Prioridade */}
+          
           <Card>
             <CardHeader className="p-4 sm:p-6">
               <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
@@ -621,7 +621,7 @@ export default function GerenciaPage() {
           </Card>
         </div>
 
-        {/* Chamados Recentes */}
+        
         <Card>
           <CardHeader className="p-4 sm:p-6">
             <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
@@ -686,7 +686,7 @@ export default function GerenciaPage() {
           </CardContent>
         </Card>
 
-        {/* Modal de Detalhes do Chamado */}
+        
         <TicketDetailModal
           ticketId={selectedTicketId}
           open={!!selectedTicketId}

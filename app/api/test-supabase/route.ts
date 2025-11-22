@@ -5,17 +5,14 @@ export async function GET() {
   console.log("📡 [API] Teste do Supabase solicitado");
   
   try {
-    // Primeiro, testar conexão
     const connectionTest = await testSupabaseConnection();
     
-    // Testar conexão básica
     console.log("📊 [API] Buscando dados de usuários...");
     const { data: users, error: usersError } = await supabase
       .from('users')
       .select('id, email, name, role')
       .limit(5)
 
-    // Testar setores
     console.log("📊 [API] Buscando dados de setores...");
     const { data: sectors, error: sectorsError } = await supabase
       .from('sectors')

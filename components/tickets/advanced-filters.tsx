@@ -251,7 +251,7 @@ export function AdvancedFilters({
         </div>
       </CardHeader>
       <CardContent className="space-y-3 sm:space-y-4 p-3 sm:p-4 md:p-6">
-        {/* Busca */}
+       
         <div className="relative">
           <Search className="absolute left-2 sm:left-3 top-1/2 transform -translate-y-1/2 h-3.5 w-3.5 sm:h-4 sm:w-4 text-muted-foreground" />
           <Input
@@ -262,7 +262,7 @@ export function AdvancedFilters({
           />
         </div>
 
-        {/* Filtros básicos */}
+       
         <div className="grid gap-2 sm:gap-3 md:gap-4 grid-cols-2 md:grid-cols-4">
           <div className="space-y-1 sm:space-y-2">
             <Label className="text-xs sm:text-sm">Status</Label>
@@ -338,7 +338,7 @@ export function AdvancedFilters({
           </div>
         </div>
 
-        {/* Filtros avançados (expandidos) */}
+       
         {isExpanded && (
           <div className="space-y-3 sm:space-y-4 pt-3 sm:pt-4 border-t">
             <div className="grid gap-2 sm:gap-3 md:gap-4 grid-cols-1 md:grid-cols-2">
@@ -384,7 +384,7 @@ export function AdvancedFilters({
               </div>
             </div>
 
-            {/* Filtro por data */}
+           
             <div className="space-y-1 sm:space-y-2">
               <Label className="flex items-center gap-2 text-xs sm:text-sm">
                 <Calendar className="h-3.5 w-3.5 sm:h-4 sm:w-4" />

@@ -18,10 +18,10 @@ export function saveSearchToHistory(query: string, resultCount?: number): void {
   try {
     const history = getSearchHistory()
     
-    // Remove duplicatas (mesma query)
+   
     const filteredHistory = history.filter((item) => item.query !== query)
     
-    // Adiciona nova busca no início
+   
     const newItem: SearchHistoryItem = {
       id: Date.now().toString(),
       query: query.trim(),
@@ -49,7 +49,7 @@ export function getSearchHistory(): SearchHistoryItem[] {
     
     const history = JSON.parse(stored) as SearchHistoryItem[]
     
-    // Remove itens antigos (mais de 30 dias)
+   
     const thirtyDaysAgo = Date.now() - 30 * 24 * 60 * 60 * 1000
     return history.filter((item) => item.timestamp > thirtyDaysAgo)
   } catch (error) {
@@ -93,7 +93,7 @@ export function getHistorySuggestions(query: string, limit: number = 5): string[
   if (typeof window === "undefined") return []
   
   if (!query || query.length < 1) {
-    // Se não há query, retorna as buscas mais recentes
+   
     return getSearchHistory()
       .slice(0, limit)
       .map((item) => item.query)
@@ -102,7 +102,7 @@ export function getHistorySuggestions(query: string, limit: number = 5): string[
   const history = getSearchHistory()
   const queryLower = query.toLowerCase()
   
-  // Filtra histórico que começa com a query
+ 
   return history
     .filter((item) => item.query.toLowerCase().startsWith(queryLower))
     .slice(0, limit)

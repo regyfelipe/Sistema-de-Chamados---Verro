@@ -28,33 +28,33 @@ export function CommandPalette({ tickets: initialTickets }: CommandPaletteProps)
   const [tickets, setTickets] = useState<TicketType[]>(initialTickets || [])
   const router = useRouter()
 
-  // Carregar tickets quando o palette abrir
+ 
   useEffect(() => {
     if (open && tickets.length === 0 && session?.user) {
       loadTickets()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+   
   }, [open, session])
 
   const loadTickets = async () => {
     if (!session?.user) return
 
     try {
-      // Buscar dados completos do usuário
+     
       const { data: userData } = await supabase
         .from("users")
         .select("sector_id")
         .eq("id", session.user.id)
         .single()
 
-      // Buscar tickets com filtro de acesso
+     
       const filteredTickets = await getTicketsWithAccess(
         session.user.id,
         session.user.role || "solicitante",
         userData?.sector_id
       )
 
-      // Limitar a 100 para performance
+     
       setTickets(filteredTickets.slice(0, 100))
     } catch (error) {
       console.error("Erro ao carregar tickets:", error)
@@ -73,13 +73,13 @@ export function CommandPalette({ tickets: initialTickets }: CommandPaletteProps)
     return () => document.removeEventListener("keydown", down)
   }, [])
 
-  // Busca fuzzy nos tickets
+ 
   const searchResults = useMemo(() => {
     if (!searchQuery || searchQuery.length < 2) return []
     return fuzzySearchTickets(tickets, searchQuery).slice(0, 5)
   }, [searchQuery, tickets])
 
-  // Histórico de buscas
+ 
   const historySuggestions = useMemo(() => {
     if (searchQuery.length >= 1) {
       return getHistorySuggestions(searchQuery, 3)

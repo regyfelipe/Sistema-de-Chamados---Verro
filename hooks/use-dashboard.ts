@@ -13,9 +13,7 @@ import { getRatingStats } from "@/lib/ratings"
 import { getPerformanceMetrics } from "@/lib/performance-metrics"
 import { supabase } from "@/lib/supabase"
 
-/**
- * Hook otimizado para dados do dashboard
- */
+
 export function useDashboardData() {
   const { data: session } = useSession()
   const userId = session?.user?.id
@@ -26,7 +24,7 @@ export function useDashboardData() {
     queryFn: async () => {
       if (!userId) return null
 
-      // Buscar sector_id do usuário
+      
       const { data: userData } = await supabase
         .from("users")
         .select("sector_id")
@@ -64,7 +62,7 @@ export function useDashboardData() {
       }
     },
     enabled: !!userId,
-    staleTime: 5 * 60 * 1000, // 5 minutos
+    staleTime: 5 * 60 * 1000, 
   })
 }
 

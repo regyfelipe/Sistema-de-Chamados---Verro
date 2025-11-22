@@ -11,7 +11,7 @@ import { supabase } from "@/lib/supabase"
 export async function SLAAlerts() {
   const session = await getServerSession(authOptions)
   
-  // Buscar dados do usuário para filtro de acesso
+
   let userId: string | undefined
   let userRole: string | undefined
   let userSectorId: string | undefined

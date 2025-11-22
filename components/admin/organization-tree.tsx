@@ -77,7 +77,7 @@ export function OrganizationTree({
   const [sectors, setSectors] = useState<Sector[]>(initialSectors)
   const [users, setUsers] = useState<User[]>(initialUsers)
 
-  // Atualizar quando os dados iniciais mudarem
+  
   useEffect(() => {
     setSectors(initialSectors)
     setUsers(initialUsers)
@@ -95,11 +95,11 @@ export function OrganizationTree({
     sector_id: "none",
   })
 
-  // Construir árvore hierárquica
+  
   const tree = useMemo(() => {
     const treeNodes: TreeNode[] = []
 
-    // Criar nós de setores
+    
     sectors.forEach((sector) => {
       const sectorUsers = users.filter(
         (user) => user.sector_id === sector.id
@@ -122,7 +122,7 @@ export function OrganizationTree({
       treeNodes.push(sectorNode)
     })
 
-    // Adicionar usuários sem setor
+    
     const usersWithoutSector = users.filter((user) => !user.sector_id)
     if (usersWithoutSector.length > 0) {
       treeNodes.push({
@@ -143,7 +143,7 @@ export function OrganizationTree({
     return treeNodes
   }, [sectors, users, expandedSectors])
 
-  // Filtrar árvore baseado na busca
+  
   const filteredTree = useMemo(() => {
     if (!searchQuery) return tree
 
@@ -170,7 +170,7 @@ export function OrganizationTree({
     return filtered
   }, [tree, searchQuery])
 
-  // Expandir setores automaticamente quando há busca
+  
   useEffect(() => {
     if (searchQuery && filteredTree.length > 0) {
       const newExpanded = new Set(expandedSectors)
@@ -185,7 +185,7 @@ export function OrganizationTree({
         setExpandedSectors(newExpanded)
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, [searchQuery])
 
   const toggleSector = (sectorId: string) => {

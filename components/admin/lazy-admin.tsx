@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic"
 
-// Lazy load dos componentes pesados do admin
+
 export const AutomationsManager = dynamic(
   () => import("./automations-manager").then((mod) => mod.AutomationsManager),
   {

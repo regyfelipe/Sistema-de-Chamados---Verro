@@ -20,7 +20,7 @@ export type AutomationConditionOperator =
   | "not_in";
 
 export interface AutomationCondition {
-  field: string; // Ex: "title", "description", "priority", "sector_id"
+  field: string;
   operator: AutomationConditionOperator;
   value: any;
 }
@@ -36,7 +36,7 @@ export type AutomationActionType =
 
 export interface AutomationAction {
   type: AutomationActionType;
-  params: Record<string, any>; // Parâmetros específicos da ação
+  params: Record<string, any>;
 }
 
 export interface AutomationRule {

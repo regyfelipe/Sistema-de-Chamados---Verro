@@ -41,25 +41,25 @@ export function GlobalSearch({
   const [selectedIndex, setSelectedIndex] = useState(-1)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  // Atualizar sugestões quando a query muda
+  
   useEffect(() => {
     if (query.length >= 1) {
-      // Sugestões do histórico
+      
       const history = getHistorySuggestions(query, 3)
       setHistorySuggestions(history)
 
-      // Sugestões dos tickets
+      
       const ticketSuggestions = generateSearchSuggestions(tickets, query, 5)
       setSuggestions(ticketSuggestions)
     } else {
-      // Se não há query, mostrar histórico recente
+      
       const recentHistory = getSearchHistory().slice(0, 5).map((item) => item.query)
       setHistorySuggestions(recentHistory)
       setSuggestions([])
     }
   }, [query, tickets])
 
-  // Abrir popover quando há foco ou query
+  
   useEffect(() => {
     if (query.length > 0 || inputRef.current === document.activeElement) {
       setIsOpen(true)
@@ -95,7 +95,7 @@ export function GlobalSearch({
       if (selectedIndex >= 0 && allSuggestions[selectedIndex]) {
         handleSelectSuggestion(allSuggestions[selectedIndex])
       } else if (query.trim()) {
-        // Executar busca
+        
         const results = fuzzySearchTickets(tickets, query)
         saveSearchToHistory(query, results.length)
         setIsOpen(false)

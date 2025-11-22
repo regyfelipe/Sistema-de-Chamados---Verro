@@ -77,7 +77,7 @@ export function TemplateSelector({
 
     const content = replaceTemplateVariables(template.content, variables)
 
-    // Se já houver conteúdo, adicionar o template após
+   
     if (currentComment.trim()) {
       onSelect(currentComment + "\n\n" + content)
     } else {
@@ -92,15 +92,15 @@ export function TemplateSelector({
 
   useEffect(() => {
     loadTemplates()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+   
   }, [ticket.sector_id])
 
-  // Atalhos de teclado (apenas quando há templates)
+ 
   useEffect(() => {
     if (templates.length === 0) return
 
     const handleKeyPress = (e: KeyboardEvent) => {
-      // Ignorar se estiver digitando em um input/textarea
+     
       if (
         e.target instanceof HTMLInputElement ||
         e.target instanceof HTMLTextAreaElement ||
@@ -109,7 +109,7 @@ export function TemplateSelector({
         return
       }
 
-      // Verificar atalhos F1-F12
+     
       if (e.key.startsWith("F") && parseInt(e.key.substring(1)) >= 1 && parseInt(e.key.substring(1)) <= 12) {
         const template = templates.find(
           (t) => t.shortcut_key === e.key

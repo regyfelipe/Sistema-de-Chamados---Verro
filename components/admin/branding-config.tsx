@@ -29,7 +29,7 @@ export function BrandingConfig() {
 
   useEffect(() => {
     loadConfig()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, [])
 
   const loadConfig = async () => {
@@ -38,7 +38,7 @@ export function BrandingConfig() {
       const branding = await getBrandingConfig()
       setConfig(branding)
       
-      // Aplicar cores se existirem
+      
       if (branding) {
         applyBrandingColors({
           primary: branding.primary_color,
@@ -65,17 +65,17 @@ export function BrandingConfig() {
       let logoUrl = config.logo_url
       let faviconUrl = config.favicon_url
 
-      // Upload de logo se houver arquivo
+      
       if (logoFile) {
         logoUrl = await uploadLogo(logoFile)
       }
 
-      // Upload de favicon se houver arquivo
+      
       if (faviconFile) {
         faviconUrl = await uploadFavicon(faviconFile)
       }
 
-      // Atualizar configuração
+      
       const updated = await updateBrandingConfig({
         ...config,
         logo_url: logoUrl,
@@ -86,7 +86,7 @@ export function BrandingConfig() {
       setLogoFile(null)
       setFaviconFile(null)
 
-      // Aplicar cores
+      
       if (updated) {
         applyBrandingColors({
           primary: updated.primary_color,
@@ -95,7 +95,7 @@ export function BrandingConfig() {
         })
       }
 
-      // Atualizar favicon no head
+      
       if (faviconUrl) {
         updateFaviconInHead(faviconUrl)
       }
@@ -105,7 +105,7 @@ export function BrandingConfig() {
         description: "Configuração de branding atualizada com sucesso",
       })
 
-      // Recarregar página para aplicar mudanças
+      
       setTimeout(() => {
         window.location.reload()
       }, 1000)
@@ -121,11 +121,11 @@ export function BrandingConfig() {
   }
 
   const updateFaviconInHead = (url: string) => {
-    // Remover favicons existentes
+    
     const existingFavicons = document.querySelectorAll('link[rel="icon"]')
     existingFavicons.forEach((fav) => fav.remove())
 
-    // Adicionar novo favicon
+    
     const link = document.createElement("link")
     link.rel = "icon"
     link.href = url

@@ -17,8 +17,8 @@ export function TicketsProvider({
   children: ReactNode
   initialTickets?: Ticket[]
 }) {
-  // Em uma implementação real, você poderia gerenciar o estado aqui
-  // Por enquanto, vamos usar um contexto simples
+  
+  
   return (
     <TicketsContext.Provider value={{ tickets: initialTickets, setTickets: () => {} }}>
       {children}

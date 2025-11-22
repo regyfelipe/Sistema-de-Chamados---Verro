@@ -42,10 +42,10 @@ export async function getTicketsBySector(
     let tickets: any[] = []
 
     if (userId && userRole) {
-      // Usar filtro de acesso
+     
       tickets = await getTicketsWithAccess(userId, userRole, userSectorId)
     } else {
-      // Sem filtro (admin)
+     
       const { data, error } = await supabase
         .from("tickets")
         .select(`
@@ -89,10 +89,10 @@ export async function getTicketsByPriority(
     let tickets: any[] = []
 
     if (userId && userRole) {
-      // Usar filtro de acesso
+     
       tickets = await getTicketsWithAccess(userId, userRole, userSectorId)
     } else {
-      // Sem filtro (admin)
+     
       const { data, error } = await supabase
         .from("tickets")
         .select("priority")
@@ -143,11 +143,11 @@ export async function getTicketsOverTime(
     let tickets: any[] = []
 
     if (userId && userRole) {
-      // Usar filtro de acesso e depois filtrar por data
+     
       const allTickets = await getTicketsWithAccess(userId, userRole, userSectorId)
       tickets = allTickets.filter(t => new Date(t.created_at) >= startDate)
     } else {
-      // Sem filtro (admin)
+     
       const { data, error } = await supabase
         .from("tickets")
         .select("created_at")
@@ -167,7 +167,7 @@ export async function getTicketsOverTime(
       return acc
     }, {})
 
-    // Preencher dias sem chamados com 0
+   
     const result: TicketsOverTime[] = []
     for (let i = 0; i < days; i++) {
       const date = new Date()
@@ -198,11 +198,11 @@ export async function getSLAMetrics(
     let tickets: any[] = []
 
     if (userId && userRole) {
-      // Usar filtro de acesso e depois filtrar por SLA
+     
       const allTickets = await getTicketsWithAccess(userId, userRole, userSectorId)
       tickets = allTickets.filter(t => t.sla_due_date)
     } else {
-      // Sem filtro (admin)
+     
       const { data, error } = await supabase
         .from("tickets")
         .select(`
@@ -236,7 +236,7 @@ export async function getSLAMetrics(
           late++
         }
       } else {
-        // Chamados ainda abertos
+       
         const dueDate = new Date(ticket.sla_due_date)
         if (now > dueDate) {
           late++
@@ -274,11 +274,11 @@ export async function getTopAttendants(
     let tickets: any[] = []
 
     if (userId && userRole) {
-      // Usar filtro de acesso e depois filtrar por fechados
+     
       const allTickets = await getTicketsWithAccess(userId, userRole, userSectorId)
       tickets = allTickets.filter(t => t.status === "fechado" && t.assigned_to)
     } else {
-      // Sem filtro (admin)
+     
       const { data, error } = await supabase
         .from("tickets")
         .select(`
@@ -328,7 +328,7 @@ export async function getTopAttendants(
         user_name: item.user_name,
         tickets_closed: item.tickets_closed,
         avg_resolution_time: item.tickets_closed > 0
-          ? Math.round(item.total_time / item.tickets_closed / (1000 * 60 * 60)) // em horas
+          ? Math.round(item.total_time / item.tickets_closed / (1000 * 60 * 60))
           : 0,
       }))
       .sort((a, b) => b.tickets_closed - a.tickets_closed)

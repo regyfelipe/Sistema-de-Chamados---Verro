@@ -37,7 +37,6 @@ export function ChatSheet({ ticketId, ticketTitle }: ChatSheetProps) {
 
     loadUnreadCount()
 
-    // Atualizar contador a cada 10 segundos
     const interval = setInterval(loadUnreadCount, 10000)
 
     return () => clearInterval(interval)

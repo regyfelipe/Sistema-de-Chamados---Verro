@@ -14,10 +14,10 @@ export function registerServiceWorker() {
             registration.scope
           )
 
-          // Verificar atualizações periodicamente
+         
           setInterval(() => {
             registration.update()
-          }, 60000) // A cada 1 minuto
+          }, 60000)
         })
         .catch((error) => {
           console.error("[SW] Erro ao registrar Service Worker:", error)

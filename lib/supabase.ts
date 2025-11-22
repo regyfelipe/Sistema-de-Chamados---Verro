@@ -3,9 +3,9 @@ import { createClient } from "@supabase/supabase-js";
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
-// Log de configuração
+
 if (typeof window === "undefined") {
-  // Server-side logging
+  
   console.log("🔌 [Supabase] Inicializando cliente...");
   console.log(
     "📋 [Supabase] URL:",
@@ -38,7 +38,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   },
 });
 
-// Função para testar conexão
+
 export async function testSupabaseConnection() {
   try {
     console.log("🧪 [Supabase] Testando conexão...");
@@ -51,8 +51,8 @@ export async function testSupabaseConnection() {
     const duration = Date.now() - startTime;
 
     if (error) {
-      // Erro 42501 = permission denied (RLS)
-      // Erro 42P01 = relation does not exist
+      
+      
       if (error.code === "42501") {
         console.error("❌ [Supabase] ERRO: Permissão negada (RLS habilitado)");
         console.error(
@@ -88,9 +88,9 @@ export async function testSupabaseConnection() {
   }
 }
 
-// Testar conexão na inicialização (apenas server-side)
+
 if (typeof window === "undefined" && process.env.NODE_ENV === "development") {
-  // Testar conexão após um pequeno delay para não bloquear a inicialização
+  
   setTimeout(() => {
     testSupabaseConnection().then((result) => {
       if (result.success) {

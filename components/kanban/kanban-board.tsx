@@ -64,12 +64,12 @@ export function KanbanBoard({ initialTickets }: KanbanBoardProps) {
     })
   )
 
-  // Filtrar tickets
+  
   const filteredTickets = useMemo(() => {
     return applyFilters(tickets, filters)
   }, [tickets, filters])
 
-  // Agrupar tickets por status e opcionalmente por setor/prioridade
+  
   const groupedTickets = useMemo(() => {
     const grouped: Record<string, Ticket[]> = {}
 
@@ -81,7 +81,7 @@ export function KanbanBoard({ initialTickets }: KanbanBoardProps) {
       grouped[status].push(ticket)
     })
 
-    // Se houver agrupamento adicional, reorganizar
+    
     if (groupBy === "sector") {
       const reorganized: Record<string, Record<string, Ticket[]>> = {}
       Object.entries(grouped).forEach(([status, tickets]) => {
@@ -94,7 +94,7 @@ export function KanbanBoard({ initialTickets }: KanbanBoardProps) {
           reorganized[status][sectorId].push(ticket)
         })
       })
-      // Retornar estrutura simplificada para colunas
+      
       return grouped
     }
 
@@ -131,15 +131,15 @@ export function KanbanBoard({ initialTickets }: KanbanBoardProps) {
     const ticketId = active.id as string
     const newStatus = over.id as string
 
-    // Verificar se é uma coluna válida
+    
     if (!statusColumns.find((col) => col.id === newStatus)) return
 
-    // Verificar se o status mudou
+    
     const ticket = tickets.find((t) => t.id === ticketId)
     if (!ticket || ticket.status === newStatus) return
 
     try {
-      // Atualizar no banco
+      
       const { error } = await supabase
         .from("tickets")
         .update({ status: newStatus })
@@ -147,7 +147,7 @@ export function KanbanBoard({ initialTickets }: KanbanBoardProps) {
 
       if (error) throw error
 
-      // Registrar no histórico
+      
       await supabase.from("ticket_history").insert({
         ticket_id: ticketId,
         user_id: session?.user?.id || ticket.created_by,
@@ -156,7 +156,7 @@ export function KanbanBoard({ initialTickets }: KanbanBoardProps) {
         new_value: newStatus,
       })
 
-      // Notificar usuários relevantes
+      
       const usersToNotify: string[] = []
       if (ticket.created_by !== ticket.assigned_to) {
         usersToNotify.push(ticket.created_by)
@@ -175,7 +175,7 @@ export function KanbanBoard({ initialTickets }: KanbanBoardProps) {
         })
       }
 
-      // Atualizar estado local
+      
       setTickets((prev) =>
         prev.map((t) => (t.id === ticketId ? { ...t, status: newStatus as any } : t))
       )

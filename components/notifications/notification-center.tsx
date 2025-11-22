@@ -67,7 +67,7 @@ export function NotificationCenter() {
   const [permissionRequested, setPermissionRequested] = useState(false)
 
   useEffect(() => {
-    // Solicitar permissão de notificações na primeira renderização
+    
     if (!permissionRequested && typeof window !== "undefined" && "Notification" in window) {
       requestNotificationPermission().then((granted) => {
         if (granted) {

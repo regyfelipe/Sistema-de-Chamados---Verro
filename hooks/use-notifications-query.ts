@@ -22,8 +22,8 @@ export function useNotifications() {
     queryKey: ["notifications", userId],
     queryFn: () => getUserNotifications(userId || "", 50),
     enabled: !!userId,
-    staleTime: 30 * 1000, // 30 segundos
-    refetchInterval: 30 * 1000, // Refetch a cada 30 segundos
+    staleTime: 30 * 1000, 
+    refetchInterval: 30 * 1000, 
   })
 }
 
@@ -38,8 +38,8 @@ export function useUnreadCount() {
     queryKey: ["notifications", "unread", userId],
     queryFn: () => getUnreadCount(userId || ""),
     enabled: !!userId,
-    staleTime: 10 * 1000, // 10 segundos
-    refetchInterval: 10 * 1000, // Refetch a cada 10 segundos
+    staleTime: 10 * 1000, 
+    refetchInterval: 10 * 1000, 
   })
 }
 

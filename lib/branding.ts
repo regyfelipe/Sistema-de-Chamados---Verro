@@ -32,7 +32,7 @@ export async function updateBrandingConfig(
   config: Partial<BrandingConfig>
 ): Promise<BrandingConfig | null> {
   try {
-    // Buscar configuração existente
+    
     const { data: existing } = await supabase
       .from("branding_config")
       .select("id")
@@ -48,7 +48,7 @@ export async function updateBrandingConfig(
     let result
 
     if (existing) {
-      // Atualizar existente
+      
       const { data, error } = await supabase
         .from("branding_config")
         .update(updateData)
@@ -59,7 +59,7 @@ export async function updateBrandingConfig(
       if (error) throw error
       result = data
     } else {
-      // Criar novo
+      
       const { data, error } = await supabase
         .from("branding_config")
         .insert(updateData)
@@ -148,7 +148,7 @@ export function applyBrandingColors(colors: {
   const root = document.documentElement
 
   if (colors.primary) {
-    // Converter hex para HSL
+    
     const hsl = hexToHsl(colors.primary)
     root.style.setProperty("--primary", hsl)
   }
@@ -168,10 +168,10 @@ export function applyBrandingColors(colors: {
  * Converte hex para HSL
  */
 function hexToHsl(hex: string): string {
-  // Remove #
+  
   hex = hex.replace("#", "")
 
-  // Converter para RGB
+  
   const r = parseInt(hex.substring(0, 2), 16) / 255
   const g = parseInt(hex.substring(2, 4), 16) / 255
   const b = parseInt(hex.substring(4, 6), 16) / 255

@@ -8,9 +8,9 @@ import { cn } from "@/lib/utils";
 
 interface QualityMetrics {
   satisfactionRate: number;
-  avgFirstResponseTime: number; // em horas
-  avgResolutionTime: number; // em horas
-  firstContactResolutionRate: number; // porcentagem
+  avgFirstResponseTime: number; 
+  avgResolutionTime: number; 
+  firstContactResolutionRate: number; 
   totalRatings: number;
   avgRating: number;
 }
@@ -21,10 +21,10 @@ interface ManagerQualityMetricsProps {
 }
 
 export function ManagerQualityMetrics({ tickets, ratings = [] }: ManagerQualityMetricsProps) {
-  // Calcular métricas
+  
   const closedTickets = tickets.filter((t) => t.status === "fechado");
   
-  // Tempo médio de resolução
+  
   let avgResolutionTime = 0;
   if (closedTickets.length > 0) {
     const totalTime = closedTickets.reduce((acc, ticket) => {
@@ -35,24 +35,24 @@ export function ManagerQualityMetrics({ tickets, ratings = [] }: ManagerQualityM
     avgResolutionTime = Math.round(totalTime / closedTickets.length / (1000 * 60 * 60));
   }
 
-  // Taxa de satisfação
+  
   const satisfactionRate = ratings.length > 0
     ? Math.round((ratings.filter((r) => r.rating >= 4).length / ratings.length) * 100)
     : 0;
 
-  // Média de avaliação
+  
   const avgRating = ratings.length > 0
     ? Math.round((ratings.reduce((acc, r) => acc + r.rating, 0) / ratings.length) * 100) / 100
     : 0;
 
-  // Taxa de resolução no primeiro contato (FCR)
-  // Assumindo que tickets fechados sem reabertura são FCR
+  
+  
   const fcrRate = closedTickets.length > 0
     ? Math.round((closedTickets.length / tickets.length) * 100)
     : 0;
 
-  // Tempo médio de primeira resposta (aproximado - baseado em comentários)
-  // Por simplicidade, vamos usar uma estimativa baseada no tempo de criação até primeiro update
+  
+  
   let avgFirstResponseTime = 0;
   const ticketsWithUpdates = closedTickets.filter((t) => 
     new Date(t.updated_at).getTime() > new Date(t.created_at).getTime()

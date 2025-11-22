@@ -37,8 +37,7 @@ export function PerformanceMetricsCard({ metrics }: PerformanceMetricsProps) {
   }
 
   const getTrendColor = (change: number, isTime: boolean = false) => {
-    // Para tempo, menor é melhor (negativo = bom)
-    // Para taxas, maior é melhor (positivo = bom)
+    
     if (isTime) {
       return change < 0 ? "text-green-600" : change > 0 ? "text-red-600" : "text-muted-foreground"
     } else {
@@ -55,9 +54,7 @@ export function PerformanceMetricsCard({ metrics }: PerformanceMetricsProps) {
         </p>
       </div>
 
-      {/* Métricas Principais */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {/* Tempo Médio de Primeira Resposta */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Primeira Resposta</CardTitle>
@@ -81,7 +78,6 @@ export function PerformanceMetricsCard({ metrics }: PerformanceMetricsProps) {
           </CardContent>
         </Card>
 
-        {/* Tempo Médio de Resolução */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Tempo de Resolução</CardTitle>
@@ -105,7 +101,6 @@ export function PerformanceMetricsCard({ metrics }: PerformanceMetricsProps) {
           </CardContent>
         </Card>
 
-        {/* Taxa de Resolução na Primeira Interação */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">FCR Rate</CardTitle>
@@ -129,7 +124,6 @@ export function PerformanceMetricsCard({ metrics }: PerformanceMetricsProps) {
           </CardContent>
         </Card>
 
-        {/* Taxa de Satisfação */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Satisfação</CardTitle>
@@ -146,7 +140,6 @@ export function PerformanceMetricsCard({ metrics }: PerformanceMetricsProps) {
         </Card>
       </div>
 
-      {/* Volume de Chamados */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">

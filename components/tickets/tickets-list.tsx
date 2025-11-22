@@ -38,7 +38,7 @@ export function TicketsList({ initialTickets }: TicketsListProps) {
   const [filters, setFilters] = useState<TicketFilters>(defaultFilters)
   const [isCompact, setIsCompact] = useState(false)
 
-  // Carregar preferência do localStorage
+ 
   useEffect(() => {
     const saved = localStorage.getItem("tickets-view-mode")
     if (saved === "compact") {
@@ -46,7 +46,7 @@ export function TicketsList({ initialTickets }: TicketsListProps) {
     }
   }, [])
 
-  // Salvar preferência no localStorage
+ 
   const toggleViewMode = () => {
     const newMode = !isCompact
     setIsCompact(newMode)
@@ -126,7 +126,7 @@ export function TicketsList({ initialTickets }: TicketsListProps) {
             </CardContent>
           </Card>
         ) : isCompact ? (
-          // Visualização Compacta
+         
           filteredTickets.map((ticket) => (
             <TicketPreview key={ticket.id} ticket={ticket}>
               <Link href={`/tickets/${ticket.id}`} className="block">
@@ -176,7 +176,7 @@ export function TicketsList({ initialTickets }: TicketsListProps) {
             </TicketPreview>
           ))
         ) : (
-          // Visualização Normal
+         
           filteredTickets.map((ticket) => (
             <TicketPreview key={ticket.id} ticket={ticket}>
               <Link href={`/tickets/${ticket.id}`} className="block">

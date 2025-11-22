@@ -70,14 +70,14 @@ export function TicketDetail({ ticket, currentUser }: TicketDetailProps) {
   const [ratingDialogOpen, setRatingDialogOpen] = useState(false)
   const [sectors, setSectors] = useState<Sector[]>([])
 
-  // Mostrar dialog automaticamente se ticket está fechado e usuário é o criador e ainda não avaliou
+
   useEffect(() => {
     if (
       ticketState.status === "fechado" &&
       ticketState.created_by === session?.user?.id &&
       !rating
     ) {
-      // Aguardar um pouco antes de mostrar
+    
       const timer = setTimeout(() => {
         setRatingDialogOpen(true)
       }, 1000)
@@ -91,12 +91,12 @@ export function TicketDetail({ ticket, currentUser }: TicketDetailProps) {
     session?.user?.role === "atendente" ||
     ticketState.created_by === session?.user?.id
 
-  // Apenas Admin e Super Admin podem mudar prioridade e setor
+
   const canChangePriorityAndSector = 
     session?.user?.role === "admin" ||
     session?.user?.role === "super_admin"
 
-  // Carregar setores para o Select
+
   useEffect(() => {
     if (canChangePriorityAndSector) {
       supabase
@@ -120,7 +120,7 @@ export function TicketDetail({ ticket, currentUser }: TicketDetailProps) {
 
       if (error) throw error
 
-      // Registrar no histórico
+    
       await supabase.from("ticket_history").insert({
         ticket_id: ticket.id,
         user_id: session?.user?.id || "",
@@ -129,22 +129,22 @@ export function TicketDetail({ ticket, currentUser }: TicketDetailProps) {
         new_value: newStatus,
       })
 
-      // Notificar usuários relevantes
+    
       const usersToNotify: string[] = []
 
-      // Notificar criador do chamado (se não for ele mesmo)
+    
       if (ticket.created_by !== session?.user?.id) {
         usersToNotify.push(ticket.created_by)
       }
 
-      // Notificar responsável (se houver e não for o mesmo usuário)
+    
       if (ticket.assigned_to && ticket.assigned_to !== session?.user?.id) {
         if (!usersToNotify.includes(ticket.assigned_to)) {
           usersToNotify.push(ticket.assigned_to)
         }
       }
 
-      // Criar notificações
+    
       const statusLabels: Record<string, string> = {
         aberto: "Aberto",
         em_atendimento: "Em Atendimento",
@@ -164,14 +164,14 @@ export function TicketDetail({ ticket, currentUser }: TicketDetailProps) {
 
       setTicketState({ ...ticketState, status: newStatus as any })
 
-      // Disparar automações para mudança de status
+    
       const updatedTicket = { ...ticketState, status: newStatus }
       const { triggerAutomations } = await import("@/lib/automation-engine")
       await triggerAutomations("status_changed", updatedTicket as any)
 
-      // Se o chamado foi fechado e o usuário é o criador, mostrar pesquisa de satisfação
+    
       if (newStatus === "fechado" && ticket.created_by === session?.user?.id && !rating) {
-        // Aguardar um pouco antes de mostrar o dialog
+      
         setTimeout(() => {
           setRatingDialogOpen(true)
         }, 500)
@@ -200,7 +200,7 @@ export function TicketDetail({ ticket, currentUser }: TicketDetailProps) {
 
       if (error) throw error
 
-      // Registrar no histórico
+    
       await supabase.from("ticket_history").insert({
         ticket_id: ticket.id,
         user_id: session?.user?.id || "",
@@ -209,7 +209,7 @@ export function TicketDetail({ ticket, currentUser }: TicketDetailProps) {
         new_value: newPriority,
       })
 
-      // Notificar usuários relevantes
+    
       const usersToNotify: string[] = []
 
       if (ticket.created_by !== session?.user?.id) {
@@ -264,12 +264,12 @@ export function TicketDetail({ ticket, currentUser }: TicketDetailProps) {
 
       if (error) throw error
 
-      // Buscar o nome do setor antigo e novo
+    
       const oldSectorName = ticketState.sector?.name || "Sem setor"
       const newSector = sectors.find((s) => s.id === newSectorId)
       const newSectorName = newSector?.name || "Sem setor"
 
-      // Registrar no histórico
+    
       await supabase.from("ticket_history").insert({
         ticket_id: ticket.id,
         user_id: session?.user?.id || "",
@@ -278,7 +278,7 @@ export function TicketDetail({ ticket, currentUser }: TicketDetailProps) {
         new_value: newSectorName,
       })
 
-      // Notificar usuários relevantes
+    
       const usersToNotify: string[] = []
 
       if (ticket.created_by !== session?.user?.id) {
@@ -301,7 +301,7 @@ export function TicketDetail({ ticket, currentUser }: TicketDetailProps) {
         })
       }
 
-      // Atualizar o estado local com o novo setor
+    
       setTicketState({
         ...ticketState,
         sector_id: newSectorId === "none" ? null : newSectorId,
@@ -337,7 +337,7 @@ export function TicketDetail({ ticket, currentUser }: TicketDetailProps) {
 
       if (error) throw error
 
-      // Buscar o comentário recém-criado para obter o ID
+    
       const { data: comments } = await supabase
         .from("comments")
         .select("id")
@@ -348,29 +348,29 @@ export function TicketDetail({ ticket, currentUser }: TicketDetailProps) {
 
       const commentId = comments && comments.length > 0 ? comments[0].id : undefined
 
-      // Registrar no histórico
+    
       await supabase.from("ticket_history").insert({
         ticket_id: ticket.id,
         user_id: session?.user?.id || "",
         action: isInternal ? "Comentário interno adicionado" : "Comentário adicionado",
       })
 
-      // Notificar usuários relevantes
+    
       const usersToNotify: string[] = []
 
-      // Notificar criador do chamado (se não for ele mesmo)
+    
       if (ticket.created_by !== session?.user?.id) {
         usersToNotify.push(ticket.created_by)
       }
 
-      // Notificar responsável (se houver e não for o mesmo usuário)
+    
       if (ticket.assigned_to && ticket.assigned_to !== session?.user?.id) {
         if (!usersToNotify.includes(ticket.assigned_to)) {
           usersToNotify.push(ticket.assigned_to)
         }
       }
 
-      // Criar notificações
+    
       for (const userId of usersToNotify) {
         await createNotification({
           user_id: userId,
@@ -445,7 +445,7 @@ export function TicketDetail({ ticket, currentUser }: TicketDetailProps) {
           ticket={ticketState}
           userId={session?.user?.id || ""}
           onRatingSubmitted={async () => {
-            // Recarregar avaliação após submissão
+          
             const newRating = await getRatingByTicketAndUser(
               ticketState.id,
               session?.user?.id || ""

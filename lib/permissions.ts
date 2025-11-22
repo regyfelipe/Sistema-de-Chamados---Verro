@@ -20,7 +20,7 @@ export async function hasPermission(
   field?: string
 ): Promise<boolean> {
   try {
-    // Buscar permissões do usuário
+   
     const { data, error } = await supabase.rpc("get_user_permissions", {
       p_user_id: userId,
     })
@@ -32,28 +32,28 @@ export async function hasPermission(
 
     const permissions = data as UserPermissionsResult[]
 
-    // Procurar a permissão específica
+   
     const permission = permissions.find((p) => p.permission_code === permissionCode)
 
     if (!permission || !permission.granted) {
       return false
     }
 
-    // Verificar se há restrição por setor
+   
     if (sectorId && permission.sector_id && permission.sector_id !== sectorId) {
       return false
     }
 
-    // Verificar restrições de campo
+   
     if (field && permission.field_restrictions) {
       const { allowed, denied } = permission.field_restrictions
 
-      // Se há campos permitidos, verificar se o campo está na lista
+     
       if (allowed && allowed.length > 0 && !allowed.includes(field)) {
         return false
       }
 
-      // Se há campos negados, verificar se o campo não está na lista
+     
       if (denied && denied.length > 0 && denied.includes(field)) {
         return false
       }
@@ -450,10 +450,10 @@ export async function syncUserGroupsWithRole(
   role: string
 ): Promise<void> {
   try {
-    // Remover grupos atuais
+   
     await supabase.from("user_groups").delete().eq("user_id", userId)
 
-    // Mapear role para grupo
+   
     const roleToGroup: Record<string, string> = {
       solicitante: "Solicitante",
       atendente: "Atendente",
@@ -464,7 +464,7 @@ export async function syncUserGroupsWithRole(
     const groupName = roleToGroup[role]
     if (!groupName) return
 
-    // Buscar ID do grupo
+   
     const { data: group } = await supabase
       .from("permission_groups")
       .select("id")
